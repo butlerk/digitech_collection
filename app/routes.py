@@ -8,9 +8,6 @@ from app import app
 def index():
     return render_template('index.html', title = 'Home')
 
-@app.route('/loans')
-def loans():
-    return render_template('loans.html', title = 'Loans')
 
 @app.route('/reports')
 def reports():
@@ -20,7 +17,9 @@ def reports():
 def locations():
     return render_template('locations.html', title = 'Locations')
 
-@app.route('/users')
-def users():
-    return render_template('users.html', title = 'Users')
+@app.route('/equipment')
+def equipment():
+    return render_template('equipment.html', title = 'Equipment')
+
+
 
