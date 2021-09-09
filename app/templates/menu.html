@@ -9,11 +9,13 @@
         <p>
             <h1> The Digitech Collection</h1>
         </p>
-        <img src="/images/home.png" alt="home">
+        
         
         <hr>
         
         <div class="topnav">
+            <img src= "{{ url_for('static', filename='images/home.png') }}">
+            
             <a href = "{{ url_for('index') }}">Home</a>
             <a href = "{{ url_for('equipment') }}">Equipment</a>
             <a href = "{{ url_for('locations') }}">Locations</a>
