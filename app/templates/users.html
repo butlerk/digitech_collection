@@ -1,0 +1,35 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+    <h2>Digital Technologies Users</h2>
+    <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Access Level</th>
+            </tr>
+            <tr>
+                <td>Kelly Butler</td>
+                <td>kelly@kbutler.com</td>
+                <td>Admin</td>
+            </tr>
+            <tr>
+                <td>Kirsty Watts</td>
+                <td>kirsty@kwatts.com</td>
+                <td>Teacher</td>
+            </tr>
+     
+    </table>
+
+    <h2> 
+        Need to add a new user? 
+    </h2>
+ 
+        <a href = "{{ url_for('new_user') }}">Click to add a new user</a>
+    
+</p>
+
+
+{% endblock %}
+
+
