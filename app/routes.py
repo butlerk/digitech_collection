@@ -28,5 +28,9 @@ def users():
 def new_user():
     return render_template('new_user.html', title = 'New User')
 
+@app.route('/add_equip_success')
+def add_equip_success():
+    return render_template('add_equip_success.html', title = 'Add Equipment Success')
+
 
 
