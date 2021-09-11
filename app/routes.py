@@ -24,5 +24,9 @@ def equipment():
 def users():
     return render_template('users.html', title = 'Users')
 
+@app.route('/new_user')
+def new_user():
+    return render_template('new_user.html', title = 'New User')
+
 
 
