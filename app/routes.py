@@ -24,5 +24,3 @@ def equipment():
 def users():
     return render_template('users.html', title = 'Users')
 
-
-

@@ -1,10 +1,61 @@
 {% extends 'menu.html' %}
 {% block content %}
 
+
+<h2>Digital Technologies Equipment</h2>
+<table>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Quantity</th>
+            <th>Available?</th>
+        </tr>
+        <tr>
+            <td>Sphero</td>
+            <td>1KCB12</td>
+            <td>20</td>
+            <td>True</td>
+        </tr>
+        <tr>
+            <td>Beebots</td>
+            <td>1KCB9</td>
+            <td>12</td>
+            <td>False</td>
+        </tr>
+ 
+</table>
 <h1> Equipment </h1>
-<p> 
-    Here is a list of equipment
-</p>
+<h2> 
+    Add new equipment to the collection here
+</h2>
+
+<!-- create form for adding equipment items to the collection -->
+<form method="POST" class="pure-form pure-form-stacked">
+    <!-- labels for the form -->
+    <label for="equipment_name">Equipment name:</label>
+    <input type="text" name="equipment_name" id="equipment_name" />
+
+    <h3>Details</h3>
+
+    <label for="location_name">Location name:</label>
+    <input type="text" name="location_name" id="location_name" />
+    
+    <br>
+    <label for="equipment_quantity">Quantity:</label>
+    <input type="number" name="equipment_quantity" id="equipment_quantity" />
+    <br>
+    <!-- checkbox for the form to show item available for loan -->
+    <label for="available_for_loan" class="pure-checkbox">
+        Available for loan:
+        <input type="checkbox" name="available_for_loan" id="available_for_loan" />
+    </label>
+    
+    <!-- button to add equipment -->
+    <br>
+    <input type="submit" class="pure-button pure-button-primary" value="Add equipment" />
+</form>
+
+
 {% endblock %}
 
 

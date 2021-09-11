@@ -1,0 +1,4 @@
+equipment_name,location_name,equipment_quantity,available_for_loan
+Sphero,1KCB12,20,True
+Microbits,1KCB9,80,False
+,,,False
