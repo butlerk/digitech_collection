@@ -1,37 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> {{ title }} - Digitech Collection </title> 
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/pure-min.css') }}">
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/site.css') }}">
-    </head>
-    <body>
-        <p>
-            <h1> The Digitech Collection</h1>
-        </p>
-        
-        
-        <hr>
-        
-        <div class="topnav">
-            <img src= "{{ url_for('static', filename='images/home.png') }}">
-            
-            <a href = "{{ url_for('index') }}">Home</a>
-            <a href = "{{ url_for('equipment') }}">Equipment</a>
-            <a href = "{{ url_for('locations') }}">Locations</a>
-            <a href = "{{ url_for('reports') }}">Reports</a>
-          </div>
-        
-        {% block content %}
-        {% endblock %}
-        
-
-
-
-
-
-    </body>
-
-</html>
-
-
+<a href = "{{ url_for('loans') }}">Loans</a>
+<a href = "{{ url_for('locations') }}">Locations</a>
+<a href = "{{ url_for('reports') }}">Reports</a>
+<a href = "{{ url_for('users') }}">Users</a>
+<a href = "{{ url_for('equipment') }}">Equipment</a>
