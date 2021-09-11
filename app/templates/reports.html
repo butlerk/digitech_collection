@@ -3,8 +3,17 @@
 
 <h1> Reports </h1>
 <p> 
-    This is where we will have the Reports!
-    <img src= "{{ url_for('static', filename='images/home.png') }}">
+    This is where we will have the Reports
+    <br>
+
+    <label for="reports">Choose a report to print:</label>
+
+    <select name="reports" id="reports">
+      <option value="Users">Users</option>
+      <option value="Items">Items</option>
+      <option value="Locations">Locations</option>
+    </select>
+    
 </p>
 {% endblock %}
 
