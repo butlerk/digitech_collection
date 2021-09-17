@@ -24,32 +24,40 @@
         </tr>
  
 </table>
-<h1> Equipment </h1>
-<h2> 
-    Add new equipment to the collection here
-</h2>
 
+<h2>Add new Equipment Item</h2>
+<br>
 <!-- create form for adding equipment items to the collection -->
 <form method="POST" class="pure-form pure-form-stacked">
     <!-- labels for the form -->
     <label for="equipment_name">Equipment name:</label>
     <input type="text" name="equipment_name" id="equipment_name" />
 
-    <h3>Details</h3>
+    <br>
+    <br>
 
-    <label for="location_name">Location name:</label>
-    <input type="text" name="location_name" id="location_name" />
+    <label for="location">Location:</label>
+    <select name="lcoation" id="location">
+        <option value="1">C10</option>
+        <option value="2">Library</option>
+        <option value="3">Tech Office</option>
+      </select>
     
     <br>
+    <br>
+
     <label for="equipment_quantity">Quantity:</label>
     <input type="number" name="equipment_quantity" id="equipment_quantity" />
+    
     <br>
+    <br>
+
     <!-- checkbox for the form to show item available for loan -->
     <label for="available_for_loan" class="pure-checkbox">
         Available for loan:
         <input type="checkbox" name="available_for_loan" id="available_for_loan" />
     </label>
-    
+    <br>
     <!-- button to add equipment -->
     <!--<br>
     <input type="submit" class="pure-button pure-button-primary" value="Add equipment" />-->
