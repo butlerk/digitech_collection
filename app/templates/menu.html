@@ -1,5 +1,7 @@
 
 <!-- This is the menu for our app-->
+<!-- Link to CSS file-->
+<!-- Creates menu items in top navigation menu-->
 
 <!DOCTYPE html>
 <html>
@@ -22,12 +24,17 @@
             <a href = "{{ url_for('locations') }}">Locations</a>
             <a href = "{{ url_for('reports') }}">Reports</a>
             <a href = "{{ url_for('users') }}">Users</a>
-          </div>
+            <a href="{{ url_for('login') }}"> 
+                <img src="{{ ('/static/images/loginLogo.jpg') }}" style = "width:50px; height:20px" alt="LoginLogo"  >
+            </a>
+        </div>
         
         {% block content %}
         <!-- This is where the child pages will go -->
         {% endblock %}
         </div>
+
+        <!-- Footer -->
         <footer class = "footer">
            Contact details: thedigitechcollection@dc.com
         </footer>
