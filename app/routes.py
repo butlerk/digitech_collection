@@ -20,6 +20,10 @@ def locations():
 def equipment():
     return render_template('equipment.html', title = 'Equipment')
 
+@app.route('/login')
+def login():
+    return render_template('login.html', title = 'Login')
+
 @app.route('/users')
 def users():
     return render_template('users.html', title = 'Users')
@@ -35,6 +39,10 @@ def add_equip_success():
 @app.route('/add_user_success')
 def add_user_success():
     return render_template('add_user_success.html', title = 'Add User Success')
+
+@app.route('/add_location_success')
+def add_location_success():
+    return render_template('add_location_success.html', title = 'Add Location Success')
 
 
 
