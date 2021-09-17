@@ -1,0 +1,20 @@
+<!-- Page including form to add new user -->
+<!-- Password hidden -->
+
+{% extends 'menu.html' %}
+{% block content %}
+
+<h1> Login </h1>
+
+<form>
+    <label> Username </label><input type = "text" name ="username">
+    <label> Password </label><input type = "password" name ="password">
+    <a href = "{{ url_for('index') }}">Login</a>
+
+</form>
+
+
+
+
+
+{% endblock %}
