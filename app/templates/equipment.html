@@ -9,18 +9,21 @@
             <th>Location</th>
             <th>Quantity</th>
             <th>Available?</th>
+            <th>Image Link</th>
         </tr>
         <tr>
             <td>Sphero</td>
             <td>1KCB12</td>
             <td>20</td>
             <td>True</td>
+            <td>http://myimage.jpg</td>
         </tr>
         <tr>
             <td>Beebots</td>
             <td>1KCB9</td>
             <td>12</td>
             <td>False</td>
+            <td>http://myimage.jpg</td>
         </tr>
  
 </table>
@@ -43,6 +46,8 @@
         <option value="3">Tech Office</option>
       </select>
     
+    <a href = "{{ url_for('locations') }}">Add new location</a>
+    
     <br>
     <br>
 
@@ -57,12 +62,15 @@
         Available for loan:
         <input type="checkbox" name="available_for_loan" id="available_for_loan" />
     </label>
-    <br>
+    <br><br>
     <!-- button to add equipment -->
     <!--<br>
-    <input type="submit" class="pure-button pure-button-primary" value="Add equipment" />-->
+    <input type="submit" class="pure-button pure-button-primary" value="Add equipment" />
+    Upload image-->
 
-    <br>
+    <input type="file" id="myFile" name="filename">
+    <br><br>
+
     <a href = "{{ url_for('add_equip_success') }}">Add Equipment</a>
 
 </form>
