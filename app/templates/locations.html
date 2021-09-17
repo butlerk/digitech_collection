@@ -1,3 +1,5 @@
+<!-- Page including form to add new locations. Currently contains Dummy Data in a table -->
+
 {% extends 'menu.html' %}
 {% block content %}
 
@@ -6,13 +8,34 @@
     This is where we will have the page for locations
 </p>
 
+<h2>Digital Technologies Locations</h2>
+<table>
+        <tr>
+            <th>Name</th>
+        </tr>
+        <tr>
+            <td>C10</td>
+        </tr>
+        <tr>
+            <td>Library</td>
+        </tr>
+        <tr>
+            <td>Tech Office</td>
+        </tr>
+        <tr>
+            <td>In repair</td>
+        </tr>
+         
+        
+</table>
 
 
+<h2>Add new Location</h2>
 <form>
     <label for="Location">Location</label>
     <input type = "text" name ="location" />
 
-    <button type="button">Add</button>
+    <a href = "{{ url_for('add_location_success') }}">Add Location</a>
 </form>
 
 
