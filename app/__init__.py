@@ -21,11 +21,22 @@ def init_db():
     # Create an equipment item record
     microbit = models.Equipment (
         equip_name  = 'Microbit',
-        location_id = 'Apple',
+        location_id = 'Library',
         purchase_price = 29.40,
         equip_quantity = 1,
         date_entered = '2021-04-04',
         equip_image = 'image.jpg'
+    )
+    db.session.add(microbit)
+
+    # Create an equipment item record
+    beebot = models.Equipment (
+        equip_name  = 'Beebot',
+        location_id = 'C10',
+        purchase_price = 5.40,
+        equip_quantity = 10,
+        date_entered = '2021-05-01',
+        equip_image = 'image1.jpg'
     )
     db.session.add(microbit)
 

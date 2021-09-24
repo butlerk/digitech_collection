@@ -6,5 +6,5 @@ class Equipment(db.Model):
     location_id = db.Column(db.Text)
     purchase_price = db.Column(db.Float)
     equip_quantity = db.Column(db.Integer)
-    date_entered = db.Column(db.Date)
+    date_entered = db.Column(db.Text)
     equip_image = db.Column(db.Text)
