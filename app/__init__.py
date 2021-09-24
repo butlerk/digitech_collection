@@ -18,7 +18,7 @@ def init_db():
     db.drop_all()
     db.create_all()
 
-    # Create an equipment item record
+    # Create equipment item records to populate db
     microbit = models.Equipment (
         equip_name  = 'Microbit',
         location_id = 'Library',
@@ -29,7 +29,7 @@ def init_db():
     )
     db.session.add(microbit)
 
-    # Create an equipment item record
+    
     beebot = models.Equipment (
         equip_name  = 'Beebot',
         location_id = 'C10',
@@ -39,6 +39,33 @@ def init_db():
         equip_image = 'image1.jpg'
     )
     db.session.add(beebot)
+
+    # Create user item records to populate db
+    person1 = models.User (
+        first_name  = 'Kelly',
+        last_name = 'Butler',
+        email = 'butlerk@email.com',
+        password = 'hello'
+    )
+    db.session.add(person1)
+
+    
+    person2 = models.User (
+        first_name  = 'Kirsty',
+        last_name = 'Watts',
+        email = 'wattsk@email.com',
+        password = 'goodbye'
+    )
+    db.session.add(person2)
+
+
+
+
+
+
+
+
+
 
     # Save the created records to the database file
     db.session.commit()
