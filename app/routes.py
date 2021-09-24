@@ -1,16 +1,14 @@
 from flask import Flask, render_template, request
-#from flask import render_template, redirect, url_for
+#from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment
-
-
-app = Flask(__name__)
 
 @app.route('/')
 
 @app.route('/index')
 def index():
     return render_template('index.html', title = 'Home')
+
 
 @app.route('/reports')
 def reports():
