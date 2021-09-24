@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request
+#from flask import render_template, redirect, url_for
+from app import app, db
+from app.models import Equipment
+
 
 app = Flask(__name__)
-
-from app import app
 
 @app.route('/')
 
