@@ -1,4 +1,6 @@
-from flask import render_template
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
 
 from app import app
 
@@ -12,37 +14,48 @@ def index():
 def reports():
     return render_template('reports.html', title = 'Reports')
 
-@app.route('/locations')
-def locations():
-    return render_template('locations.html', title = 'Locations')
-
-@app.route('/equipment')
-def equipment():
-    return render_template('equipment.html', title = 'Equipment')
-
 @app.route('/login')
 def login():
     return render_template('login.html', title = 'Login')
 
-@app.route('/users')
-def users():
-    return render_template('users.html', title = 'Users')
+@app.route('/add_equip', methods = ['GET', 'POST'])
+def add_equip():
+    if request.method == 'POST':
+        print("This code will be run when the form is submitted ")
+        #animal_name = request.form.get('animal_name')
+        #animal_rating = request.form.get('animal_rating')
+        return render_template (
+            'equip_add.html', 
+            #animal_name = animal_name, 
+            #animal_rating = animal_rating
+        )
+    # If we get to this point, then it is a GET request, and we return the view with the form
+    return render_template('equip_add.html')
 
-@app.route('/new_user')
-def new_user():
-    return render_template('new_user.html', title = 'New User')
+@app.route('/add_user', methods = ['GET', 'POST'])
+def add_user():
+    if request.method == 'POST':
+        print("This code will be run when the form is submitted ")
+        #animal_name = request.form.get('animal_name')
+        #animal_rating = request.form.get('animal_rating')
+        return render_template (
+            'user_added.html', 
+            #animal_name = animal_name, 
+            #animal_rating = animal_rating
+        )
+    # If we get to this point, then it is a GET request, and we return the view with the form
+    return render_template('user_add.html')
 
-@app.route('/add_equip_success')
-def add_equip_success():
-    return render_template('add_equip_success.html', title = 'Add Equipment Success')
-
-@app.route('/add_user_success')
-def add_user_success():
-    return render_template('add_user_success.html', title = 'Add User Success')
-
-@app.route('/add_location_success')
-def add_location_success():
-    return render_template('add_location_success.html', title = 'Add Location Success')
-
-
-
+@app.route('/add_location', methods = ['GET', 'POST'])
+def add_location():
+    if request.method == 'POST':
+        print("This code will be run when the form is submitted ")
+        #animal_name = request.form.get('animal_name')
+        #animal_rating = request.form.get('animal_rating')
+        return render_template (
+            'location_added.html', 
+            #animal_name = animal_name, 
+            #animal_rating = animal_rating
+        )
+    # If we get to this point, then it is a GET request, and we return the view with the form
+    return render_template('location_add.html')

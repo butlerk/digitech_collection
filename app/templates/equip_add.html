@@ -40,13 +40,13 @@
     <br>
 
     <label for="location">Location:</label>
-    <select name="lcoation" id="location">
+    <select name="location" id="location">
         <option value="1">C10</option>
         <option value="2">Library</option>
         <option value="3">Tech Office</option>
       </select>
     
-    <a href = "{{ url_for('locations') }}">Add new location</a>
+    <a href = "{{ url_for('add_location') }}">Add new location</a>
     
     <br>
     <br>
@@ -71,7 +71,7 @@
     <input type="file" id="myFile" name="filename">
     <br><br>
 
-    <a href = "{{ url_for('add_equip_success') }}">Add Equipment</a>
+    <a href = "{{ url_for('add_equip') }}">Add Equipment</a>
 
 </form>
 

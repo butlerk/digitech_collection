@@ -20,10 +20,10 @@
         <!-- Navigation Bar -->
         <div class="topnav">
             <a href = "{{ url_for('index') }}">Home</a>
-            <a href = "{{ url_for('equipment') }}">Equipment</a>
-            <a href = "{{ url_for('locations') }}">Locations</a>
+           <a href = "{{ url_for('add_equip') }}">Equipment</a>
+            <a href = "{{ url_for('add_location') }}">Locations</a>
             <a href = "{{ url_for('reports') }}">Reports</a>
-            <a href = "{{ url_for('users') }}">Users</a>
+            <a href = "{{ url_for('add_user') }}">Users</a>
             <a href="{{ url_for('login') }}"> 
                 <img src="{{ ('/static/images/loginLogo.jpg') }}" style = "width:50px; height:20px" alt="LoginLogo"  >
             </a>
