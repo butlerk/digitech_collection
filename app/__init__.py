@@ -24,7 +24,7 @@ def init_db():
         location_id = 'Apple',
         purchase_price = 29.40,
         equip_quantity = 1,
-        date_entered = 23/4/2021,
+        date_entered = '2021-04-04',
         equip_image = 'image.jpg'
     )
     db.session.add(microbit)
