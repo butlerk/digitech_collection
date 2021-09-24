@@ -38,7 +38,7 @@ def init_db():
         date_entered = '2021-05-01',
         equip_image = 'image1.jpg'
     )
-    db.session.add(microbit)
+    db.session.add(beebot)
 
     # Save the created records to the database file
     db.session.commit()
