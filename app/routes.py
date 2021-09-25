@@ -41,11 +41,6 @@ def add_equip():
     # When there is a GET request, the view with the form is returned
     return render_template('equip_add.html')
 
-@app.route('/equip_view')
-def view_equip():
-    equipment = Equipment.query.all()
-    return render_template('equip_view.html', equipment=equipment)
-
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
     if request.method == 'POST':
@@ -68,8 +63,7 @@ def add_location():
         location = Location(
             location_name = request.form.get('location_name'),
             location_id = request.form.get('location_id'),
-        
-         )
+        )
         db.session.add(location)
         db.session.commit()
     # If we get to this point, then it is a GET request, and we return the view with the form
