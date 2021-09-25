@@ -18,7 +18,7 @@ class AddLocationForm(FlaskForm):
     submit = SubmitField('Add Location')
 
 # Flask form to add user to db
-class AddLocationForm(FlaskForm):
+class AddUserForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(), Length(min=1, max=40)])
     last_name = StringField('Last name', validators=[InputRequired(), Length(min=1, max=40)])
     email_address = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
