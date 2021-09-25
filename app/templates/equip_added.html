@@ -3,10 +3,16 @@
 
 <h2>Equipment added</h2>
 <p>
-    Successfully added.
+    Name of equipment added: {{ equip_name }}<br>
+    Location: {{ location }}<br>
+    Equipment Quantitiy: {{ equipment_quantity }}<br>
+    Available: {{ available_for_loan }}<br>
+    Image file: {{ filename }}<br>
+
 </p>
 <p>
     <a href = "{{ url_for('add_equip') }}">Return to Equipment.</a>
 </p>
 
 {% endblock %}
+

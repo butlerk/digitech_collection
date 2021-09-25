@@ -1,61 +1,27 @@
 {% extends 'menu.html' %}
-{% block content %}
 
-<!-- dummy data for an equipment table display-->
-<h2>Digital Technologies Equipment</h2>
-<table>
-        <tr>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Quantity</th>
-            <th>Available?</th>
-            <th>Image Link</th>
-        </tr>
-        <tr>
-            <td>Sphero</td>
-            <td>1KCB12</td>
-            <td>20</td>
-            <td>True</td>
-            <td>http://myimage.jpg</td>
-        </tr>
-        <tr>
-            <td>Beebots</td>
-            <td>1KCB9</td>
-            <td>12</td>
-            <td>False</td>
-            <td>http://myimage.jpg</td>
-        </tr>
- 
-</table>
+{% block content %}
 
 <h2>Add new Equipment Item</h2>
 <br>
 <!-- create form for adding equipment items to the collection -->
-<form method="POST" class="pure-form pure-form-stacked">
+<form method="POST">
     <!-- labels for the form -->
-    <label for="equipment_name">Equipment name:</label>
-    <input type="text" name="equipment_name" id="equipment_name" />
-
-    <br>
-    <br>
-
+    <label for="equip_name">Equipment name:</label>
+    <input type="text" name="equip_name" id="equip_name" >
+    
+    <br><br>
+    
     <label for="location">Location:</label>
     <select name="location" id="location">
         <option value="1">C10</option>
         <option value="2">Library</option>
         <option value="3">Tech Office</option>
-      </select>
+    </select>
     
-    <a href = "{{ url_for('add_location') }}">Add new location</a>
-    
-    <br>
-    <br>
-
     <label for="equipment_quantity">Quantity:</label>
     <input type="number" name="equipment_quantity" id="equipment_quantity" />
-    
-    <br>
-    <br>
+    <br><br>
 
     <!-- checkbox for the form to show item available for loan -->
     <label for="available_for_loan" class="pure-checkbox">
@@ -64,18 +30,13 @@
     </label>
     <br><br>
     <!-- button to add equipment -->
-    <!--<br>
-    <input type="submit" class="pure-button pure-button-primary" value="Add equipment" />
-    Upload image-->
 
     <input type="file" id="myFile" name="filename">
     <br><br>
 
-    <a href = "{{ url_for('add_equip') }}">Add Equipment</a>
+    <input type="submit" value="Submit">
 
 </form>
 
-
 {% endblock %}
-
 

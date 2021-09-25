@@ -22,12 +22,20 @@ def login():
 def add_equip():
     if request.method == 'POST':
         print("This code will be run when the form is submitted ")
-        #animal_name = request.form.get('animal_name')
-        #animal_rating = request.form.get('animal_rating')
+        equip_name = request.form.get('equip_name')
+        location = request.form.get('location')
+        equipment_quantity = request.form.get('equipment_quantity')
+        available = request.form.get('available_for_loan')
+        filename = request.form.get('file')
+
         return render_template (
-            'equip_add.html', 
-            #animal_name = animal_name, 
-            #animal_rating = animal_rating
+            'equip_added.html', 
+            equip_name = equip_name, 
+            location = location, 
+            equipment_quantity = equipment_quantity,
+            available_for_loan = available,
+            filename = filename 
+           
         )
     # If we get to this point, then it is a GET request, and we return the view with the form
     return render_template('equip_add.html')
