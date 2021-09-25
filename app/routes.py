@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm
 
 @app.route('/')
 
