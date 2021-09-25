@@ -11,11 +11,11 @@
 
 
 
-<form>
+<form method = "POST">
     <label> Username </label><input type = "text" name ="username">
     <label> Email </label><input type = "text" name ="email"><br><br>
     <label> Password </label><input type = "password" name ="password">
-    <a href = "{{ url_for('add_user') }}">Add User</a>
+    <input type="submit" value="Submit">
 
 </form>
 

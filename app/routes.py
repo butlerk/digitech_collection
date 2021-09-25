@@ -7,8 +7,9 @@ from app.models import Equipment
 
 @app.route('/index')
 def index():
-    return render_template('index.html', title = 'Home')
-
+    equipment = Equipment.query.all()
+    # Retrieves all of the records in the fruit table
+    return render_template('index.html', equipment = equipment)
 
 @app.route('/reports')
 def reports():

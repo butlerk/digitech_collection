@@ -11,6 +11,13 @@
         <li> In the future, teachers will be able to 'loan' equipment. </li>
       </ul>
 
+
+      {% for item in equipment %}
+      <tr>
+          <td>Name: {{ item.equip_name }}</td><br>
+
+      {% endfor %}
+      <br>
       <a href="{{ url_for('login') }}" >Click here to login!</a>
       
       </a>
