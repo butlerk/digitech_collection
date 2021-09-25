@@ -36,11 +36,16 @@ def add_equip():
         db.session.commit()
         
         # Returns the view with a message that the student has been added
-        return render_template('equip_added.html', equipment=equipment)
+        # return render_template('equip_view.html')
 
     # When there is a GET request, the view with the form is returned
-    return render_template('equip_add.html')
+    return render_template('equip_add.html', equipment=equipment)
 
+@app.route('/equip_view')
+def view_equip():
+    equipment = Equipment.query.all()
+    return render_template('equip_view.html', equipment=equipment)
+    
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
     if request.method == 'POST':

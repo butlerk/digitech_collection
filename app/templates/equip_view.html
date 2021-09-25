@@ -2,7 +2,7 @@
 {% block content %}
 
 <h2>Equipment List </h2>
-
+<h2>Equipment item added: {{ equipment.equip_name }} </h2>
 
 <h1> Current Equipment:</h1> 
 <table class="pure-table pure-table-striped">
@@ -26,7 +26,7 @@
     </tbody>
 </table>
 
-
+<a href = "{{ url_for('add_equip') }}">Equipment</a>
 
 
 
