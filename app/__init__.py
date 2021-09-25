@@ -21,7 +21,7 @@ def init_db():
     # Create equipment item records to populate db
     microbit = models.Equipment (
         equip_name  = 'Microbit',
-        location_id = 'Library',
+        location_id = '12',
         purchase_price = 29.40,
         equip_quantity = 1,
         date_entered = '2021-04-04',
@@ -32,7 +32,7 @@ def init_db():
     
     beebot = models.Equipment (
         equip_name  = 'Beebot',
-        location_id = 'C10',
+        location_id = '10',
         purchase_price = 5.40,
         equip_quantity = 10,
         date_entered = '2021-05-01',
@@ -59,8 +59,12 @@ def init_db():
     db.session.add(person2)
 
 
-
-
+    # Create location item records to populate db
+    library = models.Location (
+        location_name  = 'Library',
+        location_id = '12'
+    )
+    db.session.add(library)
 
 
 
