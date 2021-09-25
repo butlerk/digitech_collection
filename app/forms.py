@@ -7,8 +7,9 @@ class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_quantity = IntegerField('Equipment Quantity', validators=[InputRequired()])
     location_id = IntegerField('Location', validators=[InputRequired()])
-    equipment_price = IntegerField('Purchase Price', validators=[InputRequired()])
-    equipment_date = StringField('Purchase Data')
+    purchase_price = IntegerField('Purchase Price', validators=[InputRequired()])
+    date_entered = StringField('Purchase Date')
+    equip_image = StringField('Equipment Image')
     submit = SubmitField('Add equipment')
 
 #Flask form to add location to db

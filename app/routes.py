@@ -21,26 +21,31 @@ def login():
     return render_template('login.html', title = 'Login')
 
 @app.route('/add_equip', methods = ['GET', 'POST'])
-
 def add_equip():
-    equipment = Equipment.query.all()
-    if request.method == 'POST':
-        print("This code will be run when the form is submitted ")
-        equipment = Equipment(
-            equip_name = request.form.get('equip_name'),
-            location_id = request.form.get('location_id'),
-            equip_quantity = request.form.get('equip_quantity'),
-            date_entered = "date34",
-            equip_image = request.form.get('equip_image')
-         )
+    form = AddEquipmentForm()
+    # Check if the form has been submitted (is a POST request) and form inputs are valid
+    if form.validate_on_submit():
+        # Get data from the form and put in a Student object
+        equipment = Equipment()
+        form.populate_obj(obj=equipment)
+    #equipment = Equipment.query.all()
+    #if request.method == 'POST':
+       # print("This code will be run when the form is submitted ")
+        #equipment = Equipment(
+         #   equip_name = request.form.get('equip_name'),
+          #  location_id = request.form.get('location_id'),
+           # equip_quantity = request.form.get('equip_quantity'),
+            #date_entered = "date34",
+            #equip_image = request.form.get('equip_image')
+         #)
         db.session.add(equipment)
         db.session.commit()
         
         # Returns the view with a message that the student has been added
-        # return render_template('equip_view.html')
+        return render_template('equip_view.html',equipment=equipment)
 
     # When there is a GET request, the view with the form is returned
-    return render_template('equip_add.html', equipment=equipment)
+    return render_template('equip_add.html', form=form)
 
 @app.route('/equip_view')
 def view_equip():
