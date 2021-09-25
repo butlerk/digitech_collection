@@ -1,12 +1,28 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<h2>Location added</h2>
-<p>
-    Successfully added.
+<h1> Locations </h1>
+<p> 
+    This is where we will have the page for locations
 </p>
-<p>
-    <a href = "{{ url_for('location_add') }}">Return to Locations.</a>
-</p>
+
+<h2>Digital Technologies Locations</h2>
+<table>
+        <tr>
+            <th>Name</th>
+        </tr>
+        <tr>
+            <td>C10</td>
+        </tr>
+        <tr>
+            <td>Library</td>
+        </tr>
+        <tr>
+            <td>Tech Office</td>
+        </tr>
+        <tr>
+            <td>In repair</td>
+        </tr>
+         
 
 {% endblock %}

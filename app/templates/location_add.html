@@ -3,39 +3,11 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<h1> Locations </h1>
-<p> 
-    This is where we will have the page for locations
-</p>
-
-<h2>Digital Technologies Locations</h2>
-<table>
-        <tr>
-            <th>Name</th>
-        </tr>
-        <tr>
-            <td>C10</td>
-        </tr>
-        <tr>
-            <td>Library</td>
-        </tr>
-        <tr>
-            <td>Tech Office</td>
-        </tr>
-        <tr>
-            <td>In repair</td>
-        </tr>
-         
-        
-</table>
-
-
 <h2>Add new Location</h2>
-<form>
+<form  method="POST">
     <label for="Location">Location</label>
     <input type = "text" name ="location" />
-
-    <a href = "{{ url_for('add_location') }}">Add Location</a>
+    <input type="submit" value="Submit">
 </form>
 
 
