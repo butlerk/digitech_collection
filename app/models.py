@@ -16,3 +16,7 @@ class User(db.Model):
     email = db.Column(db.Text)
     password = db.Column(db.Text)
     
+
+class Location(db.Model):
+    location_id = db.Column(db.Integer, primary_key = True)
+    location_name = db.Column(db.Text)

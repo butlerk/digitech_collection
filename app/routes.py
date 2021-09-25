@@ -62,14 +62,15 @@ def add_user():
 
 @app.route('/add_location', methods = ['GET', 'POST'])
 def add_location():
+    location = Location.query.all()
     if request.method == 'POST':
         print("This code will be run when the form is submitted ")
-        #animal_name = request.form.get('animal_name')
-        #animal_rating = request.form.get('animal_rating')
-        return render_template (
-            'location_added.html', 
-            #animal_name = animal_name, 
-            #animal_rating = animal_rating
-        )
+        location = Location(
+            location_name = request.form.get('location_name'),
+            location_id = request.form.get('location_id'),
+        
+         )
+        db.session.add(location)
+        db.session.commit()
     # If we get to this point, then it is a GET request, and we return the view with the form
     return render_template('location_add.html')
