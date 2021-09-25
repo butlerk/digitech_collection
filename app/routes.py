@@ -7,9 +7,9 @@ from app.models import Equipment
 
 @app.route('/index')
 def index():
-    equipment = Equipment.query.all()
+    
     # Retrieves all of the records in the fruit table
-    return render_template('index.html', equipment = equipment)
+    return render_template('index.html')
 
 @app.route('/reports')
 def reports():
@@ -20,25 +20,25 @@ def login():
     return render_template('login.html', title = 'Login')
 
 @app.route('/add_equip', methods = ['GET', 'POST'])
+
 def add_equip():
+    equipment = Equipment.query.all()
     if request.method == 'POST':
         print("This code will be run when the form is submitted ")
-        equip_name = request.form.get('equip_name')
-        location = request.form.get('location')
-        equipment_quantity = request.form.get('equipment_quantity')
-        available = request.form.get('available_for_loan')
-        filename = request.form.get('file')
+        equipment = Equipment(
+            equip_name = request.form.get('equip_name'),
+            location_id = request.form.get('location_id'),
+            equip_quantity = request.form.get('equip_quantity'),
+            date_entered = "date34",
+            equip_image = request.form.get('equip_image')
+         )
+        db.session.add(equipment)
+        db.session.commit()
+        
+        # Returns the view with a message that the student has been added
+        return render_template('equip_added.html', equipment=equipment)
 
-        return render_template (
-            'equip_added.html', 
-            equip_name = equip_name, 
-            location = location, 
-            equipment_quantity = equipment_quantity,
-            available_for_loan = available,
-            filename = filename 
-           
-        )
-    # If we get to this point, then it is a GET request, and we return the view with the form
+    # When there is a GET request, the view with the form is returned
     return render_template('equip_add.html')
 
 @app.route('/add_user', methods = ['GET', 'POST'])
