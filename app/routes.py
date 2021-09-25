@@ -41,6 +41,11 @@ def add_equip():
     # When there is a GET request, the view with the form is returned
     return render_template('equip_add.html')
 
+@app.route('/equip_view')
+def view_equip():
+    equipment = Equipment.query.all()
+    return render_template('equip_view.html', equipment=equipment)
+
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
     if request.method == 'POST':

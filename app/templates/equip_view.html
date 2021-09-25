@@ -1,0 +1,34 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<h2>Equipment List </h2>
+
+
+<h1> Current Equipment:</h1> 
+<table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>Equip Name</th>
+            <th>Location</th>
+            <th>Price ($)</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in equipment %}
+        <tr>
+            <td>{{ item.equip_name }}</td>
+            <td>{{ item.location_id }}</td>
+            <td>{{ item.purchase_price }}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+{% endblock %}
