@@ -4,23 +4,30 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<h1> New User </h1>
-<p> 
-    This is where we will have the page for new users
-</p>
+<h1> Add New User </h1>
+<br>
+<!-- create form for adding new user-->
 
+<form method = "POST" class="pure-form-stacked">
+    <h3> User </h3>
+    
+    {{ form.csrf_token }}
+    
+    {{ form.first_name.label}}
+    {{form.first_name}}<br><br>
 
+    {{ form.last_name.label}}
+    {{form.last_name}}<br><br>
 
-<form method = "POST">
-    <label> Username </label><input type = "text" name ="username">
-    <label> Email </label><input type = "text" name ="email"><br><br>
-    <label> Password </label><input type = "password" name ="password">
-    <input type="submit" value="Submit">
+    {{ form.email.label}}
+    {{form.email}}<br><br>
+
+    {{ form.password.label}}
+    {{form.password}}<br><br>
+
+    {{ form.submit(class_="pure-button pure-button-primary") }}
+
 
 </form>
-
-
-
-
 
 {% endblock %}

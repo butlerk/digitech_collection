@@ -22,7 +22,7 @@ class AddLocationForm(FlaskForm):
 class AddUserForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(), Length(min=1, max=40)])
     last_name = StringField('Last name', validators=[InputRequired(), Length(min=1, max=40)])
-    email_address = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
+    email = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
     password = StringField('Password', validators=[InputRequired(), Length(min=6, max=20)])
-    user_id = StringField('User ID', validators=[InputRequired(), Length(min=1, max=40)])
+    #user_id = StringField('User ID', validators=[InputRequired(), Length(min=1, max=40)])
     submit = SubmitField('Add User')

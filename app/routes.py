@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 #from flask import render_template, redirect, url_for, request
 from app import app, db
-from app.models import Equipment, Location
+from app.models import Equipment, Location, User
 from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm
 
 @app.route('/')
@@ -54,17 +54,27 @@ def view_equip():
     
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
+    form = AddUserForm()
     if request.method == 'POST':
-        print("This code will be run when the form is submitted ")
+        if form.validate_on_submit:
+            user = User()
+            form.populate_obj(obj=user)
+            db.session.add(user)
+            db.session.commit()
+            return render_template('user_added.html', user=user)
+    return render_template('user_add.html', form=form)
+    
+    #
+    #    print("This code will be run when the form is submitted ")
         #animal_name = request.form.get('animal_name')
         #animal_rating = request.form.get('animal_rating')
-        return render_template (
-            'user_added.html', 
+    #    return render_template (
+            #'user_added.html', 
             #animal_name = animal_name, 
             #animal_rating = animal_rating
-        )
+        #)
     # If we get to this point, then it is a GET request, and we return the view with the form
-    return render_template('user_add.html')
+    #return render_template('user_add.html')
 
 @app.route('/add_location', methods = ['GET', 'POST'])
 def add_location():
