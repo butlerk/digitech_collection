@@ -48,7 +48,6 @@ def init_db():
         password = 'hello'
     )
     db.session.add(person1)
-
     
     person2 = models.User (
         first_name  = 'Kirsty',
@@ -58,18 +57,12 @@ def init_db():
     )
     db.session.add(person2)
 
-
     # Create location item records to populate db
     library = models.Location (
         location_name  = 'Library',
         location_id = '12'
     )
     db.session.add(library)
-
-
-
-
-
 
     # Save the created records to the database file
     db.session.commit()

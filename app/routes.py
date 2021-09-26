@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
+from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User
@@ -8,8 +9,6 @@ from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm
 
 @app.route('/index')
 def index():
-    
-    # Retrieves all of the records in the fruit table
     return render_template('index.html')
 
 @app.route('/reports')
@@ -47,12 +46,13 @@ def add_user():
             form.populate_obj(obj=user)
             db.session.add(user)
             db.session.commit()
-            return render_template('user_view.html')
+            return redirect(url_for('view_user'))
     return render_template('user_add.html', form=form)
 
 @app.route('/view_user')
 def view_user():
-    return render_template('user_view.html')
+    users = User.query.all()
+    return render_template('user_view.html', users=users)
     
     
 @app.route('/add_location', methods = ['GET', 'POST'])
