@@ -1,16 +1,25 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, BooleanField, SubmitField
+from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired, Length
+from app.models import Location
+
 
 #Flask form to add equipment to db
 class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_quantity = IntegerField('Equipment Quantity', validators=[InputRequired()])
-    location_id = IntegerField('Location', validators=[InputRequired()])
+    location_id = SelectField(u'Location', choices = [("c10","c10"),("library","library"),("office","office")], validators=[InputRequired()])
     purchase_price = IntegerField('Purchase Price', validators=[InputRequired()])
     date_entered = StringField('Purchase Date')
     equip_image = StringField('Equipment Image')
     submit = SubmitField('Add equipment')
+
+#def edit_location(request, location_name):
+#    location = Location.query.get(location_name)
+#    form = AddEquipmentForm(request.post, obj=location)
+#   form.location_id.choices = [(g.location, g.location) for g in location.query.order_by('location_name')]
+
 
 #Flask form to add location to db
 class AddLocationForm(FlaskForm):

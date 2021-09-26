@@ -5,6 +5,13 @@
 {% block content %}
 
 <h1> Add New User </h1>
+<ul class="errors">
+    {% for field, errors in form.errors.items() %}
+        <li>
+            {{ form[field].label }} {{ ', '.join(errors) }}
+        </li>
+    {% endfor %}
+</ul>
 <br>
 <!-- create form for adding new user-->
 

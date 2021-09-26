@@ -2,6 +2,13 @@
 {% block content %}
 <h2>Add new Equipment Item</h2>
 <br>
+<ul class="errors">
+    {% for field, errors in form.errors.items() %}
+        <li>
+            {{ form[field].label }} {{ ', '.join(errors) }}
+        </li>
+    {% endfor %}
+</ul>
 <!-- create form for adding equipment items to the collection -->
 <form method="POST" class="pure-form pure-form-stacked">
     {{ form.csrf_token }}
@@ -19,6 +26,9 @@
 
     {{ form.equip_quantity.label }}
     {{ form.equip_quantity }}<br><br>
+
+    {{ form.location_id.label }}
+    {{ form.location_id }}<br><br>
 
     {{ form.date_entered.label }}
     {{ form.date_entered }}<br><br>
