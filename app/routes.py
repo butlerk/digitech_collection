@@ -23,34 +23,20 @@ def login():
 @app.route('/add_equip', methods = ['GET', 'POST'])
 def add_equip():
     form = AddEquipmentForm()
-    # Check if the form has been submitted (is a POST request) and form inputs are valid
-    if form.validate_on_submit():
-        # Get data from the form and put in a Student object
+    if request.method == 'POST':
+        #if form.validate_on_submit():
         equipment = Equipment()
         form.populate_obj(obj=equipment)
-    #equipment = Equipment.query.all()
-    #if request.method == 'POST':
-       # print("This code will be run when the form is submitted ")
-        #equipment = Equipment(
-         #   equip_name = request.form.get('equip_name'),
-          #  location_id = request.form.get('location_id'),
-           # equip_quantity = request.form.get('equip_quantity'),
-            #date_entered = "date34",
-            #equip_image = request.form.get('equip_image')
-         #)
         db.session.add(equipment)
         db.session.commit()
-        
-        # Returns the view with a message that the student has been added
-        return render_template('equip_view.html',equipment=equipment)
+        return render_template('equip_view.html')
 
     # When there is a GET request, the view with the form is returned
     return render_template('equip_add.html', form=form)
 
 @app.route('/equip_view')
 def view_equip():
-    equipment = Equipment.query.all()
-    return render_template('equip_view.html', equipment=equipment)
+    return render_template('equip_view.html')
     
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
@@ -61,21 +47,14 @@ def add_user():
             form.populate_obj(obj=user)
             db.session.add(user)
             db.session.commit()
-            return render_template('user_added.html', user=user)
+            return render_template('user_view.html')
     return render_template('user_add.html', form=form)
-    
-    #
-    #    print("This code will be run when the form is submitted ")
-        #animal_name = request.form.get('animal_name')
-        #animal_rating = request.form.get('animal_rating')
-    #    return render_template (
-            #'user_added.html', 
-            #animal_name = animal_name, 
-            #animal_rating = animal_rating
-        #)
-    # If we get to this point, then it is a GET request, and we return the view with the form
-    #return render_template('user_add.html')
 
+@app.route('/view_user')
+def view_user():
+    return render_template('user_view.html')
+    
+    
 @app.route('/add_location', methods = ['GET', 'POST'])
 def add_location():
     location = Location.query.all()

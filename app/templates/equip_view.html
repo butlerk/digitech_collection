@@ -2,9 +2,12 @@
 {% block content %}
 
 <h2>Equipment List </h2>
-<h2>Equipment item added: {{ equipment.equip_name }} </h2>
+
 
 <h1> Current Equipment:</h1> 
+
+    <a href = "{{ url_for('add_equip') }}">Add new equipment item</a><br>
+<br>
 <table class="pure-table pure-table-striped">
     <thead>
         <tr>
@@ -14,20 +17,6 @@
 
         </tr>
     </thead>
-    <tbody>
-        {% for item in equipment %}
-        <tr>
-            <td>{{ item.equip_name }}</td>
-            <td>{{ item.location_id }}</td>
-            <td>{{ item.purchase_price }}</td>
-            
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<a href = "{{ url_for('add_equip') }}">Equipment</a>
-
 
 
 
