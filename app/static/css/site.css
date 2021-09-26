@@ -44,6 +44,9 @@
 table {
     
     width: 100%;
+    padding-bottom: 50px;
+    
+    
   }
 
 th, td {
@@ -55,5 +58,4 @@ th, td {
 tr:nth-child(even) {
     background-color: #f2f2f2;
   }
-
 

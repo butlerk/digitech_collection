@@ -28,14 +28,15 @@ def add_equip():
         form.populate_obj(obj=equipment)
         db.session.add(equipment)
         db.session.commit()
-        return render_template('equip_view.html')
+        return redirect(url_for('view_equip'))
 
     # When there is a GET request, the view with the form is returned
     return render_template('equip_add.html', form=form)
 
-@app.route('/equip_view')
+@app.route('/view_equipment')
 def view_equip():
-    return render_template('equip_view.html')
+    equipment = Equipment.query.all()
+    return render_template('equip_view.html', equipment=equipment)
     
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
