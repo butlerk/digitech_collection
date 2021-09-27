@@ -12,25 +12,22 @@
         </li>
     {% endfor %}
 </ul>
-<br>
 <!-- create form for adding new user-->
 
-<form method = "POST" class="pure-form-stacked">
-    <h3> User </h3>
-    
+<form method = "POST" class="pure-form-stacked">    
     {{ form.csrf_token }}
     
     {{ form.first_name.label}}
-    {{form.first_name}}<br><br>
+    {{form.first_name}}<br>
 
     {{ form.last_name.label}}
-    {{form.last_name}}<br><br>
+    {{form.last_name}}<br>
 
     {{ form.email.label}}
-    {{form.email}}<br><br>
+    {{form.email}}<br>
 
     {{ form.password.label}}
-    {{form.password}}<br><br>
+    {{form.password}}<br>
 
     {{ form.submit(class_="pure-button pure-button-primary") }}
 

@@ -75,8 +75,19 @@ def edit_user(id):
 
     # When there is a GET request or when the inputs are invalid, the view with the form is returned
     return render_template('user_edit.html', form = form)
-    
-    
+
+@app.route('/delete_user/<int:id>')
+def delete_user(id):
+    # Retrieves the user record for the given id
+    user = User.query.get_or_404(id)
+    # The user record is deleted
+    db.session.delete(user)
+    # The change (the deletion) are saved in the database file
+    db.session.commit()
+    # Returns the view that displays the list of users
+    return redirect(url_for('view_user'))
+
+
 @app.route('/add_location', methods = ['GET', 'POST'])
 def add_location():
     location = Location.query.all()

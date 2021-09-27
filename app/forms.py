@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, BooleanField, SubmitField
+from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField
 from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired, Length
 from app.models import Location
@@ -32,7 +32,7 @@ class AddUserForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(), Length(min=1, max=40)])
     last_name = StringField('Last name', validators=[InputRequired(), Length(min=1, max=40)])
     email = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
-    password = StringField('Password', validators=[InputRequired(), Length(min=6, max=20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=20)])
     submit = SubmitField('Add User')
 
 class EditUserForm(AddUserForm):
