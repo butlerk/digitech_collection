@@ -1,0 +1,35 @@
+{% extends 'menu.html' %}
+{% block content %}
+<h2>Edit user:</h2>
+
+<ul class="errors">
+{% for field, errors in form.errors.items() %}
+    <li>
+        {{ form[field].label }} {{ ', '.join(errors) }}
+    </li>
+{% endfor %}
+
+</ul>
+
+<form method = "POST" class="pure-form-stacked">
+    <h3> User </h3>
+    
+    {{ form.csrf_token }}
+    
+    {{ form.first_name.label}}
+    {{form.first_name}}<br><br>
+
+    {{ form.last_name.label}}
+    {{form.last_name}}<br><br>
+
+    {{ form.email.label}}
+    {{form.email}}<br><br>
+
+    {{ form.password.label}}
+    {{form.password}}<br><br>
+
+    {{ form.submit(class_="pure-button pure-button-primary") }}
+
+</form>
+
+{% endblock %}

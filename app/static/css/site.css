@@ -1,4 +1,8 @@
-/* Add a black background color to the top navigation */
+/* Add a blue background color to the top navigation */
+body {
+  padding: 14px;
+}
+
 .topnav {
     background-color: rgb(25, 9, 253);
     overflow: hidden;
@@ -43,7 +47,6 @@
 
 table {
     
-    width: 100%;
     padding-bottom: 50px;
     
     

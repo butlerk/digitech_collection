@@ -10,6 +10,8 @@
             <th>Equip Name</th>
             <th>Location</th>
             <th>Price ($)</th>
+            <th>Equipment Quantity</th>
+            <th>Equipment Image File</th>
 
         </tr>
     </thead>
@@ -19,6 +21,8 @@
             <td>{{ item.equip_name}}</td>
             <td>{{ item.location_id }}</td>
             <td>{{ item.purchase_price }}</td>
+            <td>{{ item.equip_quantity }}</td>
+            <td>{{ item.equip_image }}</td>
         </tr>
         {% endfor %}
     </tbody>
