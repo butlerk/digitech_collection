@@ -3,7 +3,7 @@ from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User
-from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm
 from sqlalchemy.orm import sessionmaker
 
 @app.route('/')
@@ -136,3 +136,24 @@ def add_location():
 def view_location():
     location = Location.query.all()
     return render_template('location_view.html', location=location)
+
+@app.route('/edit_location/<int:id>', methods = ['GET', 'POST'])
+def edit_location(id):
+    # Retrieves the user record for the given id, if it exists
+    location = Location.query.get_or_404(id)
+    
+    # Creates a form for editing the user record, putting in the fruit record's details
+    form = EditLocationForm(obj=location)
+
+    if form.validate_on_submit():
+        # The form has been submitted and the inputs are valid
+
+        # The inputs are used to change the fruit's attributes
+        form.populate_obj(location)
+        # The changes to the fruit are saved in the database
+        db.session.commit()
+        # Returns back to the view that displays the list of fruits
+        return redirect(url_for('view_location'))
+
+    # When there is a GET request or when the inputs are invalid, the view with the form is returned
+    return render_template('location_edit.html', form = form)

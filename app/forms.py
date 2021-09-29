@@ -33,3 +33,6 @@ class EditUserForm(AddUserForm):
 
 class EditEquipmentForm(AddEquipmentForm):
     submit = SubmitField('Save Equipment')
+
+class EditLocationForm(AddLocationForm):
+    submit = SubmitField('Save Location')

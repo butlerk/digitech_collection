@@ -1,0 +1,26 @@
+<!-- Page to edit the locations -->
+
+{% extends 'menu.html' %}
+{% block content %}
+
+<h2>Edit Location</h2>
+<ul class="errors">
+    {% for field, errors in form.errors.items() %}
+        <li>
+            {{ form[field].label }} {{ ', '.join(errors) }}
+        </li>
+    {% endfor %}
+</ul>
+<!-- create form for adding new user-->
+
+<form method = "POST" class="pure-form-stacked">    
+    {{ form.csrf_token }}
+    
+    {{ form.location_id.label}}
+    {{form.location_id}}<br>
+
+    {{ form.submit(class_="pure-button pure-button-primary") }}
+
+</form>
+
+{% endblock %}
