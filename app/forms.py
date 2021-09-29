@@ -9,19 +9,12 @@ from app.models import Location
 class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_quantity = IntegerField('Equipment Quantity', validators=[InputRequired()])
-    location_id = SelectField(u'Location', choices = [(1,"hello"),(2,"no")], validators=[InputRequired()])
+    location_id = SelectField(u'Location', coerce = int)
     purchase_price = IntegerField('Purchase Price', validators=[InputRequired()])
     date_entered = StringField('Purchase Date')
     equip_image = StringField('Equipment Image')
     submit = SubmitField('Add equipment')
 
-    #def edit_location(request, location):
-    #location = Location.query.get(location_name)
-    #location_id_choices = [(g.id g.name) for g in location.query.order_by(location_name)]#location = Location.query.get(location_name)
-    #print("hello")
-    #form = AddEquipmentForm(request.post, obj=location)
-    #form.location_id.choices = [(g.id, g.name) for g in location.query.order_by(location_name)]
-    #Flask form to add location to db
 class AddLocationForm(FlaskForm):
     location_name = StringField('Location name', validators=[InputRequired(), Length(min=1, max=40)])
     location_id = IntegerField('Location ID')

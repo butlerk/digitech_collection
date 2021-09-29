@@ -4,6 +4,7 @@ from werkzeug.utils import redirect
 from app import app, db
 from app.models import Equipment, Location, User
 from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm
+from sqlalchemy.orm import sessionmaker
 
 @app.route('/')
 
@@ -31,7 +32,10 @@ def add_equip():
             return redirect(url_for('view_equip'))
 
     # When there is a GET request, the view with the form is returned
-    return render_template('equip_add.html', form=form)
+    location = Location.query.all()
+    form = AddEquipmentForm(obj=location)
+    form.location_id.choices = [(g.location_id, g.location_name) for g in location]
+    return render_template('equip_add.html', form=form, location=location)
 
 @app.route('/view_equipment')
 def view_equip():
