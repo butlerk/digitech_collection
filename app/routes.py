@@ -157,3 +157,14 @@ def edit_location(id):
 
     # When there is a GET request or when the inputs are invalid, the view with the form is returned
     return render_template('location_edit.html', form = form)
+
+@app.route('/delete_location/<int:id>')
+def delete_location(id):
+    # Retrieves the user record for the given id
+    location = Location.query.get_or_404(id)
+    # The user record is deleted
+    db.session.delete(location)
+    # The change (the deletion) are saved in the database file
+    db.session.commit()
+    # Returns the view that displays the list of users
+    return redirect(url_for('view_location'))
