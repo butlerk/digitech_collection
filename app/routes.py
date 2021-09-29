@@ -3,7 +3,7 @@ from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User
-from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm
 from sqlalchemy.orm import sessionmaker
 
 @app.route('/')
@@ -40,6 +40,32 @@ def add_equip():
 def view_equip():
     equipment = Equipment.query.all()
     return render_template('equip_view.html', equipment=equipment)
+
+@app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
+def edit_equipment(id):
+    # Retrieves the user record for the given id, if it exists
+    equipment = Equipment.query.get_or_404(id)
+    
+    # Creates a form for editing the user record, putting in the fruit record's details
+    form = EditEquipmentForm(obj=equipment)
+
+    if form.validate_on_submit():
+        # The form has been submitted and the inputs are valid
+
+        # The inputs are used to change the fruit's attributes
+        form.populate_obj(equipment)
+        # The changes to the fruit are saved in the database
+        db.session.commit()
+        # Returns back to the view that displays the list of fruits
+        
+        return redirect(url_for('view_equipment'))
+
+    # When there is a GET request or when the inputs are invalid, the view with the form is returned
+    location = Location.query.all()
+    form = AddEquipmentForm(obj=location)
+    form.location_id.choices = [(g.location_id, g.location_name) for g in location]
+    return render_template('equip_add.html', form=form, location=location)
+
     
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():

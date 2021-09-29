@@ -1,0 +1,41 @@
+{% extends 'menu.html' %}
+{% block content %}
+<h2>Edit Equipment Item</h2>
+<ul class="errors">
+    {% for field, errors in form.errors.items() %}
+        <li>
+            {{ form[field].label }} {{ ', '.join(errors) }}
+        </li>
+    {% endfor %}
+</ul>
+<!-- create form for adding equipment items to the collection -->
+<form method="POST" class="pure-form pure-form-stacked">
+    {{ form.csrf_token }}
+
+    {{ form.equip_name.label }}
+    {{ form.equip_name }}<br>
+
+    {{ form.purchase_price.label }}
+    {{ form.purchase_price }}<br>
+
+    {{ form.equip_quantity.label }}
+    {{ form.equip_quantity }}<br>
+
+    {{ form.location_id.label }}
+    {{ form.location_id }}<br>
+
+    {{ form.date_entered.label }}
+    {{ form.date_entered }}<br>
+
+    {{ form.equip_image.label }}
+    {{ form.equip_image }}<br>
+
+    {{ form.submit(class_="pure-button pure-button-primary") }}
+    <br><br><br><br>
+
+
+</form>  
+
+
+{% endblock %}
+

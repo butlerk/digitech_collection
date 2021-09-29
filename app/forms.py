@@ -30,3 +30,6 @@ class AddUserForm(FlaskForm):
 
 class EditUserForm(AddUserForm):
     submit = SubmitField('Save User')
+
+class EditEquipmentForm(AddEquipmentForm):
+    submit = SubmitField('Save Equipment')
