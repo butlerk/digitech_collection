@@ -16,7 +16,7 @@ class AddEquipmentForm(FlaskForm):
     submit = SubmitField('Add equipment')
 
 class AddLocationForm(FlaskForm):
-    location_name = StringField('Location name', validators=[InputRequired(), Length(min=1, max=40)])
+    location_name = StringField('Location name')
     location_id = IntegerField('Location ID')
     submit = SubmitField('Add Location')
 

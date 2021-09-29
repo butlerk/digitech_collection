@@ -3,6 +3,10 @@ body {
   padding: 14px;
 }
 
+tbody {
+  padding: 14px;
+}
+
 .topnav {
     background-color: rgb(25, 9, 253);
     overflow: hidden;

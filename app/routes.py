@@ -24,13 +24,12 @@ def login():
 def add_equip():
     form = AddEquipmentForm()
     if request.method == 'POST':
-        if form.validate_on_submit():
+        #if form.validate_on_submit():
             equipment = Equipment()
             form.populate_obj(obj=equipment)
             db.session.add(equipment)
             db.session.commit()
             return redirect(url_for('view_equip'))
-
     # When there is a GET request, the view with the form is returned
     location = Location.query.all()
     form = AddEquipmentForm(obj=location)

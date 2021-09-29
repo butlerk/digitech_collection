@@ -1,7 +1,6 @@
 {% extends 'menu.html' %}
 {% block content %}
 <h2>Add new Equipment Item</h2>
-<br>
 <ul class="errors">
     {% for field, errors in form.errors.items() %}
         <li>
@@ -14,29 +13,26 @@
     {{ form.csrf_token }}
 
     {{ form.equip_name.label }}
-    {{ form.name }}
-
-    <h3>Equipment</h3>
-
-    {{ form.equip_name.label }}
-    {{ form.equip_name }}<br><br>
+    {{ form.equip_name }}<br>
 
     {{ form.purchase_price.label }}
-    {{ form.purchase_price }}<br><br>
+    {{ form.purchase_price }}<br>
 
     {{ form.equip_quantity.label }}
-    {{ form.equip_quantity }}<br><br>
+    {{ form.equip_quantity }}<br>
 
     {{ form.location_id.label }}
-    {{ form.location_id }}<br><br>
+    {{ form.location_id }}<br>
 
     {{ form.date_entered.label }}
-    {{ form.date_entered }}<br><br>
+    {{ form.date_entered }}<br>
 
     {{ form.equip_image.label }}
-    {{ form.equip_image }}<br><br>
-    <br/>
+    {{ form.equip_image }}<br>
+
     {{ form.submit(class_="pure-button pure-button-primary") }}
+    <br><br><br><br>
+
 
 </form>  
 
