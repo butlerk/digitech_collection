@@ -4,17 +4,24 @@
 {% block content %}
 
 <h2>Add new Location</h2>
-<form  method="POST">
-    <label for="location_name">Location</label><br>
-    <input type = "text" name ="location_name" id="location_name"/><br>
-    <label for="location_id">Location ID</label><br>
-    <input type = "integer" name ="location_id" id="location_id"/><br>
-    <input type="submit" value="Submit">
+<ul class="errors">
+    {% for field, errors in form.errors.items() %}
+        <li>
+            {{ form[field].label }} {{ ', '.join(errors) }}
+        </li>
+    {% endfor %}
+</ul>
+<!-- create form for adding new user-->
+
+<form method = "POST" class="pure-form-stacked">    
+    {{ form.csrf_token }}
+    
+    {{ form.location_name.label}}
+    {{form.location_name}}<br>
+
+    {{ form.submit(class_="pure-button pure-button-primary") }}
+
 </form>
-
-
-
-
 
 {% endblock %}
 

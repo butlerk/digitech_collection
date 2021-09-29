@@ -119,14 +119,20 @@ def delete_user(id):
 
 @app.route('/add_location', methods = ['GET', 'POST'])
 def add_location():
+    form=AddLocationForm()
     location = Location.query.all()
     if request.method == 'POST':
         print("This code will be run when the form is submitted ")
-        location = Location(
-            location_name = request.form.get('location_name'),
-            location_id = request.form.get('location_id'),
-        )
+        location = Location()
+        form.populate_obj(obj=location)
+
         db.session.add(location)
         db.session.commit()
+        return redirect(url_for ("view_location"))
     # If we get to this point, then it is a GET request, and we return the view with the form
-    return render_template('location_add.html')
+    return render_template('location_add.html', form=form)
+
+@app.route('/view_location')
+def view_location():
+    location = Location.query.all()
+    return render_template('location_view.html', location=location)

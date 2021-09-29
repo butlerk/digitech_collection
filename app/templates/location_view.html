@@ -1,0 +1,25 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<h1> Locations </h1>
+<h2>Current Locations List </h2>
+<a href = "{{ url_for('add_location') }}">Add new location</a><br>
+
+<table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>Location</th>
+
+        </tr>
+    </thead>
+    <tbody>    
+        {% for i in location %}
+        <tr>    
+            <td>{{ i.location_name}}</td>
+
+        </tr>
+        {% endfor %}
+  
+    </tbody>
+
+{% endblock %}
