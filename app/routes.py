@@ -66,6 +66,16 @@ def edit_equipment(id):
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
     return render_template('equip_add.html', form=form, location=location)
 
+@app.route('/delete_equipment/<int:id>')
+def delete_equipment(id):
+    # Retrieves the user record for the given id
+    item = Equipment.query.get_or_404(id)
+    # The user record is deleted
+    db.session.delete(item)
+    # The change (the deletion) are saved in the database file
+    db.session.commit()
+    # Returns the view that displays the list of users
+    return redirect(url_for('view_equip'))
     
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
