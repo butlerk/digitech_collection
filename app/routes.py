@@ -47,7 +47,10 @@ def edit_equipment(id):
     equipment = Equipment.query.get_or_404(id)
     
     # Creates a form for editing the user record, putting in the fruit record's details
+    
+    location = Location.query.all()
     form = EditEquipmentForm(obj=equipment)
+    form.location_id.choices = [(g.location_id, g.location_name) for g in location]
 
     if form.validate_on_submit():
         # The form has been submitted and the inputs are valid
@@ -58,12 +61,10 @@ def edit_equipment(id):
         db.session.commit()
         # Returns back to the view that displays the list of fruits
         
-        return redirect(url_for('view_equipment'))
+        return redirect(url_for('view_equip'))
 
     # When there is a GET request or when the inputs are invalid, the view with the form is returned
-    location = Location.query.all()
-    form = AddEquipmentForm(obj=location)
-    form.location_id.choices = [(g.location_id, g.location_name) for g in location]
+    
     return render_template('equip_add.html', form=form, location=location)
 
 @app.route('/delete_equipment/<int:id>')
