@@ -22,11 +22,8 @@
             <a href = "{{ url_for('index') }}">Home</a>
            <a href = "{{ url_for('view_equip') }}">Equipment</a>
             <a href = "{{ url_for('view_location') }}">Locations</a>
-            <!--<a href = "{{ url_for('reports') }}">Reports</a>-->
             <a href = "{{ url_for('view_user') }}">Users</a>
-            <a href="{{ url_for('login') }}"> 
-                <img src="{{ ('/static/images/loginLogo.jpg') }}" style = "width:50px; height:20px" alt="LoginLogo"  >
-            </a>
+
         </div>
         
         {% block content %}
