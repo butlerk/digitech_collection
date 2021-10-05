@@ -19,7 +19,7 @@
         {% for item in equipment %}
         <tr>    
             <td>{{ item.equip_name}}</td>
-            <td>{{ item.location_id }}</td>
+            <td>{{ item.location.location_name }}</td>
             <td>{{ item.purchase_price }}</td>
             <td>{{ item.equip_quantity }}</td>
             <td>{{ item.equip_image }}</td>

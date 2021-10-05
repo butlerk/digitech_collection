@@ -18,10 +18,20 @@ def init_db():
     db.drop_all()
     db.create_all()
 
+
+    # Create location item records to populate db
+
+    library = models.Location(location_name = 'Library')
+    db.session.add(library)
+    
+    storeroom = models.Location(location_name  = 'Storeroom')
+    db.session.add(storeroom)
+    
+
     # Create equipment item records to populate db
     microbit = models.Equipment (
         equip_name  = 'Microbit',
-        location_id = '12',
+        location = library,
         purchase_price = 29.40,
         equip_quantity = 1,
         date_entered = '2021-04-04',
@@ -29,10 +39,9 @@ def init_db():
     )
     db.session.add(microbit)
 
-    
     beebot = models.Equipment (
         equip_name  = 'Beebot',
-        location_id = '10',
+        location = storeroom,
         purchase_price = 5.40,
         equip_quantity = 10,
         date_entered = '2021-05-01',
@@ -57,12 +66,7 @@ def init_db():
     )
     db.session.add(person2)
 
-    # Create location item records to populate db
-    library = models.Location (
-        location_name  = 'Library',
-        location_id = '12'
-    )
-    db.session.add(library)
+    
 
     # Save the created records to the database file
     db.session.commit()

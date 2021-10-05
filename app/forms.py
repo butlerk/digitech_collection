@@ -17,7 +17,7 @@ class AddEquipmentForm(FlaskForm):
 
 class AddLocationForm(FlaskForm):
     location_name = StringField('Location name')
-    location_id = IntegerField('Location ID')
+    #location_id = IntegerField('Location ID')
     submit = SubmitField('Add Location')
 
 # Flask form to add user to db
