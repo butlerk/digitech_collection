@@ -12,72 +12,57 @@ from sqlalchemy.orm import sessionmaker
 def index():
     return render_template('index.html')
 
-@app.route('/reports')
-def reports():
-    return render_template('reports.html', title = 'Reports')
+# == EQUIPMENT ==
 
-@app.route('/login')
-def login():
-    return render_template('login.html', title = 'Login')
-
+# Create an add equipment form - when submitted, create the equipment item and add to database. Return to view with all equipment items.
 @app.route('/add_equip', methods = ['GET', 'POST'])
 def add_equip():
     form = AddEquipmentForm()
     if request.method == 'POST':
-        #if form.validate_on_submit():
             equipment = Equipment()
             form.populate_obj(obj=equipment)
             db.session.add(equipment)
             db.session.commit()
             return redirect(url_for('view_equip'))
-    # When there is a GET request, the view with the form is returned
+    # Generate the form with the locations in the dropdown box
     location = Location.query.all()
     form = AddEquipmentForm(obj=location)
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
     return render_template('equip_add.html', form=form, location=location)
 
+# Display a list of equipment from the database
 @app.route('/view_equipment')
 def view_equip():
     equipment = Equipment.query.all()
     return render_template('equip_view.html', equipment=equipment)
 
+# Edit a specific equipment item in the database, retrieving the equipment record if it exists, creating a form and populating the form with existing data.
+# If submit form is pressed and form is valid, the inputs are used to change the equipment attribues and changes are saved in the database
+# If GET request, or inputs invalid, the view with the form is returned
+# Return to list of equipment
 @app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
 def edit_equipment(id):
-    # Retrieves the user record for the given id, if it exists
     equipment = Equipment.query.get_or_404(id)
-    
-    # Creates a form for editing the user record, putting in the fruit record's details
-    
     location = Location.query.all()
     form = EditEquipmentForm(obj=equipment)
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
-
     if form.validate_on_submit():
-        # The form has been submitted and the inputs are valid
-
-        # The inputs are used to change the fruit's attributes
         form.populate_obj(equipment)
-        # The changes to the fruit are saved in the database
         db.session.commit()
-        # Returns back to the view that displays the list of fruits
-        
         return redirect(url_for('view_equip'))
-
-    # When there is a GET request or when the inputs are invalid, the view with the form is returned
-    
     return render_template('equip_add.html', form=form, location=location)
 
+# Delete a specific equipment item - retrieving, deleting and committing changes to the database. Returns to list of equipment
 @app.route('/delete_equipment/<int:id>')
 def delete_equipment(id):
-    # Retrieves the user record for the given id
     item = Equipment.query.get_or_404(id)
-    # The user record is deleted
     db.session.delete(item)
-    # The change (the deletion) are saved in the database file
     db.session.commit()
-    # Returns the view that displays the list of users
     return redirect(url_for('view_equip'))
-    
+
+# == USERS ==
+
+# Create an add user form - when submitted, create the user and add to database. Return to view with all locations.
 @app.route('/add_user', methods = ['GET', 'POST'])
 def add_user():
     form = AddUserForm()
@@ -90,92 +75,84 @@ def add_user():
             return redirect(url_for('view_user'))
     return render_template('user_add.html', form=form)
 
+# View a user & write to database
 @app.route('/view_user')
 def view_user():
     users = User.query.all()
     return render_template('user_view.html', users=users)
 
+# Edit a specific user in the database, retrieving the user record if it exists, creating a form and populating the form with existing data.
+# If submit form is pressed and form is valid, the inputs are used to change the users's attribues and changes are saved in the database
+# If GET request, or inputs invalid, the view with the form is returned
+# Return to list of users
 @app.route('/edit_user/<int:id>', methods = ['GET', 'POST'])
 def edit_user(id):
-    # Retrieves the user record for the given id, if it exists
     user = User.query.get_or_404(id)
-    
-    # Creates a form for editing the user record, putting in the fruit record's details
     form = EditUserForm(obj=user)
-
     if form.validate_on_submit():
-        # The form has been submitted and the inputs are valid
-
-        # The inputs are used to change the fruit's attributes
         form.populate_obj(user)
-        # The changes to the fruit are saved in the database
         db.session.commit()
-        # Returns back to the view that displays the list of fruits
         return redirect(url_for('view_user'))
-
-    # When there is a GET request or when the inputs are invalid, the view with the form is returned
     return render_template('user_edit.html', form = form)
 
+# Delete a specific user - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_user/<int:id>')
 def delete_user(id):
-    # Retrieves the user record for the given id
     user = User.query.get_or_404(id)
-    # The user record is deleted
     db.session.delete(user)
-    # The change (the deletion) are saved in the database file
     db.session.commit()
-    # Returns the view that displays the list of users
     return redirect(url_for('view_user'))
 
 
+# == LOCATIONS ==
+
+# Create an add a location form - when submitted, create the location and add to database. Return to view with all locations.
 @app.route('/add_location', methods = ['GET', 'POST'])
 def add_location():
     form=AddLocationForm()
     location = Location.query.all()
     if request.method == 'POST':
-        print("This code will be run when the form is submitted ")
         location = Location()
         form.populate_obj(obj=location)
-
         db.session.add(location)
         db.session.commit()
         return redirect(url_for ("view_location"))
-    # If we get to this point, then it is a GET request, and we return the view with the form
     return render_template('location_add.html', form=form)
 
+# View all locations in the database
 @app.route('/view_location')
 def view_location():
     location = Location.query.all()
     return render_template('location_view.html', location=location)
 
+# Edit a specific location in the database, retrieving the location record if it exists, creating a form and populating the form with existing data.
+# If submit form is pressed and form is valid, the inputs are used to change the location's attribues and changes are saved in the database
+# If GET request, or inputs invalid, the view with the form is returned
+# Return to list of locations
 @app.route('/edit_location/<int:id>', methods = ['GET', 'POST'])
 def edit_location(id):
-    # Retrieves the user record for the given id, if it exists
     location = Location.query.get_or_404(id)
-    
-    # Creates a form for editing the user record, putting in the fruit record's details
     form = EditLocationForm(obj=location)
-
     if form.validate_on_submit():
-        # The form has been submitted and the inputs are valid
-
-        # The inputs are used to change the fruit's attributes
         form.populate_obj(location)
-        # The changes to the fruit are saved in the database
         db.session.commit()
-        # Returns back to the view that displays the list of fruits
         return redirect(url_for('view_location'))
-
-    # When there is a GET request or when the inputs are invalid, the view with the form is returned
     return render_template('location_edit.html', form = form)
 
+# Delete a specific location - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_location/<int:id>')
 def delete_location(id):
-    # Retrieves the user record for the given id
     location = Location.query.get_or_404(id)
-    # The user record is deleted
     db.session.delete(location)
-    # The change (the deletion) are saved in the database file
     db.session.commit()
-    # Returns the view that displays the list of users
     return redirect(url_for('view_location'))
+
+    
+## Not currently used
+# @app.route('/reports')
+# def reports():
+#    return render_template('reports.html', title = 'Reports')
+
+# @app.route('/login')
+# def login():
+#    return render_template('login.html', title = 'Login')
