@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField
 from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired, Length
-from app.models import Location
+
 
 
 #Flask form to add equipment to db

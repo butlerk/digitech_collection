@@ -9,28 +9,28 @@
     {% endfor %}
 </ul>
 <!-- create form for adding equipment items to the collection -->
-<form method="POST" class="pure-form pure-form-stacked">
+<form method="POST">
     {{ form.csrf_token }}
 
-    {{ form.equip_name.label }}
-    {{ form.equip_name }}<br>
+    {{ form.equip_name.label(class='form-label') }}
+    {{ form.equip_name(class = 'form-control') }}<br>
 
-    {{ form.purchase_price.label }}
-    {{ form.purchase_price }}<br>
+    {{ form.purchase_price.label(class='form-label') }}
+    {{ form.purchase_price(class = 'form-control') }}<br>
 
-    {{ form.equip_quantity.label }}
-    {{ form.equip_quantity }}<br>
+    {{ form.equip_quantity.label(class='form-label') }}
+    {{ form.equip_quantity(class = 'form-control') }}<br>
 
-    {{ form.location_id.label }}
-    {{ form.location_id }}<br>
+    {{ form.location_id.label(class='form-label') }}
+    {{ form.location_id(class = 'form-control') }}<br>
 
-    {{ form.date_entered.label }}
-    {{ form.date_entered }}<br>
+    {{ form.date_entered.labe(class='form-label')l }}
+    {{ form.date_entered(class = 'form-control') }}<br>
 
-    {{ form.equip_image.label }}
-    {{ form.equip_image }}<br>
+    {{ form.equip_image.label(class='form-label') }}
+    {{ form.equip_image(class = 'form-control') }}<br>
 
-    {{ form.submit(class_="pure-button pure-button-primary") }}
+    {{ form.submit(class_="btn btn-primary btn-sm") }}
     <br><br><br><br>
 
 
