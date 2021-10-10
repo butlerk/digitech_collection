@@ -16,13 +16,8 @@
 <form method = "POST" >    
     {{ form.csrf_token }}
     
-<<<<<<< HEAD
     {{ form.location_name.label(class = 'form-label')}}
     {{form.location_name(class = 'form-control')}}<br>
-=======
-    {{form.location_name.label(class='form-label')}}
-    {{form.location_name (class = 'form-control')}}<br>
->>>>>>> 23df4123f324e1b26d544dd7110a124baa20ed60
 
     {{ form.submit(class_="btn btn-primary btn-sm") }}
 

@@ -10,7 +10,6 @@
     {% endfor %}
 </ul>
 <!-- create form for adding equipment items to the collection -->
-<<<<<<< HEAD
 <form method="POST" >
     {{ form.csrf_token }}
 
@@ -31,28 +30,6 @@
 
     {{ form.equip_image.label(class='form-label') }}
     {{ form.equip_image(class = 'form-control') }}<br>
-=======
-<form method="POST">
-    {{ form.csrf_token }}
-
-    {{ form.equip_name.label (class='form-label') }}
-    {{ form.equip_name (class = 'form-control')}}<br>
-
-    {{ form.purchase_price.label (class='form-label')}}
-    {{ form.purchase_price (class = 'form-control')}}<br>
-
-    {{ form.equip_quantity.label (class='form-label')}}
-    {{ form.equip_quantity (class = 'form-control')}}<br>
-
-    {{ form.location_id.label (class='form-label')}}
-    {{ form.location_id (class = 'form-control')}}<br>
-
-    {{ form.date_entered.label (class='form-label') }}
-    {{ form.date_entered (class = 'form-control')}}<br>
-
-    {{ form.equip_image.label (class='form-label')}}
-    {{ form.equip_image (class = 'form-control')}}<br>
->>>>>>> 23df4123f324e1b26d544dd7110a124baa20ed60
 
     {{ form.submit(class_="btn btn-primary btn-sm") }}
     <br><br><br><br>

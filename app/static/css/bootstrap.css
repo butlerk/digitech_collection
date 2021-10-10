@@ -79,13 +79,7 @@
 }
 
 body {
-<<<<<<< HEAD
   margin-top:0; margin-left:20px; margin-right:20px;
-=======
-  margin-top: 0;
-  margin-left: 20;
-  margin-right: 20;
->>>>>>> 23df4123f324e1b26d544dd7110a124baa20ed60
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
