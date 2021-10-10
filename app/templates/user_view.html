@@ -3,7 +3,9 @@
 {% block content %}
 
 <h2>Digital Technologies Users</h2>
-<a href = "{{ url_for('add_user') }}">Click to add a new user</a><br><br>
+<a class="btn btn-primary" href="{{ url_for('add_user') }}"> 
+    Add User
+</a><br><br>
 
 <table class="table table-striped table-bordered">
     <thead>
