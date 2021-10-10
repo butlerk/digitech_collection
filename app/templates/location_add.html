@@ -16,10 +16,10 @@
 <form method = "POST" class="pure-form-stacked">    
     {{ form.csrf_token }}
     
-    {{ form.location_name.label}}
-    {{form.location_name}}<br>
+    {{form.location_name.label(class='form-label')}}
+    {{form.location_name (class = 'form-control')}}<br>
 
-    {{ form.submit(class_="pure-button pure-button-primary") }}
+    {{ form.submit(class_="btn btn-primary btn-sm") }}
 
 </form>
 
