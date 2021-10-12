@@ -26,10 +26,9 @@ def add_loan():
     user = User.query.all()
     form = AddLoanForm(obj=user)
     equipment = Equipment.query.all()
-    user = User.query.all()
     form = AddLoanForm(obj=equipment)
-    form.user_id.choices = [(g.user_id, g.first_name) for g in user]
-    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in equipment]
+    form.loan_user.choices = [(g.user_id, g.first_name) for g in user]
+    form.loan_equipment.choices = [(g.equip_id, g.equip_name) for g in equipment]
     return render_template('loan_add.html', form=form, equipment=equipment, user=user)
 
 @app.route('/view_loan')
