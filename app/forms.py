@@ -15,6 +15,7 @@ class AddEquipmentForm(FlaskForm):
     equip_image = StringField('Equipment Image')
     submit = SubmitField('Add equipment')
 
+# Flask form to add loacation to db
 class AddLocationForm(FlaskForm):
     location_name = StringField('Location name')
     #location_id = IntegerField('Location ID')
@@ -28,6 +29,15 @@ class AddUserForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=20)])
     submit = SubmitField('Add User')
 
+# Flask form to add loan to db
+class AddLoanForm(FlaskForm):
+    loan_id = IntegerField('Loan ID')
+    loan_date = StringField('Loan date')
+    loan_return = StringField('Loan return date')
+    loan_user = StringField('Loan by')
+    loan_equipment = StringField('Equipment borrowed')
+    submit = SubmitField('Add Loan')
+
 class EditUserForm(AddUserForm):
     submit = SubmitField('Save User')
 
@@ -36,3 +46,6 @@ class EditEquipmentForm(AddEquipmentForm):
 
 class EditLocationForm(AddLocationForm):
     submit = SubmitField('Save Location')
+
+class EditLoanForm(AddLoanForm):
+    submit = SubmitField('Save Loan')

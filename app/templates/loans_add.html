@@ -1,0 +1,26 @@
+<!-- Page including form to add new loans. -->
+
+{% extends 'menu.html' %}
+{% block content %}
+
+<h2>Add new Loan</h2>
+<ul class="errors">
+    {% for field, errors in form.errors.items() %}
+        <li>
+            {{ form[field].label }} {{ ', '.join(errors) }}
+        </li>
+    {% endfor %}
+</ul>
+<!-- create form for adding new user-->
+
+<form method = "POST" >    
+    {{ form.csrf_token }}
+    
+    {{ form.loan_id.label(class = 'form-label')}}
+    {{form.loan_id(class = 'form-control')}}<br>
+
+    {{ form.submit(class_="btn btn-primary btn-sm") }}
+
+</form>
+
+{% endblock %}

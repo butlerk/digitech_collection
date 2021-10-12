@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, url_for
 from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
-from app.models import Equipment, Location, User
-from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm
+from app.models import Equipment, Location, User, Loan
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm
 from sqlalchemy.orm import sessionmaker
 
 @app.route('/')
@@ -11,7 +11,30 @@ from sqlalchemy.orm import sessionmaker
 @app.route('/index')
 def index():
     return render_template('index.html')
+# == LOANS ==
 
+@app.route('/add_loan', methods = ['GET', 'POST'])
+def add_loan():
+    form = AddLoanForm()
+    if request.method == 'POST':
+            loan = Loan()
+            form.populate_obj(obj=loan)
+            db.session.add(loan)
+            db.session.commit()
+            return redirect(url_for('view_loans'))
+    # Generate the form with the users & equipment in the dropdown box
+    user = User.query.all()
+    form = AddLoanForm(obj=user)
+    form.user_id.choices = [(g.user_id, g.user_name) for g in user]
+    equipment = Equipment.query.all()
+    form = AddLoanForm(obj=equipment)
+    form.equipment_id.choices = [(g.equipment_id, g.equipment_name) for g in equipment]
+    return render_template('loans_add.html', form=form, equipment=equipment, user=user)
+
+@app.route('/veiw_loan')
+def view_loan():
+    loan = Loan.query.all()
+    return render_template('loans_view.html', loan=loan)
 # == EQUIPMENT ==
 
 # Create an add equipment form - when submitted, create the equipment item and add to database. Return to view with all equipment items.
@@ -35,6 +58,8 @@ def add_equip():
 def view_equip():
     equipment = Equipment.query.all()
     return render_template('equip_view.html', equipment=equipment)
+
+
 
 # Edit a specific equipment item in the database, retrieving the equipment record if it exists, creating a form and populating the form with existing data.
 # If submit form is pressed and form is valid, the inputs are used to change the equipment attribues and changes are saved in the database
