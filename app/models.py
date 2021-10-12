@@ -7,7 +7,8 @@ class User(db.Model):
     last_name = db.Column(db.Text)
     email = db.Column(db.Text)
     password = db.Column(db.Text)
-    
+    loan = db.relationship('Loan', backref = 'user')
+
 class Location(db.Model):
     location_id = db.Column(db.Integer, primary_key = True)
     location_name = db.Column(db.Text)
@@ -29,3 +30,4 @@ class Equipment(db.Model):
     equip_quantity = db.Column(db.Integer)
     date_entered = db.Column(db.Text)
     equip_image = db.Column(db.Text)
+    loan = db.relationship('Loan', backref = 'equipment')

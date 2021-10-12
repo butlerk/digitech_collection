@@ -143,7 +143,7 @@ def edit_user(id):
     if form.validate_on_submit():
         form.populate_obj(user)
         db.session.commit()
-        flash(f"== Successfully saved {user.firstname} {user.last_name}. ==")
+        flash(f"== Successfully saved {user.first_name} {user.last_name}. ==")
         return redirect(url_for('view_user'))
 
     return render_template('user_edit.html', form = form)
