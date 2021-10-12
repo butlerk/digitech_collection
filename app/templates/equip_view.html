@@ -5,6 +5,12 @@
 <a class="btn btn-primary" href="{{ url_for('add_equip') }}"> 
     Add Equipment
 </a><br><br>
+
+{% for message in get_flashed_messages() %}
+    <p style="color:red"><i> {{ message }}</i></p>
+    <br><br>
+{% endfor %}
+
 <table class="table table-striped table-bordered">
     <thead>
         <tr>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, flash
 from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
@@ -23,6 +23,7 @@ def add_equip():
             form.populate_obj(obj=equipment)
             db.session.add(equipment)
             db.session.commit()
+            flash(f"== Successfully added {equipment.equip_name} as an equipment item. ==")
             return redirect(url_for('view_equip'))
     # Generate the form with the locations in the dropdown box
     location = Location.query.all()
@@ -42,13 +43,14 @@ def view_equip():
 # Return to list of equipment
 @app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
 def edit_equipment(id):
-    equipment = Equipment.query.get_or_404(id)
+    item = Equipment.query.get_or_404(id)
     location = Location.query.all()
-    form = EditEquipmentForm(obj=equipment)
+    form = EditEquipmentForm(obj=item)
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
     if form.validate_on_submit():
-        form.populate_obj(equipment)
+        form.populate_obj(item)
         db.session.commit()
+        flash(f"== Successfully saved {item.equip_name} equipment item. ==")
         return redirect(url_for('view_equip'))
     return render_template('equip_add.html', form=form, location=location)
 
@@ -58,6 +60,7 @@ def delete_equipment(id):
     item = Equipment.query.get_or_404(id)
     db.session.delete(item)
     db.session.commit()
+    flash(f"== Successfully deleted {item.equip_name} from the equipment list. =")
     return redirect(url_for('view_equip'))
 
 # == USERS ==
@@ -72,6 +75,7 @@ def add_user():
             form.populate_obj(obj=user)
             db.session.add(user)
             db.session.commit()
+            flash(f"== Successfully added {user.first_name} {user.last_name} as a user. ==")
             return redirect(url_for('view_user'))
     return render_template('user_add.html', form=form)
 
@@ -92,7 +96,9 @@ def edit_user(id):
     if form.validate_on_submit():
         form.populate_obj(user)
         db.session.commit()
+        flash(f"== Successfully saved {user.firstname} {user.last_name}. ==")
         return redirect(url_for('view_user'))
+
     return render_template('user_edit.html', form = form)
 
 # Delete a specific user - retrieving, deleting and committing changes to the database. Returns to list of locations
@@ -101,6 +107,7 @@ def delete_user(id):
     user = User.query.get_or_404(id)
     db.session.delete(user)
     db.session.commit()
+    flash(f"Successfully deleted {user.firstname} {user.last_name}.")
     return redirect(url_for('view_user'))
 
 
@@ -116,6 +123,7 @@ def add_location():
         form.populate_obj(obj=location)
         db.session.add(location)
         db.session.commit()
+        flash(f"== Successfully added {location.location_name} as a location. ==")
         return redirect(url_for ("view_location"))
     return render_template('location_add.html', form=form)
 
@@ -136,6 +144,7 @@ def edit_location(id):
     if form.validate_on_submit():
         form.populate_obj(location)
         db.session.commit()
+        flash(f"== Successfully saved {location.location_name} as a location. ==")
         return redirect(url_for('view_location'))
     return render_template('location_edit.html', form = form)
 
@@ -145,6 +154,7 @@ def delete_location(id):
     location = Location.query.get_or_404(id)
     db.session.delete(location)
     db.session.commit()
+    flash(f"== Successfully deleted the location {location.location_name}.  ==")
     return redirect(url_for('view_location'))
 
     

@@ -2,6 +2,11 @@
 {% block content %}
 
 <h2>Current Locations List </h2>
+
+{% for message in get_flashed_messages() %}
+    <p style="color:red"><i> {{ message }}</i></p>
+{% endfor %}
+
 <a class="btn btn-primary" href="{{ url_for('add_location') }}"> 
     Add Location
 </a><br><br>

@@ -7,6 +7,10 @@
     Add User
 </a><br><br>
 
+{% for message in get_flashed_messages() %}
+    <p style="color:red" ><i> {{ message }}</i></p>
+{% endfor %}
+
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
