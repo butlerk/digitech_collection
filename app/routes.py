@@ -3,7 +3,7 @@ from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User, Loan
-from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm
 from sqlalchemy.orm import sessionmaker
 
 @app.route('/')
@@ -17,24 +17,33 @@ def index():
 def add_loan():
     form = AddLoanForm()
     if request.method == 'POST':
-            loan = Loan()
-            form.populate_obj(obj=loan)
-            db.session.add(loan)
-            db.session.commit()
-            return redirect(url_for('view_loans'))
+        loan = Loan()
+        form.populate_obj(obj=loan)
+        db.session.add(loan)
+        db.session.commit()
+        return redirect(url_for('view_loan'))
     # Generate the form with the users & equipment in the dropdown box
     user = User.query.all()
     form = AddLoanForm(obj=user)
-    form.user_id.choices = [(g.user_id, g.user_name) for g in user]
     equipment = Equipment.query.all()
+    user = User.query.all()
     form = AddLoanForm(obj=equipment)
-    form.equipment_id.choices = [(g.equipment_id, g.equipment_name) for g in equipment]
-    return render_template('loans_add.html', form=form, equipment=equipment, user=user)
+    form.user_id.choices = [(g.user_id, g.first_name) for g in user]
+    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in equipment]
+    return render_template('loan_add.html', form=form, equipment=equipment, user=user)
 
-@app.route('/veiw_loan')
+@app.route('/view_loan')
 def view_loan():
     loan = Loan.query.all()
-    return render_template('loans_view.html', loan=loan)
+    return render_template('loan_view.html', loan=loan)
+
+@app.route('/delete_loan/<int:id>')
+def delete_loan(id):
+    item = Loan.query.get_or_404(id)
+    db.session.delete(item)
+    db.session.commit()
+    flash(f"== Successfully deleted {item.loan_id} from the loan list. =")
+    return redirect(url_for('view_loan'))
 # == EQUIPMENT ==
 
 # Create an add equipment form - when submitted, create the equipment item and add to database. Return to view with all equipment items.
@@ -42,16 +51,30 @@ def view_loan():
 def add_equip():
     form = AddEquipmentForm()
     if request.method == 'POST':
-            equipment = Equipment()
-            form.populate_obj(obj=equipment)
-            db.session.add(equipment)
-            db.session.commit()
-            flash(f"== Successfully added {equipment.equip_name} as an equipment item. ==")
-            return redirect(url_for('view_equip'))
+        equipment = Equipment()
+        form.populate_obj(obj=equipment)
+        db.session.add(equipment)
+        db.session.commit()
+        flash(f"== Successfully added {equipment.equip_name} as an equipment item. ==")
+        return redirect(url_for('view_equip'))
     # Generate the form with the locations in the dropdown box
     location = Location.query.all()
     form = AddEquipmentForm(obj=location)
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
+    return render_template('equip_add.html', form=form, location=location)
+
+@app.route('/edit_loan/<int:id>', methods = ['GET', 'POST'])
+def edit_loan(id):
+    item = Loan.query.get_or_404(id)
+    user = User.query.all()
+    equipment = Equipment.query.all()
+    form = EditLoanForm(obj=item)
+    form.user_id.choices = [(g.user_id, g.first_name) for g in user]
+    if form.validate_on_submit():
+        form.populate_obj(item)
+        db.session.commit()
+        flash(f"== Successfully saved {item.equip_name} equipment item. ==")
+        return redirect(url_for('view_equip'))
     return render_template('equip_add.html', form=form, location=location)
 
 # Display a list of equipment from the database

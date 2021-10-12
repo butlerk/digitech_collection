@@ -17,8 +17,8 @@ class Loan(db.Model):
     loan_id = db.Column(db.Integer, primary_key = True)
     loan_date = db.Column(db.Text)
     loan_return = db.Column(db.Text)
-    loan_user = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
-    loan_equipment = db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
+    #loan_user = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
+    #loan_equipment = db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
     
 
 class Equipment(db.Model):
