@@ -29,7 +29,7 @@
             <td>{{ item.loan_id }}</td>
             <td>{{ item.user.first_name }}</td>
             <td>{{ item.loan_date }}</td>
-            <td>{{ item.loan_returned }}</td>
+            <td>{{ item.loan_return }}</td>
             <td>{{ item.equipment.equip_name }}</td>
             <td>
                 <a class="btn btn-primary" href="{{ url_for('edit_loan', id = item.loan_id) }}">
