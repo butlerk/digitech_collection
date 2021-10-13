@@ -45,8 +45,8 @@ def delete_loan(id):
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
     form = EditLoanForm(obj=item)
-    form.user_id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
-    form.loan_equipment.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
+    form.loan_user.choices = [(user.user_id, user.first_name) for user in User.query.all()]
+    form.equip_name.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()

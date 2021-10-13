@@ -35,7 +35,7 @@ class AddLoanForm(FlaskForm):
     loan_date = StringField('Loan date')
     loan_return = StringField('Loan return date')
     loan_user = SelectField(u'Loan by',coerce=int)
-    loan_equipment = SelectField(u'Equipment borrowed',coerce=int)
+    equip_name = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
 
 class EditUserForm(AddUserForm):
