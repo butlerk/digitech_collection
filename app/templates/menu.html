@@ -10,6 +10,7 @@
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/bootstrap.css') }}">
     </head>
     <body>
+        <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary p-2 mb-4">
             <a class="navbar-brand" href="#">The Digitech Collection</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,17 +37,21 @@
             </div>
         </nav>
 
-        
+        </div>
+        <div class="container">
         {% block content %}
+
         <!-- This is where the child pages will go -->
         {% endblock %}
         </div>
+        
 
     <!-- Footer -->
-    <footer class = "footer">
+    <div class="container-fluid">
+    <footer class = "card-footer">
     Contact details: thedigitechcollection@dc.com
     </footer> 
-    
+    </div>
     </body>
 
    

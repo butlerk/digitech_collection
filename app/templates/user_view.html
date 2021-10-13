@@ -2,10 +2,10 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<h2>Digital Technologies Users</h2>
+<h2>Digital Technologies Users
 <a class="btn btn-primary" href="{{ url_for('add_user') }}"> 
     Add User
-</a><br><br>
+</a></h2><br><br>
 
 {% for message in get_flashed_messages() %}
     <p style="color:red" ><i> {{ message }}</i></p>

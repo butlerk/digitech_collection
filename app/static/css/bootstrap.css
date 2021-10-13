@@ -3087,6 +3087,7 @@ fieldset:disabled .btn {
   color: #fff;
   background-color: #446e9b;
   border-color: #446e9b;
+  margin-left: 30px;
 }
 
 .btn-primary:hover {

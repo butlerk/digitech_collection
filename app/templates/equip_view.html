@@ -1,10 +1,10 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<h2>Current Equipment List </h2>
+<h2>Current Equipment List          
 <a class="btn btn-primary" href="{{ url_for('add_equip') }}"> 
     Add Equipment
-</a><br><br>
+</a> </h2><br><br>
 
 {% for message in get_flashed_messages() %}
     <p style="color:red"><i> {{ message }}</i></p>
