@@ -11,6 +11,7 @@ from sqlalchemy.orm import sessionmaker
 @app.route('/index')
 def index():
     return render_template('index.html')
+
 # == LOANS ==
 
 @app.route('/add_loan', methods = ['GET', 'POST'])
@@ -152,10 +153,14 @@ def edit_user(id):
 @app.route('/delete_user/<int:id>')
 def delete_user(id):
     user = User.query.get_or_404(id)
-    db.session.delete(user)
-    db.session.commit()
-    flash(f"Successfully deleted {user.first_name} {user.last_name}.")
+    if len(Loan.query.filter_by(user_id = id).all()) > 0:
+        flash(f"Can not delete {user.first_name} {user.last_name}.")
+    else:
+        db.session.delete(user)
+        db.session.commit()
+        flash(f"Successfully deleted {user.first_name} {user.last_name}.")
     return redirect(url_for('view_user'))
+    
 
 
 # == LOCATIONS ==

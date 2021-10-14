@@ -17,7 +17,6 @@ class Location(db.Model):
 class Loan(db.Model):
     loan_id = db.Column(db.Integer, primary_key = True)
     loan_date = db.Column(db.Text)
-    loan_return = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
     equip_id= db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
     
