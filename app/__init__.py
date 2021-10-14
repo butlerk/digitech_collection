@@ -70,11 +70,10 @@ def init_db():
 
      # Create loan item records to populate db
     loan1 = models.Loan (
-        loan_id  = 1,
         loan_date = '21-09-2021',
         loan_return = '28-08-2021',
-        loan_user = 1,
-        loan_equipment = 1
+        user_id = 1,
+        equip_id = 1
     )
     db.session.add(loan1)
         

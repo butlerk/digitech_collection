@@ -16,8 +16,8 @@ def index():
 @app.route('/add_loan', methods = ['GET', 'POST'])
 def add_loan():
     form = AddLoanForm()
-    form.loan_user.choices = [(g.user_id, g.first_name) for g in User.query.all()]
-    form.loan_equipment.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
+    form.user_id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
+    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
     if form.validate_on_submit():
         loan = Loan()
         form.populate_obj(obj=loan)
@@ -45,14 +45,14 @@ def delete_loan(id):
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
     form = EditLoanForm(obj=item)
-    form.loan_user.choices = [(user.user_id, user.first_name) for user in User.query.all()]
-    form.equip_name.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
+    form.user_id.choices = [(user.user_id, user.first_name) for user in User.query.all()]
+    form.equip_id.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()
-        flash(f"== Successfully saved {item.equip_name} equipment item. ==")
-        return redirect(url_for('view_equip'))
-    return render_template('equip_add.html', form=form)
+        flash(f"== Successfully saved {item.equip_id} equipment item. ==")
+        return redirect(url_for('view_loan'))
+    return render_template('loan_add.html', form=form)
 
 
 # == EQUIPMENT ==
@@ -154,7 +154,7 @@ def delete_user(id):
     user = User.query.get_or_404(id)
     db.session.delete(user)
     db.session.commit()
-    flash(f"Successfully deleted {user.firstname} {user.last_name}.")
+    flash(f"Successfully deleted {user.first_name} {user.last_name}.")
     return redirect(url_for('view_user'))
 
 
