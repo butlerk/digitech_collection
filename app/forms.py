@@ -4,12 +4,15 @@ from wtforms.fields.core import DateTimeField, SelectField
 from wtforms.validators import InputRequired, Length
 from datetime import datetime
 
+from wtforms.widgets.core import CheckboxInput
+
 
 
 #Flask form to add equipment to db
 class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_quantity = IntegerField('Equipment Quantity', validators=[InputRequired()])
+    available = CheckboxInput('available')
     location_id = SelectField(u'Location', coerce = int)
     purchase_price = IntegerField('Purchase Price', validators=[InputRequired()])
     date_entered = StringField('Purchase Date')
