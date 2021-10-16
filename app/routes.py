@@ -106,9 +106,12 @@ def edit_equipment(id):
 @app.route('/delete_equipment/<int:id>')
 def delete_equipment(id):
     item = Equipment.query.get_or_404(id)
-    db.session.delete(item)
-    db.session.commit()
-    flash(f"== Successfully deleted {item.equip_name} from the equipment list. =")
+    if len(Loan.query.filter_by(equip_id = id).all())>0:
+        flash(f"Cannot delete this item as there are loans associated with it")
+    else:
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"== Successfully deleted {item.equip_name} from the equipment list. =")
     return redirect(url_for('view_equip'))
 
 # == USERS ==
@@ -202,11 +205,15 @@ def edit_location(id):
 
 # Delete a specific location - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_location/<int:id>')
-def delete_location(id):
-    location = Location.query.get_or_404(id)
-    db.session.delete(location)
-    db.session.commit()
-    flash(f"== Successfully deleted the location {location.location_name}.  ==")
+def delete_location(id):    
+    equipment_at_location = Equipment.query.filter_by(location_id = id)
+    if len(equipment_at_location.all()) > 0:
+        flash(f"Can not delete this location as there are equipment at this location")
+    else:
+        location = Location.query.get_or_404(id)
+        db.session.delete(location)
+        db.session.commit()
+        flash(f"== Successfully deleted the location {location.location_name}.  ==")
     return redirect(url_for('view_location'))
 
     
