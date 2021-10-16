@@ -23,7 +23,7 @@
         <tr>    
             <td>{{ item.equip_name }}</td>
             <td>{{ item.location.location_name }}</td>
-            <td>{{ item.purchase_price }}</td>
+            <td>{{ "${:,.2f}".format(item.purchase_price) }}</td>
             <td>{{ item.equip_quantity }}</td>
             <td>{{ item.equip_image }}</td>
             
