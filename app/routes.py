@@ -11,52 +11,75 @@ from datetime import date, datetime
 
 @app.route('/index')
 def index():
+    
+    # Return back to the home page
     return render_template('index.html')
 
 # == LOANS ==
 
+# A route for showing a form and processing form for adding a new loan.
 @app.route('/add_loan', methods = ['GET', 'POST'])
 def add_loan():
     form = AddLoanForm()
+
+    # Retrieve the users from the database, for display in a dropdown
     form.user_id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
+
+    # Retrieve the equipment from the database, for display in a dropdown
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
     form.loan_date = datetime.now()
+
+    # When the form is submitted, the form is processed and save to the loans database
     if form.validate_on_submit():
         loan = Loan()
         form.populate_obj(obj=loan)
         db.session.add(loan)
         db.session.commit()
+
+        # Return to the view that shows the list of loans
         return redirect(url_for('view_loan'))
+
     # Generate the form with the users & equipment in the dropdown box
     return render_template('loan_add.html', form=form)
 
+# A route for showing a query of all loans.
 @app.route('/view_loan')
 def view_loan():
     loan = Loan.query.all()
+    
+    # Return back to the view that shows the list of loans
     return render_template('loan_view.html', loan=loan)
 
+# A route for processing the deleting of a loan.
 @app.route('/delete_loan/<int:id>')
 def delete_loan(id):
     item = Loan.query.get_or_404(id)
     db.session.delete(item)
     db.session.commit()
     flash(f"Successfully deleted loan number {item.loan_id} from the loan list.")
+    
+    # Return back to the view that shows the list of loans
     return redirect(url_for('view_loan'))
 
-
+# A route for showing and processing form for editing a loan.
 @app.route('/edit_loan/<int:id>', methods = ['GET', 'POST'])
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
     form = EditLoanForm(obj=item)
     form.user_id.choices = [(user.user_id, user.first_name) for user in User.query.all()]
     form.equip_id.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
+    
+    # When the form is submitted, the form is processed and save to the equipment database
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()
         flash(f"Successfully saved {item.equip_id} equipment item.")
+        
+        # Return back to the view that shows the list of loans
         return redirect(url_for('view_loan'))
+    
+    # Return back to the view that shows the loan form empty
     return render_template('loan_add.html', form=form)
-
 
 # == EQUIPMENT ==
 
@@ -70,51 +93,64 @@ def add_equip():
         db.session.add(equipment)
         db.session.commit()
         flash(f"Successfully added {equipment.equip_name} as an equipment item.")
+        
+        # Return back to the view that shows the list of equipment
         return redirect(url_for('view_equip'))
+    
     # Generate the form with the locations in the dropdown box
     location = Location.query.all()
     form = AddEquipmentForm(obj=location)
+    
+    # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
     
+    # Return back to the view that shows equipment form empty
     return render_template('equip_add.html', form=form, location=location)
-
-
 
 # Display a list of equipment from the database
 @app.route('/view_equipment')
 def view_equip():
     equipment = Equipment.query.all()
+    
+    # Return back to the view that shows the list of equipment
     return render_template('equip_view.html', equipment=equipment)
 
-
-
-# Edit a specific equipment item in the database, retrieving the equipment record if it exists, creating a form and populating the form with existing data.
-# If submit form is pressed and form is valid, the inputs are used to change the equipment attribues and changes are saved in the database
-# If GET request, or inputs invalid, the view with the form is returned
-# Return to list of equipment
+# A route for showing a form and processing form for editing a loan.
 @app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
 def edit_equipment(id):
     item = Equipment.query.get_or_404(id)
     location = Location.query.all()
     form = EditEquipmentForm(obj=item)
+    # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
+    
+    # When the form is submitted, the form is processed and save to the equipment database
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()
         flash(f"Successfully saved {item.equip_name} equipment item.")
+        
+        # Return back to the view that shows the list of equipment
         return redirect(url_for('view_equip'))
+    
+    # Return back to the view that add equipment fields empty
     return render_template('equip_add.html', form=form, location=location)
 
 # Delete a specific equipment item - retrieving, deleting and committing changes to the database. Returns to list of equipment
 @app.route('/delete_equipment/<int:id>')
 def delete_equipment(id):
     item = Equipment.query.get_or_404(id)
+    
+    # When delete button is pressed, equipment database queried for loans with equipment_id in
+    # them and displays error message
     if len(Loan.query.filter_by(equip_id = id).all())>0:
         flash(f"Cannot delete this item as there are loans associated with it")
     else:
         db.session.delete(item)
         db.session.commit()
         flash(f"Successfully deleted {item.equip_name} from the equipment list.")
+    
+    # Return back to the view that shows the list of equipment
     return redirect(url_for('view_equip'))
 
 # == USERS ==
@@ -124,47 +160,63 @@ def delete_equipment(id):
 def add_user():
     form = AddUserForm()
     if request.method == 'POST':
+        
+        # When the form is submitted, the form is processed and save to the user database
         if form.validate_on_submit:
             user = User()
             form.populate_obj(obj=user)
             db.session.add(user)
             db.session.commit()
             flash(f"Successfully added {user.first_name} {user.last_name} as a user.")
+            
+            # Return back to the view that shows the list of users
             return redirect(url_for('view_user'))
+    
+    # Return back to the view of empty user fields
     return render_template('user_add.html', form=form)
 
-# View a user & write to database
+# A route for querying and displaying all users.
 @app.route('/view_user')
 def view_user():
     users = User.query.all()
+    
+    # Return back to the view that shows the list of users
     return render_template('user_view.html', users=users)
 
-# Edit a specific user in the database, retrieving the user record if it exists, creating a form and populating the form with existing data.
-# If submit form is pressed and form is valid, the inputs are used to change the users's attribues and changes are saved in the database
-# If GET request, or inputs invalid, the view with the form is returned
-# Return to list of users
+
+# A route for showing a form and processing form for adding a new loan.
 @app.route('/edit_user/<int:id>', methods = ['GET', 'POST'])
 def edit_user(id):
     user = User.query.get_or_404(id)
     form = EditUserForm(obj=user)
+    
+    # When the form is submitted, the form is processed and save to the user database
     if form.validate_on_submit():
         form.populate_obj(user)
         db.session.commit()
         flash(f"Successfully saved {user.first_name} {user.last_name}.")
+        
+        # Return back to the view that shows the list of users
         return redirect(url_for('view_user'))
 
+    # Returns the queried user information in the user form for editing
     return render_template('user_edit.html', form = form)
 
 # Delete a specific user - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_user/<int:id>')
 def delete_user(id):
     user = User.query.get_or_404(id)
+    
+    # When delete button is pressed, user database queried for loans with user_id in
+    # them and displays error message
     if len(Loan.query.filter_by(user_id = id).all()) > 0:
         flash(f"Can not delete {user.first_name} {user.last_name} as they have loans associated with them.")
     else:
         db.session.delete(user)
         db.session.commit()
         flash(f"Successfully deleted {user.first_name} {user.last_name}.")
+    
+    # Return back to the view that shows the list of users
     return redirect(url_for('view_user'))
     
 
@@ -182,13 +234,19 @@ def add_location():
         db.session.add(location)
         db.session.commit()
         flash(f"Successfully added {location.location_name} as a location.")
+        
+        # Return back to the view that shows the list of locations
         return redirect(url_for ("view_location"))
+
+    # Return back to the view that shows the form to add a location
     return render_template('location_add.html', form=form)
 
 # View all locations in the database
 @app.route('/view_location')
 def view_location():
     location = Location.query.all()
+
+    # Return back to the view that shows the list of locations
     return render_template('location_view.html', location=location)
 
 # Edit a specific location in the database, retrieving the location record if it exists, creating a form and populating the form with existing data.
@@ -199,17 +257,26 @@ def view_location():
 def edit_location(id):
     location = Location.query.get_or_404(id)
     form = EditLocationForm(obj=location)
+    
+    # When the form is submitted, the form is processed and save to the locations database
     if form.validate_on_submit():
         form.populate_obj(location)
         db.session.commit()
         flash(f"Successfully saved {location.location_name} as a location.")
+
+        # Return back to the view that shows the list of locations
         return redirect(url_for('view_location'))
+
+    # Return back to the view that shows the location item in a form for editing    
     return render_template('location_edit.html', form = form)
 
 # Delete a specific location - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_location/<int:id>')
 def delete_location(id):    
     equipment_at_location = Equipment.query.filter_by(location_id = id)
+    
+    # When delete button is pressed, equipment database queried for locations with equipment_id in
+    # them and displays error message
     if len(equipment_at_location.all()) > 0:
         flash(f"Can not delete this location as there are equipment at this location")
     else:
@@ -217,14 +284,6 @@ def delete_location(id):
         db.session.delete(location)
         db.session.commit()
         flash(f"Successfully deleted the location {location.location_name}.")
+
+    # Return back to the view that shows the list of locations    
     return redirect(url_for('view_location'))
-
-    
-## Not currently used
-# @app.route('/reports')
-# def reports():
-#    return render_template('reports.html', title = 'Reports')
-
-# @app.route('/login')
-# def login():
-#    return render_template('login.html', title = 'Login')

@@ -2,6 +2,7 @@ from sqlalchemy.orm import backref
 from app import db
 from datetime import datetime
 
+
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.Text)
