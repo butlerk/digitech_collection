@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField 
-from wtforms.fields.core import SelectField
+from wtforms.fields.core import DateTimeField, SelectField
 from wtforms.validators import InputRequired, Length
+from datetime import datetime
 
 
 
@@ -32,8 +33,7 @@ class AddUserForm(FlaskForm):
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
-    loan_date = StringField('Loan date')
-    #loan_return = StringField('Loan return date')
+    loan_date = DateTimeField('Date borrowed')
     user_id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')

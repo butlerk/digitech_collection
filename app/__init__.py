@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+from datetime import datetime
+
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///collection.db'
@@ -70,7 +73,7 @@ def init_db():
 
      # Create loan item records to populate db
     loan1 = models.Loan (
-        loan_date = '2021',
+        loan_date = datetime.now(),
         user_id = 1,
         equip_id = 1
     )

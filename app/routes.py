@@ -5,6 +5,7 @@ from app import app, db
 from app.models import Equipment, Location, User, Loan
 from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm
 from sqlalchemy.orm import sessionmaker
+from datetime import date, datetime
 
 @app.route('/')
 
@@ -19,6 +20,7 @@ def add_loan():
     form = AddLoanForm()
     form.user_id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
+    form.loan_date = datetime.now()
     if form.validate_on_submit():
         loan = Loan()
         form.populate_obj(obj=loan)
@@ -38,7 +40,7 @@ def delete_loan(id):
     item = Loan.query.get_or_404(id)
     db.session.delete(item)
     db.session.commit()
-    flash(f"== Successfully deleted {item.loan_id} from the loan list. =")
+    flash(f"Successfully deleted loan number {item.loan_id} from the loan list.")
     return redirect(url_for('view_loan'))
 
 
@@ -51,7 +53,7 @@ def edit_loan(id):
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()
-        flash(f"== Successfully saved {item.equip_id} equipment item. ==")
+        flash(f"Successfully saved {item.equip_id} equipment item.")
         return redirect(url_for('view_loan'))
     return render_template('loan_add.html', form=form)
 
@@ -67,7 +69,7 @@ def add_equip():
         form.populate_obj(obj=equipment)
         db.session.add(equipment)
         db.session.commit()
-        flash(f"== Successfully added {equipment.equip_name} as an equipment item. ==")
+        flash(f"Successfully added {equipment.equip_name} as an equipment item.")
         return redirect(url_for('view_equip'))
     # Generate the form with the locations in the dropdown box
     location = Location.query.all()
@@ -98,7 +100,7 @@ def edit_equipment(id):
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()
-        flash(f"== Successfully saved {item.equip_name} equipment item. ==")
+        flash(f"Successfully saved {item.equip_name} equipment item.")
         return redirect(url_for('view_equip'))
     return render_template('equip_add.html', form=form, location=location)
 
@@ -106,9 +108,12 @@ def edit_equipment(id):
 @app.route('/delete_equipment/<int:id>')
 def delete_equipment(id):
     item = Equipment.query.get_or_404(id)
-    db.session.delete(item)
-    db.session.commit()
-    flash(f"== Successfully deleted {item.equip_name} from the equipment list. =")
+    if len(Loan.query.filter_by(equip_id = id).all())>0:
+        flash(f"Cannot delete this item as there are loans associated with it")
+    else:
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Successfully deleted {item.equip_name} from the equipment list.")
     return redirect(url_for('view_equip'))
 
 # == USERS ==
@@ -123,7 +128,7 @@ def add_user():
             form.populate_obj(obj=user)
             db.session.add(user)
             db.session.commit()
-            flash(f"== Successfully added {user.first_name} {user.last_name} as a user. ==")
+            flash(f"Successfully added {user.first_name} {user.last_name} as a user.")
             return redirect(url_for('view_user'))
     return render_template('user_add.html', form=form)
 
@@ -144,7 +149,7 @@ def edit_user(id):
     if form.validate_on_submit():
         form.populate_obj(user)
         db.session.commit()
-        flash(f"== Successfully saved {user.first_name} {user.last_name}. ==")
+        flash(f"Successfully saved {user.first_name} {user.last_name}.")
         return redirect(url_for('view_user'))
 
     return render_template('user_edit.html', form = form)
@@ -154,7 +159,7 @@ def edit_user(id):
 def delete_user(id):
     user = User.query.get_or_404(id)
     if len(Loan.query.filter_by(user_id = id).all()) > 0:
-        flash(f"Can not delete {user.first_name} {user.last_name}.")
+        flash(f"Can not delete {user.first_name} {user.last_name} as they have loans associated with them.")
     else:
         db.session.delete(user)
         db.session.commit()
@@ -175,7 +180,7 @@ def add_location():
         form.populate_obj(obj=location)
         db.session.add(location)
         db.session.commit()
-        flash(f"== Successfully added {location.location_name} as a location. ==")
+        flash(f"Successfully added {location.location_name} as a location.")
         return redirect(url_for ("view_location"))
     return render_template('location_add.html', form=form)
 
@@ -196,17 +201,21 @@ def edit_location(id):
     if form.validate_on_submit():
         form.populate_obj(location)
         db.session.commit()
-        flash(f"== Successfully saved {location.location_name} as a location. ==")
+        flash(f"Successfully saved {location.location_name} as a location.")
         return redirect(url_for('view_location'))
     return render_template('location_edit.html', form = form)
 
 # Delete a specific location - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_location/<int:id>')
-def delete_location(id):
-    location = Location.query.get_or_404(id)
-    db.session.delete(location)
-    db.session.commit()
-    flash(f"== Successfully deleted the location {location.location_name}.  ==")
+def delete_location(id):    
+    equipment_at_location = Equipment.query.filter_by(location_id = id)
+    if len(equipment_at_location.all()) > 0:
+        flash(f"Can not delete this location as there are equipment at this location")
+    else:
+        location = Location.query.get_or_404(id)
+        db.session.delete(location)
+        db.session.commit()
+        flash(f"Successfully deleted the location {location.location_name}.")
     return redirect(url_for('view_location'))
 
     
