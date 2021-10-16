@@ -37,6 +37,10 @@
                 </a>
              </td>
         </tr>
+        <div class="col-3">
+            <b>Available</b>
+            <p>{% if equipment.available %} Yes {% else %} No {% endif %}</p>
+        </div>
         {% endfor %}
 
         
