@@ -29,7 +29,7 @@
             <td>{{ item.equip_image }}</td>
             <td>
                 <div class="col-3">
-                   <p>{% if equipment.available %} Yes {% else %} No {% endif %}</p>
+                   <p>{% if equipment.available %} No {% else %} Yes {% endif %}</p>
                 </div>
             </td>
                 <td><a class="btn btn-primary" href="{{ url_for('edit_equipment', id = item.equip_id) }}">

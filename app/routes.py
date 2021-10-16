@@ -75,6 +75,7 @@ def add_equip():
     location = Location.query.all()
     form = AddEquipmentForm(obj=location)
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
+    form.available=True
     return render_template('equip_add.html', form=form, location=location)
 
 
