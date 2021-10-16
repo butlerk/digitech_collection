@@ -5,6 +5,7 @@ from app import app, db
 from app.models import Equipment, Location, User, Loan
 from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm
 from sqlalchemy.orm import sessionmaker
+from datetime import date, datetime
 
 @app.route('/')
 
@@ -19,6 +20,7 @@ def add_loan():
     form = AddLoanForm()
     form.user_id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
+    form.loan_date = datetime.now()
     if form.validate_on_submit():
         loan = Loan()
         form.populate_obj(obj=loan)
@@ -38,7 +40,7 @@ def delete_loan(id):
     item = Loan.query.get_or_404(id)
     db.session.delete(item)
     db.session.commit()
-    flash(f"Successfully deleted {item.loan_id} from the loan list.")
+    flash(f"Successfully deleted loan number {item.loan_id} from the loan list.")
     return redirect(url_for('view_loan'))
 
 

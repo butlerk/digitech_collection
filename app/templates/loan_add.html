@@ -11,14 +11,14 @@
         </li>
     {% endfor %}
 </ul>
-<!-- create form for adding new user-->
+<!-- create form for adding new loan-->
 
 <form method = "POST" >    
     {{ form.csrf_token }}
-    
-    {{form.loan_date.label(class = 'form-label')}}
-    {{form.loan_date(class = 'form-control')}}<br>
-    
+
+    Today's Date
+    {{ form.loan_date }}<br><br>
+
     {{form.user_id.label(class = 'form-label')}}
     {{form.user_id(class = 'form-control')}}<br>
 
