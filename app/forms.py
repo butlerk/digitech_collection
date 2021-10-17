@@ -19,7 +19,7 @@ class AddEquipmentForm(FlaskForm):
     equip_image = StringField('Equipment Image')
     submit = SubmitField('Add equipment')
 
-# Flask form to add loacation to db
+# Flask form to add locations to db
 class AddLocationForm(FlaskForm):
     location_name = StringField('Location name')
     #location_id = IntegerField('Location ID')
@@ -41,14 +41,18 @@ class AddLoanForm(FlaskForm):
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
 
+# Flask form to edit user inheriting from Add User form
 class EditUserForm(AddUserForm):
     submit = SubmitField('Save User')
 
+# Flask form to edit equipment inheriting from Add Equipment form
 class EditEquipmentForm(AddEquipmentForm):
     submit = SubmitField('Save Equipment')
 
+# Flask form to edit location inheritig from Add Location form
 class EditLocationForm(AddLocationForm):
     submit = SubmitField('Save Location')
 
+# Flask form to edit loan inheritig from Add Loan form
 class EditLoanForm(AddLoanForm):
     submit = SubmitField('Save Loan')
