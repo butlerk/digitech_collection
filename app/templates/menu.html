@@ -12,28 +12,31 @@
     <body>
         <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary p-2 mb-4">
-            <a class="navbar-brand" href="#">The Digitech Collection</a>
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img src="static\images\TheDTCollectionLogo.png" alt="K2 Digitech Collection Banner"></a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('view_equip', message = 'View') }}">Equipment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('view_location') }}">Locations</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('view_user') }}">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('view_loan') }}">Loans</a>
-                </li>
-              </ul>
+            <div class="collapse navbar-collapse" id="navbarNav" mr-auto>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_equip', message = 'View') }}">Equipment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_location') }}">Locations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_user') }}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_loan') }}">Loans</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_user') }}" data-bs-target="#myModal" data-bs-toggle="modal">Logged in as: Joe Blogs ADMIN</a>
+                    </li>
+                </ul>
             </div>
         </nav>
         {% for message in get_flashed_messages() %}
