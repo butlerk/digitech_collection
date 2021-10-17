@@ -6,8 +6,6 @@ from datetime import datetime
 
 from wtforms.widgets.core import CheckboxInput
 
-
-
 #Flask form to add equipment to db
 class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])

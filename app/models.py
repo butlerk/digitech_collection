@@ -2,7 +2,7 @@ from sqlalchemy.orm import backref
 from app import db
 from datetime import datetime
 
-
+# Creating user, loan, equipment and location classes with associated fields/data types.
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.Text)
@@ -22,7 +22,6 @@ class Loan(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
     equip_id= db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
     
-
 class Equipment(db.Model):
     equip_id = db.Column(db.Integer, primary_key = True)
     equip_name = db.Column(db.Text)
