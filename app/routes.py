@@ -88,7 +88,6 @@ def edit_loan(id):
 def add_equip():
     form = AddEquipmentForm()
     if request.method == 'POST':
-        #if form.validate_on_submit():
         equipment = Equipment()
         form.populate_obj(obj=equipment)
         db.session.add(equipment)
@@ -250,10 +249,7 @@ def view_location():
     # Return back to the view that shows the list of locations
     return render_template('location_view.html', location=location)
 
-# Edit a specific location in the database, retrieving the location record if it exists, creating a form and populating the form with existing data.
-# If submit form is pressed and form is valid, the inputs are used to change the location's attribues and changes are saved in the database
-# If GET request, or inputs invalid, the view with the form is returned
-# Return to list of locations
+# Edit a location in the database, retrieving the location record if it exists, creating a form and populating the form with existing data.
 @app.route('/edit_location/<int:id>', methods = ['GET', 'POST'])
 def edit_location(id):
     location = Location.query.get_or_404(id)
