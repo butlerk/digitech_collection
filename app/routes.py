@@ -88,6 +88,7 @@ def edit_loan(id):
 def add_equip():
     form = AddEquipmentForm()
     if request.method == 'POST':
+        #if form.validate_on_submit():
         equipment = Equipment()
         form.populate_obj(obj=equipment)
         db.session.add(equipment)
@@ -96,7 +97,7 @@ def add_equip():
         
         # Return back to the view that shows the list of equipment
         return redirect(url_for('view_equip'))
-    
+       
     # Generate the form with the locations in the dropdown box
     location = Location.query.all()
     form = AddEquipmentForm(obj=location)
