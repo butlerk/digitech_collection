@@ -14,7 +14,7 @@ class AddEquipmentForm(FlaskForm):
     equip_quantity = IntegerField('Equipment Quantity', validators=[InputRequired()])
     
     location_id = SelectField(u'Location', coerce = int)
-    purchase_price =IntegerField('Purchase Price', validators=[InputRequired()])
+    purchase_price =StringField('Purchase Price', validators=[InputRequired()])
     date_entered = StringField('Purchase Date')
     equip_image = StringField('Equipment Image')
     submit = SubmitField('Add equipment')

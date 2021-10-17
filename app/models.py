@@ -27,7 +27,7 @@ class Equipment(db.Model):
     equip_id = db.Column(db.Integer, primary_key = True)
     equip_name = db.Column(db.Text)
     location_id = db.Column(db.Integer, db.ForeignKey('location.location_id'), nullable = False)
-    purchase_price = db.Column(db.Float)
+    purchase_price = db.Column(db.Text)
     equip_quantity = db.Column(db.Integer)
     date_entered = db.Column(db.Text)
     equip_image = db.Column(db.Text)
