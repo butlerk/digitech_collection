@@ -28,6 +28,11 @@
     {{ form.password.label}}
     {{form.password}}<br><br>
 
+    <div class = "form-check my-2">
+        {{ form.is_admin.label(class = 'form-check-label') }}
+        {{ form.is_admin(class='form-check-input') }}
+    </div> <br>
+
     {{ form.submit(class_="btn btn-primary btn-sm") }}
 
 </form>

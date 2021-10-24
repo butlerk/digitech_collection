@@ -36,7 +36,10 @@ class AddUserForm(FlaskForm):
     last_name = StringField('Last name', validators=[InputRequired(), Length(min=1, max=40)])
     email_username = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=20)])
+    is_admin = BooleanField('Admin?')
+    
     submit = SubmitField('Add User')
+    
 
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):

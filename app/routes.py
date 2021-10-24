@@ -205,7 +205,7 @@ def add_user():
             form.populate_obj(obj=user)
             db.session.add(user)
             db.session.commit()
-            flash(f"Successfully added {user.first_name} {user.last_name} as a user.")
+            flash(f"Successfully added {user.first_name} {user.last_name} as user.")
             
             # Return back to the view that shows the list of users
             return redirect(url_for('view_user'))
