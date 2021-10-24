@@ -4,6 +4,7 @@ from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User, Loan
+from app.decorators import admin_required
 from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm
 from sqlalchemy.orm import sessionmaker
 from datetime import date, datetime
@@ -47,6 +48,7 @@ def logout():
 
 # A route for showing a form and processing form for adding a new loan.
 @app.route('/add_loan', methods = ['GET', 'POST'])
+@login_required
 def add_loan():
     form = AddLoanForm()
 
@@ -72,6 +74,7 @@ def add_loan():
 
 # A route for showing a query of all loans.
 @app.route('/view_loan')
+@login_required
 def view_loan():
     loan = Loan.query.all()
     
@@ -80,6 +83,7 @@ def view_loan():
 
 # A route for processing the deleting of a loan.
 @app.route('/delete_loan/<int:id>')
+@admin_required
 def delete_loan(id):
     item = Loan.query.get_or_404(id)
     db.session.delete(item)
@@ -91,6 +95,7 @@ def delete_loan(id):
 
 # A route for showing and processing form for editing a loan.
 @app.route('/edit_loan/<int:id>', methods = ['GET', 'POST'])
+@admin_required
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
     form = EditLoanForm(obj=item)
@@ -113,6 +118,7 @@ def edit_loan(id):
 
 # Create an add equipment form - when submitted, create the equipment item and add to database. Return to view with all equipment items.
 @app.route('/add_equip', methods = ['GET', 'POST'])
+@admin_required
 def add_equip():
     form = AddEquipmentForm()
     if request.method == 'POST':
@@ -137,6 +143,7 @@ def add_equip():
 
 # Display a list of equipment from the database
 @app.route('/view_equipment')
+@login_required
 def view_equip():
     equipment = Equipment.query.all()
     
@@ -145,6 +152,7 @@ def view_equip():
 
 # A route for showing a form and processing form for editing a loan.
 @app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
+@admin_required
 def edit_equipment(id):
     item = Equipment.query.get_or_404(id)
     location = Location.query.all()
@@ -166,6 +174,7 @@ def edit_equipment(id):
 
 # Delete a specific equipment item - retrieving, deleting and committing changes to the database. Returns to list of equipment
 @app.route('/delete_equipment/<int:id>')
+@admin_required
 def delete_equipment(id):
     item = Equipment.query.get_or_404(id)
     
@@ -185,6 +194,7 @@ def delete_equipment(id):
 
 # Create an add user form - when submitted, create the user and add to database. Return to view with all locations.
 @app.route('/add_user', methods = ['GET', 'POST'])
+@admin_required
 def add_user():
     form = AddUserForm()
     if request.method == 'POST':
@@ -205,6 +215,7 @@ def add_user():
 
 # A route for querying and displaying all users.
 @app.route('/view_user')
+@login_required
 def view_user():
     users = User.query.all()
     
@@ -214,6 +225,7 @@ def view_user():
 
 # A route for showing a form and processing form for adding a new loan.
 @app.route('/edit_user/<int:id>', methods = ['GET', 'POST'])
+@admin_required
 def edit_user(id):
     user = User.query.get_or_404(id)
     form = EditUserForm(obj=user)
@@ -232,6 +244,7 @@ def edit_user(id):
 
 # Delete a specific user - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_user/<int:id>')
+@admin_required
 def delete_user(id):
     user = User.query.get_or_404(id)
     
@@ -253,6 +266,7 @@ def delete_user(id):
 
 # Create an add a location form - when submitted, create the location and add to database. Return to view with all locations.
 @app.route('/add_location', methods = ['GET', 'POST'])
+@admin_required
 def add_location():
     form=AddLocationForm()
     location = Location.query.all()
@@ -271,6 +285,7 @@ def add_location():
 
 # View all locations in the database
 @app.route('/view_location')
+@login_required
 def view_location():
     location = Location.query.all()
 
@@ -279,6 +294,7 @@ def view_location():
 
 # Edit a location in the database, retrieving the location record if it exists, creating a form and populating the form with existing data.
 @app.route('/edit_location/<int:id>', methods = ['GET', 'POST'])
+@admin_required
 def edit_location(id):
     location = Location.query.get_or_404(id)
     form = EditLocationForm(obj=location)
@@ -297,6 +313,7 @@ def edit_location(id):
 
 # Delete a specific location - retrieving, deleting and committing changes to the database. Returns to list of locations
 @app.route('/delete_location/<int:id>')
+@admin_required
 def delete_location(id):    
     equipment_at_location = Equipment.query.filter_by(location_id = id)
     
