@@ -7,6 +7,13 @@ from datetime import datetime
 from wtforms.widgets.core import CheckboxInput
 
 #Flask form to add equipment to db
+
+class LoginForm(FlaskForm):
+    email_username = StringField('Username:', validators=[InputRequired(), Length(1, 64)])
+    password = PasswordField('Password:', validators=[InputRequired()])
+    remember_me = BooleanField('Keep me logged in')
+    submit = SubmitField('Log In')
+
 class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_quantity = IntegerField('Equipment Quantity', validators=[InputRequired()])
@@ -27,7 +34,7 @@ class AddLocationForm(FlaskForm):
 class AddUserForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(), Length(min=1, max=40)])
     last_name = StringField('Last name', validators=[InputRequired(), Length(min=1, max=40)])
-    email = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
+    email_username = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=20)])
     submit = SubmitField('Add User')
 
@@ -35,7 +42,7 @@ class AddUserForm(FlaskForm):
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
     loan_date = DateTimeField('Date borrowed')
-    user_id = SelectField(u'Loan by',coerce=int)
+    id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
 
@@ -54,3 +61,5 @@ class EditLocationForm(AddLocationForm):
 # Flask form to edit loan inheritig from Add Loan form
 class EditLoanForm(AddLoanForm):
     submit = SubmitField('Save Loan')
+
+
