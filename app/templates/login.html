@@ -6,15 +6,17 @@
 
 <h1> Login </h1>
 
-<form>
-    <label> Username </label><input type = "text" name ="username">
-    <label> Password </label><input type = "password" name ="password">
-    <a href = "{{ url_for('index') }}">Login</a>
-
+<form method='POST'>
+    {{ form.csrf_token }}
+    <div class="col-3">
+        {{ form.email_username.label(class='form-label') }}
+        {{ form.email_username(class='form-control') }}
+    </div>
+    <div class="col-3">
+        {{ form.password.label(class='form-label') }}
+        {{ form.password(class='form-control') }}
+    </div>
+    {{ form.submit(class='btn btn-primary my-2') }}
 </form>
-
-
-
-
-
 {% endblock %}
+

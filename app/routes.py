@@ -1,19 +1,47 @@
 from flask import Flask, render_template, request, url_for, flash
+from flask_login import login_user, logout_user, login_required
 from werkzeug.utils import redirect
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User, Loan
-from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm
 from sqlalchemy.orm import sessionmaker
 from datetime import date, datetime
 
-@app.route('/')
 
-@app.route('/index')
+@app.route('/')
+@login_required
 def index():
-    
-    # Return back to the home page
+     # Return back to the home page
     return render_template('index.html')
+
+@app.route('/login', methods = ['GET','POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # Find the user based off the name that has been entered in form
+        user = User.query.filter_by(email_username=form.email_username.data).first()
+        # Check if the user actually exists in the database
+        if user is not None:
+            # Check if the correct password has been entered and login, if so
+            if user.verify_password(form.password.data):
+                login_user(user, form.remember_me.data)
+                return redirect(url_for('index'))
+        flash('Invalid username or password')
+
+    # If there is a GET request, or there are errors in the form, return the view with the form
+    return render_template('login.html', title = 'Login', form = form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('index'))
+
+
+
+
 
 # == LOANS ==
 
@@ -23,7 +51,7 @@ def add_loan():
     form = AddLoanForm()
 
     # Retrieve the users from the database, for display in a dropdown
-    form.user_id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
+    form.id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
 
     # Retrieve the equipment from the database, for display in a dropdown
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
@@ -66,7 +94,7 @@ def delete_loan(id):
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
     form = EditLoanForm(obj=item)
-    form.user_id.choices = [(user.user_id, user.first_name) for user in User.query.all()]
+    form.id.choices = [(user.user_id, user.first_name) for user in User.query.all()]
     form.equip_id.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
     
     # When the form is submitted, the form is processed and save to the equipment database
@@ -209,7 +237,7 @@ def delete_user(id):
     
     # When delete button is pressed, user database queried for loans with user_id in
     # them and displays error message
-    if len(Loan.query.filter_by(user_id = id).all()) > 0:
+    if len(Loan.query.filter_by(id = id).all()) > 0:
         flash(f"Can not delete {user.first_name} {user.last_name} as they have loans associated with them.")
     else:
         db.session.delete(user)
