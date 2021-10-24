@@ -42,7 +42,7 @@ class AddUserForm(FlaskForm):
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
     loan_date = DateTimeField('Date borrowed')
-    id = SelectField(u'Loan by',coerce=int)
+    user_id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
 

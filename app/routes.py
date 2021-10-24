@@ -51,7 +51,7 @@ def add_loan():
     form = AddLoanForm()
 
     # Retrieve the users from the database, for display in a dropdown
-    form.id.choices = [(g.user_id, g.first_name) for g in User.query.all()]
+    form.user_id.choices = [(g.id, g.first_name) for g in User.query.all()]
 
     # Retrieve the equipment from the database, for display in a dropdown
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
@@ -94,7 +94,7 @@ def delete_loan(id):
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
     form = EditLoanForm(obj=item)
-    form.id.choices = [(user.user_id, user.first_name) for user in User.query.all()]
+    form.id.choices = [(user.id, user.first_name) for user in User.query.all()]
     form.equip_id.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
     
     # When the form is submitted, the form is processed and save to the equipment database
@@ -235,7 +235,7 @@ def edit_user(id):
 def delete_user(id):
     user = User.query.get_or_404(id)
     
-    # When delete button is pressed, user database queried for loans with user_id in
+    # When delete button is pressed, user database queried for loans with id in
     # them and displays error message
     if len(Loan.query.filter_by(id = id).all()) > 0:
         flash(f"Can not delete {user.first_name} {user.last_name} as they have loans associated with them.")

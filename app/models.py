@@ -7,7 +7,7 @@ from app import db, login_manager
 
 # Creating user, loan, equipment and location classes with associated fields/data types.
 class User(db.Model, UserMixin):
-    user_id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)
     email_username = db.Column(db.Text, unique=True)
@@ -26,9 +26,6 @@ class User(db.Model, UserMixin):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def get_id(self):
-           return (self.user_id)
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
@@ -40,8 +37,8 @@ class Location(db.Model):
 
 class Loan(db.Model):
     loan_id = db.Column(db.Integer, primary_key = True)
-    loan_date = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
+    loan_date = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     equip_id= db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
     
 class Equipment(db.Model):
