@@ -4,6 +4,7 @@ from wtforms.fields.core import DateTimeField, SelectField
 from wtforms.validators import InputRequired, Length
 from datetime import datetime
 
+
 from wtforms.widgets.core import CheckboxInput
 
 #Flask form to add equipment to db
@@ -44,8 +45,8 @@ class AddUserForm(FlaskForm):
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
-    loan_date = DateTimeField('Date borrowed')
-    user_id = SelectField(u'Loan by',coerce=int)
+    loan_date = DateTimeField('Date borrowed',format='%d-%m-%Y')
+    id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
 

@@ -62,6 +62,7 @@ def add_loan():
     # When the form is submitted, the form is processed and save to the loans database
     if form.validate_on_submit():
         loan = Loan()
+        loan.loan_date = datetime.now()
         form.populate_obj(obj=loan)
         db.session.add(loan)
         db.session.commit()
