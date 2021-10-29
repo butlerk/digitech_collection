@@ -155,8 +155,7 @@ def add_equip():
 @app.route('/view_equipment')
 @login_required
 def view_equip():
-    equipment = Equipment.query.all()
-    
+    equipment = Equipment.query.all()  
     # Return back to the view that shows the list of equipment
     return render_template('equip_view.html', equipment=equipment)
 
@@ -169,7 +168,8 @@ def edit_equipment(id):
     form = EditEquipmentForm(obj=item)
     # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
-    form.file = item.file
+    filename = secure_filename(item.file)
+    item.file = filename
     
     # When the form is submitted, the form is processed and save to the equipment database
     if form.validate_on_submit():

@@ -310,7 +310,10 @@ figure {
 img,
 svg {
   vertical-align: middle;
+  width: 50px;
+  height: auto;
 }
+
 
 table {
   caption-side: bottom;
@@ -1905,7 +1908,7 @@ progress {
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
   --bs-table-hover-color: #777;
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-  width: 70%;
+  width: 90%;
   margin-bottom: 1rem;
   color: #777;
   vertical-align: top;
