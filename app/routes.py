@@ -1,11 +1,12 @@
+import os
 from flask import Flask, render_template, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
-from werkzeug.utils import redirect
+from werkzeug.utils import redirect, secure_filename
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User, Loan
 from app.decorators import admin_required
-from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm, PhotoForm
 from sqlalchemy.orm import sessionmaker
 from datetime import date, datetime
 
@@ -53,7 +54,7 @@ def add_loan():
     form = AddLoanForm()
 
     # Retrieve the users from the database, for display in a dropdown
-    form.user_id.choices = [(g.id, g.first_name) for g in User.query.all()]
+    form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
 
     # Retrieve the equipment from the database, for display in a dropdown
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
@@ -330,3 +331,17 @@ def delete_location(id):
 
     # Return back to the view that shows the list of locations    
     return redirect(url_for('view_location'))
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    form = PhotoForm()
+
+    if form.validate_on_submit():
+        f = form.photo.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(
+            app.instance_path, 'photos', filename
+        ))
+        return redirect(url_for('index'))
+
+    return render_template('upload_photo.html', form=form)

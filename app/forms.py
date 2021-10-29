@@ -3,6 +3,8 @@ from wtforms import StringField, IntegerField, BooleanField, SubmitField, Passwo
 from wtforms.fields.core import DateTimeField, SelectField
 from wtforms.validators import InputRequired, Length
 from datetime import datetime
+from flask_wtf.file import FileField, FileRequired
+from werkzeug.utils import secure_filename
 
 
 from wtforms.widgets.core import CheckboxInput
@@ -38,17 +40,24 @@ class AddUserForm(FlaskForm):
     email_username = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=20)])
     is_admin = BooleanField('Admin?')
-    
     submit = SubmitField('Add User')
     
 
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
+<<<<<<< Updated upstream
     loan_date = DateTimeField('Date borrowed',format='%d-%m-%Y')
+=======
+    loan_date = DateTimeField('Date borrowed')
+>>>>>>> Stashed changes
     id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
+
+class PhotoForm(FlaskForm):
+    photo = FileField(validators=[FileRequired()])
+    submit = SubmitField('Upload Photo')
 
 # Flask form to edit user inheriting from Add User form
 class EditUserForm(AddUserForm):
@@ -65,5 +74,7 @@ class EditLocationForm(AddLocationForm):
 # Flask form to edit loan inheritig from Add Loan form
 class EditLoanForm(AddLoanForm):
     submit = SubmitField('Save Loan')
+
+
 
 
