@@ -53,11 +53,11 @@ def add_loan():
     form = AddLoanForm()
 
     # Retrieve the users from the database, for display in a dropdown
-    form.user_id.choices = [(g.id, g.first_name) for g in User.query.all()]
+    form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
 
     # Retrieve the equipment from the database, for display in a dropdown
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
-    form.loan_date = datetime.now()
+    form.loan_date = date.today()
 
     # When the form is submitted, the form is processed and save to the loans database
     if form.validate_on_submit():
@@ -103,11 +103,11 @@ def edit_loan(id):
     form.id.choices = [(user.id, user.first_name) for user in User.query.all()]
     form.equip_id.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
     
-    # When the form is submitted, the form is processed and save to the equipment database
+    # When the form is submitted, the form is processed and saved to the loans table.
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()
-        flash(f"Successfully saved {item.equip_id} equipment item.")
+        flash(f"Successfully saved loan number {item.loan_id}.")
         
         # Return back to the view that shows the list of loans
         return redirect(url_for('view_loan'))

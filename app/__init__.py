@@ -41,7 +41,7 @@ def init_db():
         location = library,
         purchase_price = 29.40,
         equip_quantity = 1,
-        date_entered = '2021-04-04',
+        date_entered = '04-04-2021',
         equip_image = 'image.jpg',
         
     )
@@ -52,7 +52,7 @@ def init_db():
         location = storeroom,
         purchase_price = 5.40,
         equip_quantity = 10,
-        date_entered = '2021-05-01',
+        date_entered = '01-05-2021',
         equip_image = 'image1.jpg',
         
     )
@@ -81,7 +81,7 @@ def init_db():
 
      # Create loan item records to populate db
     loan1 = models.Loan (
-        loan_date = datetime.now(),
+        loan_date = '28-10-2021',
         id = 1,
         equip_id = 1
     )

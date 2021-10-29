@@ -1,7 +1,7 @@
 from sqlalchemy.orm import backref
 from flask_login import UserMixin
 
-from datetime import datetime
+from datetime import datetime, date
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
 
@@ -27,8 +27,8 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
+def load_user(id):
+    return User.query.get(id)
 
 class Location(db.Model):
     location_id = db.Column(db.Integer, primary_key = True)
@@ -38,7 +38,7 @@ class Location(db.Model):
 class Loan(db.Model):
     loan_id = db.Column(db.Integer, primary_key = True)
     loan_date = db.Column(db.Date)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     equip_id= db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
     
 class Equipment(db.Model):
