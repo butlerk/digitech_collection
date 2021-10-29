@@ -37,13 +37,8 @@ class Location(db.Model):
 
 class Loan(db.Model):
     loan_id = db.Column(db.Integer, primary_key = True)
-<<<<<<< Updated upstream
-    loan_date = db.Column(db.Date)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-=======
     loan_date = db.Column(db.Text)
     id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
->>>>>>> Stashed changes
     equip_id= db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
     
 class Equipment(db.Model):

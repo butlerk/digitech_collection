@@ -46,11 +46,7 @@ class AddUserForm(FlaskForm):
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
-<<<<<<< Updated upstream
     loan_date = DateTimeField('Date borrowed',format='%d-%m-%Y')
-=======
-    loan_date = DateTimeField('Date borrowed')
->>>>>>> Stashed changes
     id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
