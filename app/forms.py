@@ -2,8 +2,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, DecimalField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import InputRequired, Length
-from datetime import date, datetime
-
+from datetime import datetime
+from flask_wtf.file import FileField, FileRequired
+from werkzeug.utils import secure_filename
 
 
 from wtforms.widgets.core import CheckboxInput
@@ -39,7 +40,6 @@ class AddUserForm(FlaskForm):
     email_username = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=20)])
     is_admin = BooleanField('Admin?')
-    
     submit = SubmitField('Add User')
     
 
@@ -50,6 +50,10 @@ class AddLoanForm(FlaskForm):
     id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
+
+class PhotoForm(FlaskForm):
+    photo = FileField(validators=[FileRequired()])
+    submit = SubmitField('Upload Photo')
 
 # Flask form to edit user inheriting from Add User form
 class EditUserForm(AddUserForm):
@@ -66,5 +70,7 @@ class EditLocationForm(AddLocationForm):
 # Flask form to edit loan inheritig from Add Loan form
 class EditLoanForm(AddLoanForm):
     submit = SubmitField('Save Loan')
+
+
 
 

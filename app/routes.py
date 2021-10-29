@@ -1,13 +1,18 @@
+import os
 from flask import Flask, render_template, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
-from werkzeug.utils import redirect
+from werkzeug.utils import redirect, secure_filename
 #from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User, Loan
 from app.decorators import admin_required
-from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm
+from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm, PhotoForm
 from sqlalchemy.orm import sessionmaker
 from datetime import date, datetime
+
+UPLOAD_FOLDER = 'app/static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 @app.route('/')
@@ -330,3 +335,59 @@ def delete_location(id):
 
     # Return back to the view that shows the list of locations    
     return redirect(url_for('view_location'))
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    form = PhotoForm()
+    if form.validate_on_submit():
+        f = form.photo.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(
+            app.static_folder, 'images', filename
+        ))
+        flash(f"Successfully uploaded the photo.")
+        return redirect(url_for('index'))
+    return render_template('upload_photo.html', form=form)
+
+
+
+
+
+
+
+
+ #   if form.validate_on_submit():
+ #       if request.method == 'POST':
+ #           if 'file' not in request.files:
+ #               flash('No file part')
+ #               return redirect(url_for('index'))
+ ##           file = request.files['file']
+ #           if file.filename == '':
+ #               flash('No selected file')
+ #               return redirect(url_for('index'))
+ #           if file and allowed_file(file.filename):
+ #               filename = secure_filename(file.filename)
+ #               file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+ #               flash('File successfully uploaded')
+ #               return redirect(url_for('index'))
+ #   return
+
+
+            
+
+
+
+#    
+
+    
+        # check if the post request has the file part
+        
+            
+        
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        
