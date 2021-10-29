@@ -1,6 +1,8 @@
 {% extends 'menu.html' %}
 {% block content %}
+
 <h2>Edit Equipment Item</h2>
+
 <ul class="errors">
     {% for field, errors in form.errors.items() %}
         <li>
@@ -24,11 +26,12 @@
     {{ form.location_id.label(class='form-label') }}
     {{ form.location_id(class = 'form-control') }}<br>
 
-    {{ form.date_entered.label(class='form-label')l }}
+    {{ form.date_entered.label(class='form-label') }}
     {{ form.date_entered(class = 'form-control') }}<br>
 
-    {{ form.equip_image.label(class='form-label') }}
-    {{ form.equip_image(class = 'form-control') }}<br>
+    {{ form.hidden_tag() }}
+    {{ form.file }} 
+    <h3><em></i> note file cannot be changed</em></h3>
    
     {{ form.submit(class_="btn btn-primary btn-sm") }}
     <br><br><br><br>

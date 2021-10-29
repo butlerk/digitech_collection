@@ -129,7 +129,11 @@ def add_equip():
     form = AddEquipmentForm()
     if request.method == 'POST':
         equipment = Equipment()
+        filename = secure_filename(form.file.data.filename)
+        form.file.data.save(os.path.join(app.static_folder, 'images', filename))
+        
         form.populate_obj(obj=equipment)
+        equipment.file = filename
         db.session.add(equipment)
         db.session.commit()
         flash(f"Successfully added {equipment.equip_name} as an equipment item.")
@@ -165,6 +169,7 @@ def edit_equipment(id):
     form = EditEquipmentForm(obj=item)
     # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
+    form.file = item.file
     
     # When the form is submitted, the form is processed and save to the equipment database
     if form.validate_on_submit():
@@ -176,7 +181,7 @@ def edit_equipment(id):
         return redirect(url_for('view_equip'))
     
     # Return back to the view that add equipment fields empty
-    return render_template('equip_add.html', form=form, location=location)
+    return render_template('equip_edit.html', form=form, location=location)
 
 # Delete a specific equipment item - retrieving, deleting and committing changes to the database. Returns to list of equipment
 @app.route('/delete_equipment/<int:id>')

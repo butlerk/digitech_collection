@@ -10,7 +10,7 @@
     {% endfor %}
 </ul>
 <!-- displays form for adding equipment items to the collection -->
-<form method="POST" >
+<form method="POST" enctype="multipart/form-data">
     {{ form.csrf_token }}
 
     {{ form.equip_name.label(class='form-label') }}
@@ -28,8 +28,8 @@
     {{ form.date_entered.label(class='form-label') }}
     {{ form.date_entered(class = 'form-control') }}<br>
 
-    {{ form.equip_image.label(class='form-label') }}
-    {{ form.equip_image(class = 'form-control') }}<br>
+    {{ form.file.label }}
+    {{ form.file }}
     
        
     {{ form.submit(class_="btn btn-primary btn-sm") }}
