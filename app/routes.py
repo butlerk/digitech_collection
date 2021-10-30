@@ -168,10 +168,10 @@ def edit_equipment(id):
     form = EditEquipmentForm(obj=item)
     # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
-    filename = secure_filename(item.file)
-    item.file = filename
-    
-    # When the form is submitted, the form is processed and save to the equipment database
+    form.file = secure_filename(item.file)
+    #item.file = filename
+    #item.file.save(os.path.join(app.static_folder, 'images', filename))
+     # When the form is submitted, the form is processed and save to the equipment database
     if form.validate_on_submit():
         form.populate_obj(item)
         db.session.commit()

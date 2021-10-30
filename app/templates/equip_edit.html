@@ -29,11 +29,10 @@
     {{ form.date_entered.label(class='form-label') }}
     {{ form.date_entered(class = 'form-control') }} <br>
 
-    
-
     {{ form.hidden_tag() }}
     {{ form.file }} 
-   
+  
+    <td><img src = "/static/images/{{ form.file }}" </td>
     {{ form.submit(class_="btn btn-primary btn-sm") }}
     <br><br><br><br>
 

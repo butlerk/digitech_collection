@@ -16,8 +16,8 @@
             <th>Location</th>
             <th>Price ($)</th>
             <th>Equipment Quantity</th>
-            <th>Equipment Image File</th>
-            <th></th>
+            <th>Image</th>
+            
           
         </tr>
     </thead>
@@ -29,7 +29,7 @@
             <td>{{ item.location.location_name }}</td>
             <td>{{ item.purchase_price }}</td>
             <td>{{ item.equip_quantity }}</td>
-            <td>{{ item.file }}</td>
+
             <td><img src = "/static/images/{{ item.file }}" </td>
         
                 <!-- add "edit" button to next to each item -->
