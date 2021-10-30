@@ -44,8 +44,8 @@ def init_db():
         location = library,
         purchase_price = 29.40,
         equip_quantity = 1,
-        date_entered = '04-04-2021',
-        equip_image = 'image.jpg',
+        date_entered = '2021-04-04',
+        file = 'microbit.png',
         
     )
     db.session.add(microbit)
@@ -55,8 +55,8 @@ def init_db():
         location = storeroom,
         purchase_price = 5.40,
         equip_quantity = 10,
-        date_entered = '01-05-2021',
-        equip_image = 'image1.jpg',
+        date_entered = '2021-05-01',
+        file = 'beebot.jpeg',
         
     )
     db.session.add(beebot)

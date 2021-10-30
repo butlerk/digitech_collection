@@ -5,9 +5,9 @@ from wtforms.validators import InputRequired, Length
 from datetime import datetime
 from flask_wtf.file import FileField, FileRequired
 from werkzeug.utils import secure_filename
-
-
 from wtforms.widgets.core import CheckboxInput
+
+
 
 #Flask form to add equipment to db
 
@@ -17,15 +17,16 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
+
 class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_quantity = IntegerField('Equipment Quantity', validators=[InputRequired()])
-    
     location_id = SelectField(u'Location', coerce = int)
     purchase_price =StringField('Purchase Price', validators=[InputRequired()])
     date_entered = StringField('Purchase Date')
-    equip_image = StringField('Equipment Image')
+    file = FileField('file')
     submit = SubmitField('Add equipment')
+
 
 # Flask form to add locations to db
 class AddLocationForm(FlaskForm):
@@ -52,7 +53,7 @@ class AddLoanForm(FlaskForm):
     submit = SubmitField('Add Loan')
 
 class PhotoForm(FlaskForm):
-    photo = FileField(validators=[FileRequired()])
+   
     submit = SubmitField('Upload Photo')
 
 # Flask form to edit user inheriting from Add User form
