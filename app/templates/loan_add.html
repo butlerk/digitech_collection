@@ -16,9 +16,9 @@
 <!-- create form for adding new loan-->
 <form method = "POST" >    
     {{ form.csrf_token }}
-
-    Today's Date
-    {{ form.loan_date }}<br><br>
+    
+    {{ form.loan_date.label(class = 'form-label')}}
+    {{form.loan_date(class = 'form-control')}}<br>
 
     {{form.id.label(class = 'form-label')}}
     {{form.id(class = 'form-control')}}<br>

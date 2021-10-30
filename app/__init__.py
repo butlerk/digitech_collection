@@ -2,7 +2,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from datetime import datetime
+from datetime import datetime, date
 
 
 app = Flask(__name__)
@@ -84,7 +84,7 @@ def init_db():
 
      # Create loan item records to populate db
     loan1 = models.Loan (
-        loan_date = '28-10-2021',
+        loan_date = date.today(),
         id = 1,
         equip_id = 1
     )

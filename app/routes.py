@@ -62,12 +62,12 @@ def add_loan():
 
     # Retrieve the equipment from the database, for display in a dropdown
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
-    form.loan_date = date.today()
+    #form.loan_date = date.today()
 
     # When the form is submitted, the form is processed and save to the loans database
     if form.validate_on_submit():
         loan = Loan()
-        loan.loan_date = datetime.now()
+        #loan.loan_date = date.today(form='%d-%m-%Y')
         form.populate_obj(obj=loan)
         db.session.add(loan)
         db.session.commit()
