@@ -50,3 +50,4 @@ class Equipment(db.Model):
     date_entered = db.Column(db.Text)
     file = db.Column(db.Text)
     loan = db.relationship('Loan', backref = 'equipment')
+   # available = db.Column(db.Boolean)
