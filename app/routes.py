@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, url_for, flash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import redirect, secure_filename
 #from flask import render_template, redirect, url_for, request
 from app import app, db
@@ -56,14 +56,10 @@ def logout():
 @login_required
 def add_loan():
     form = AddLoanForm()
-
     # Retrieve the users from the database, for display in a dropdown
     form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
-
     # Retrieve the equipment from the database, for display in a dropdown
     form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
-    #form.loan_date = date.today()
-
     # When the form is submitted, the form is processed and save to the loans database
     if form.validate_on_submit():
         loan = Loan()
@@ -82,9 +78,11 @@ def add_loan():
 @app.route('/view_loan')
 @login_required
 def view_loan():
-    loan = Loan.query.all()
-    
-    # Return back to the view that shows the list of loans
+    if current_user.is_admin == False:
+        loan = Loan.query.filter_by(id = current_user.id).all()
+    else: 
+        loan = Loan.query.all()
+        # Return back to the view that shows the list of loans
     return render_template('loan_view.html', loan=loan)
 
 # A route for processing the deleting of a loan.
@@ -155,7 +153,7 @@ def add_equip():
 @app.route('/view_equipment')
 @login_required
 def view_equip():
-    equipment = Equipment.query.all()  
+    equipment = Equipment.query.all()
     # Return back to the view that shows the list of equipment
     return render_template('equip_view.html', equipment=equipment)
 
