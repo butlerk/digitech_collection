@@ -47,7 +47,7 @@ class AddUserForm(FlaskForm):
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
-    loan_date = DateField('Date borrowed',format='%d-%m-%Y')
+    loan_date = DateField('Loan Date ie. 27-03-2021',format='%d-%m-%Y')
     id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     submit = SubmitField('Add Loan')
