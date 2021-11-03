@@ -314,6 +314,12 @@ svg {
   height: auto;
 }
 
+img-big{
+  vertical-align: left;
+  width: 500px;
+  height: 500px;
+}
+
 
 table {
   caption-side: bottom;

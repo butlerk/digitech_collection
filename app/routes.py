@@ -50,26 +50,32 @@ def logout():
 
 
 # == LOANS ==
+# A route for showing a form and processing form for adding a new loan. 
+# Ensures that only avail equipment is able to be chosen
+# Admin users can select anyone for loan, General users can only select themselves
 
-# A route for showing a form and processing form for adding a new loan.
 @app.route('/add_loan', methods = ['GET', 'POST'])
 @login_required
 def add_loan():
     form = AddLoanForm()
-    active_loans = Loan.query.filter_by(active = 1).all()
-    avail_equipment_id = []
-    for loan in active_loans:
-        avail_equipment_id.append(loan.equip_id)
-    
+    # Create a list of equipment id's on all active loans
+    unavail_equip = []
+    for loan in Loan.query.filter_by(active = 1).all():
+        unavail_equip.append(loan.equip_id)
+    # Query the Equipment table to find items that are available (not currently loaned out)
+    avail_equip = Equipment.query.filter(Equipment.equip_id.not_in(unavail_equip)).all()
+    # Error message if no equipment available
+    if len(avail_equip)<1:
+        flash(f"No items currently available.")
+        return redirect(url_for('view_loan'))
+    # Populate equipment dropdown menu with only available items.
+    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in avail_equip]
+
     if current_user.is_admin == True: 
         form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
-        form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
     else:
         form.id.choices = [(g.id, g.first_name) for g in User.query.filter_by(id = current_user.id).all()]
-        form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
-
-#Equipment.query.all()
-
+        
     if form.validate_on_submit():
         loan = Loan()
         form.populate_obj(obj=loan)
@@ -82,7 +88,8 @@ def add_loan():
     # Generate the form with the users & equipment in the dropdown box
     return render_template('loan_add.html', form=form)
 
-# A route for showing a query of all loans.
+# Queries loan table for loans and archieved loans. 
+# Displays all loans if admin, but only current user loans if general user
 @app.route('/view_loan')
 @login_required
 def view_loan():
@@ -95,6 +102,7 @@ def view_loan():
         # Return back to the view that shows the list of loans
     return render_template('loan_view.html', loan=loan, archievedloan=archievedloan)
 
+# Sets the selected loan to inactive (archived)
 @app.route('/return_loan/<int:id>')
 @login_required
 def return_loan(id):
@@ -123,8 +131,24 @@ def return_loan(id):
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
     form = EditLoanForm(obj=item)
-    form.id.choices = [(user.id, user.first_name) for user in User.query.all()]
-    form.equip_id.choices = [(equip.equip_id, equip.equip_name) for equip in Equipment.query.all()]
+    #Create a list of equipment id's on all active loans
+    unavail_equip = []
+    for loan in Loan.query.filter_by(active = 1).all():
+        unavail_equip.append(loan.equip_id)
+    # Query the Equipment table to find items that are available (not currently loaned out)
+    avail_equip = Equipment.query.filter(Equipment.equip_id.not_in(unavail_equip)).all()
+    # Error message if no equipment available
+    if len(avail_equip)<1:
+        flash(f"No items currently available.")
+        return redirect(url_for('view_loan'))
+    # Populate equipment dropdown menu with only available items.
+    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in avail_equip]
+
+    if current_user.is_admin == True: 
+        form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
+    else:
+        form.id.choices = [(g.id, g.first_name) for g in User.query.filter_by(id = current_user.id).all()]
+        
     
     # When the form is submitted, the form is processed and saved to the loans table.
     if form.validate_on_submit():

@@ -47,6 +47,7 @@ def init_db():
         equip_quantity = 1,
         date_entered = '2021-04-04',
         file = 'microbit.png',
+   
         
     )
     db.session.add(microbit)
@@ -58,6 +59,7 @@ def init_db():
         equip_quantity = 10,
         date_entered = '2021-05-01',
         file = 'beebot.jpeg',
+
   
         
     )

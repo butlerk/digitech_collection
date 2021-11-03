@@ -1,3 +1,4 @@
+from enum import unique
 from sqlalchemy.orm import backref
 from flask_login import UserMixin
 
@@ -51,3 +52,4 @@ class Equipment(db.Model):
     date_entered = db.Column(db.Text)
     file = db.Column(db.Text)
     loan = db.relationship('Loan', backref = 'equipment')
+
