@@ -59,11 +59,18 @@ def init_db():
         equip_details = "A set of 15 Beebots with chargers",
         date_entered = '2021-05-01',
         file = 'beebot.jpeg',
-
-  
-        
     )
     db.session.add(beebot)
+
+    makeymakey = models.Equipment (
+        equip_name  = 'Makey-Makey',
+        location = storeroom,
+        purchase_price = 10.40,
+        equip_details = "A set of 10 Makey-Makeys",
+        date_entered = '2021-05-01',
+        file = 'makeymakey.jfif',
+    )
+    db.session.add(makeymakey)
 
     # Create user item records to populate db
     person1 = models.User (
@@ -85,6 +92,15 @@ def init_db():
     )
     person2.password = 'goodbye'
     db.session.add(person2)
+
+    person3 = models.User (
+        first_name  = 'Joe',
+        last_name = 'Blogs',
+        email_username = 'joe@email.com',
+        is_admin=False
+    )
+    person3.password = 'joeblogs'
+    db.session.add(person3)
 
      # Create loan item records to populate db
     loan1 = models.Loan (
