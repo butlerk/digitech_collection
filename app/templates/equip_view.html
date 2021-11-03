@@ -2,9 +2,15 @@
 {% block content %}
 
 <h2>Current Equipment List          
-<a class="btn btn-primary" href="{{ url_for('add_equip') }}"> 
+{% if user.is_admin == True %}
+    <a class="btn btn-primary" href="{{ url_for('add_equip') }}"> 
     Add Equipment
-</a> 
+    </a> 
+{% else %}
+    <a class="btn btn-primary" href="{{ url_for('add_loan') }}"> 
+    Add a loan
+    </a> 
+{% endif %}
 
 </h2><br><br>
 
@@ -31,15 +37,20 @@
             <td>{{ item.equip_quantity }}</td>
 
             <td><img src = "/static/images/{{ item.file }}" </td>
-        
+                {% if user.is_admin == True %}
                 <!-- add "edit" button to next to each item -->
-                <td><a class="btn btn-primary" href="{{ url_for('edit_equipment', id = item.equip_id) }}">
-                    Edit
-                </a>
+                    <td><a class="btn btn-primary" href="{{ url_for('edit_equipment', id = item.equip_id) }}">
+                        Edit
+                    </a>
+                        
+
                  <!-- add "delete" button to next to each item -->
                 <a class="btn btn-danger" href="{{ url_for('delete_equipment', id = item.equip_id) }}">
                     Delete
                 </a>
+
+                {% else %}
+                {% endif %}
              </td>
         </tr>
 

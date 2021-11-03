@@ -174,8 +174,9 @@ def add_equip():
 @login_required
 def view_equip():
     equipment = Equipment.query.all()
+    user = current_user
     # Return back to the view that shows the list of equipment
-    return render_template('equip_view.html', equipment=equipment)
+    return render_template('equip_view.html', equipment=equipment, user=user)
 
 # A route for showing a form and processing form for editing a loan.
 @app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
@@ -247,7 +248,10 @@ def add_user():
 @login_required
 def view_user():
     users = User.query.all()
-    
+    if current_user.is_admin == False:
+        users = User.query.filter_by(id = current_user.id).all()
+    else: 
+        users = User.query.all()    
     # Return back to the view that shows the list of users
     return render_template('user_view.html', users=users)
 
