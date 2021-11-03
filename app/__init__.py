@@ -3,7 +3,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from datetime import datetime, date
-import os
+from numpy import genfromtxt
+import os, csv
+
 
 
 app = Flask(__name__)
@@ -21,6 +23,10 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 from app import routes, models
+
+def Load_Data(file_name):
+    data = genfromtxt(file_name, delimiter=',', skip_header=1)
+    return data.tolist()
 
 @app.cli.command('init-db')
 def init_db():
@@ -118,7 +124,18 @@ def init_db():
         active = False
     )
     db.session.add(loan2)
-        
+    
+    file_name = "archive.csv"
+    data = Load_Data(file_name)
 
-    # Save the created records to the database file
-    db.session.commit()
+    for i in data:
+        loan = models.Loan(**{
+            'loan_date':date.today(),
+            #'loan_date' : datetime.strptime(i[0], '%d-%b-%y').date(),
+            'id' : i[1],
+            'equip_id' : i[2],
+            'active' : i[3],
+        })
+        db.session.add(loan) #Add all the records
+        # Save the created records to the database file
+        db.session.commit()
