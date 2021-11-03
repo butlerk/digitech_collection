@@ -56,6 +56,11 @@ def logout():
 @login_required
 def add_loan():
     form = AddLoanForm()
+    active_loans = Loan.query.filter_by(active = 1).all()
+    avail_equipment_id = []
+    for loan in active_loans:
+        avail_equipment_id.append(loan.equip_id)
+    
     if current_user.is_admin == True: 
         form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
         form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
@@ -63,9 +68,7 @@ def add_loan():
         form.id.choices = [(g.id, g.first_name) for g in User.query.filter_by(id = current_user.id).all()]
         form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
 
-
-
-
+#Equipment.query.all()
 
     if form.validate_on_submit():
         loan = Loan()
@@ -103,16 +106,16 @@ def return_loan(id):
     return redirect(url_for('view_loan'))
 
 # A route for processing the deleting of a loan.
-@app.route('/delete_loan/<int:id>')
-@admin_required
-def delete_loan(id):
-    item = Loan.query.get_or_404(id)
-    db.session.delete(item)
-    db.session.commit()
-    flash(f"Successfully deleted loan number {item.loan_id} from the loan list.")
+#@app.route('/delete_loan/<int:id>')
+#@admin_required
+#def delete_loan(id):
+#    item = Loan.query.get_or_404(id)
+#    db.session.delete(item)
+#    db.session.commit()
+#    flash(f"Successfully deleted loan number {item.loan_id} from the loan list.")
     
     # Return back to the view that shows the list of loans
-    return redirect(url_for('view_loan'))
+#    return redirect(url_for('view_loan'))
 
 # A route for showing and processing form for editing a loan.
 @app.route('/edit_loan/<int:id>', methods = ['GET', 'POST'])
