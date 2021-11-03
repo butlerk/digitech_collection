@@ -56,18 +56,23 @@ def logout():
 @login_required
 def add_loan():
     form = AddLoanForm()
-    # Retrieve the users from the database, for display in a dropdown
-    form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
-    # Retrieve the equipment from the database, for display in a dropdown
-    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
-    # When the form is submitted, the form is processed and save to the loans database
+    if current_user.is_admin == True: 
+        form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
+        form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
+    else:
+        form.id.choices = [(g.id, g.first_name) for g in User.query.filter_by(id = current_user.id).all()]
+        form.equip_id.choices = [(g.equip_id, g.equip_name) for g in Equipment.query.all()]
+
+
+
+
+
     if form.validate_on_submit():
         loan = Loan()
-        #loan.loan_date = date.today(form='%d-%m-%Y')
         form.populate_obj(obj=loan)
+        loan.active = 1
         db.session.add(loan)
         db.session.commit()
-
         # Return to the view that shows the list of loans
         return redirect(url_for('view_loan'))
 
@@ -79,11 +84,23 @@ def add_loan():
 @login_required
 def view_loan():
     if current_user.is_admin == False:
-        loan = Loan.query.filter_by(id = current_user.id).all()
+        loan = Loan.query.filter_by(id = current_user.id, active = 1).all()
+        archievedloan = Loan.query.filter_by(id = current_user.id, active=0).all()
     else: 
-        loan = Loan.query.all()
+        loan = Loan.query.filter_by(active=1).all()
+        archievedloan = Loan.query.filter_by(active=0).all()
         # Return back to the view that shows the list of loans
-    return render_template('loan_view.html', loan=loan)
+    return render_template('loan_view.html', loan=loan, archievedloan=archievedloan)
+
+@app.route('/return_loan/<int:id>')
+@login_required
+def return_loan(id):
+    item = Loan.query.get_or_404(id)
+    item.active = 0
+    db.session.commit()
+    flash(f"Successfully returned item {item.loan_id} from the loan list.")
+    # Return back to the view that shows the list of loans
+    return redirect(url_for('view_loan'))
 
 # A route for processing the deleting of a loan.
 @app.route('/delete_loan/<int:id>')

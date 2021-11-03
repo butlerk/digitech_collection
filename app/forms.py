@@ -26,6 +26,7 @@ class AddEquipmentForm(FlaskForm):
     date_entered = StringField('Purchase Date')
     file = FileField('file')
     submit = SubmitField('Add equipment')
+    available = BooleanField('Available? Tick for YES')
 
 
 # Flask form to add locations to db
@@ -50,7 +51,9 @@ class AddLoanForm(FlaskForm):
     loan_date = DateField('Loan Date ie. 27-03-2021',format='%d-%m-%Y')
     id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
+    active = 1
     submit = SubmitField('Add Loan')
+
 
 class PhotoForm(FlaskForm):
    

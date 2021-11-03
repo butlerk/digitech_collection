@@ -58,6 +58,7 @@ def init_db():
         equip_quantity = 10,
         date_entered = '2021-05-01',
         file = 'beebot.jpeg',
+  
         
     )
     db.session.add(beebot)
@@ -87,9 +88,18 @@ def init_db():
     loan1 = models.Loan (
         loan_date = date.today(),
         id = 1,
-        equip_id = 1
+        equip_id = 1,
+        active = True
     )
     db.session.add(loan1)
+
+    loan2 = models.Loan (
+        loan_date = date.today(),
+        id = 2,
+        equip_id = 2,
+        active = False
+    )
+    db.session.add(loan2)
         
 
     # Save the created records to the database file

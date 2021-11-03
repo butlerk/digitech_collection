@@ -40,6 +40,7 @@ class Loan(db.Model):
     loan_date = db.Column(db.Date)
     id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     equip_id= db.Column(db.Integer, db.ForeignKey('equipment.equip_id'), nullable = False)
+    active = db.Column(db.Boolean)
     
 class Equipment(db.Model):
     equip_id = db.Column(db.Integer, primary_key = True)
@@ -50,4 +51,3 @@ class Equipment(db.Model):
     date_entered = db.Column(db.Text)
     file = db.Column(db.Text)
     loan = db.relationship('Loan', backref = 'equipment')
-   # available = db.Column(db.Boolean)
