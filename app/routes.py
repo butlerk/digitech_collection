@@ -149,7 +149,6 @@ def edit_loan(id):
     else:
         form.id.choices = [(g.id, g.first_name) for g in User.query.filter_by(id = current_user.id).all()]
         
-    
     # When the form is submitted, the form is processed and saved to the loans table.
     if form.validate_on_submit():
         form.populate_obj(item)
@@ -377,7 +376,7 @@ def delete_location(id):
     # When delete button is pressed, equipment database queried for locations with equipment_id in
     # them and displays error message
     if len(equipment_at_location.all()) > 0:
-        flash(f"Can not delete this location as there are equipment at this location")
+        flash(f"Can not delete this location as there is equipment at this location.")
     else:
         location = Location.query.get_or_404(id)
         db.session.delete(location)

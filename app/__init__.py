@@ -44,7 +44,7 @@ def init_db():
         equip_name  = 'Microbit',
         location = library,
         purchase_price = 29.40,
-        equip_quantity = 1,
+        equip_details = "A set of 20 Micro:bit V2 with USB cables and battery packs",
         date_entered = '2021-04-04',
         file = 'microbit.png',
    
@@ -56,7 +56,7 @@ def init_db():
         equip_name  = 'Beebot',
         location = storeroom,
         purchase_price = 5.40,
-        equip_quantity = 10,
+        equip_details = "A set of 15 Beebots with chargers",
         date_entered = '2021-05-01',
         file = 'beebot.jpeg',
 
