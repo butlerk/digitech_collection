@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import redirect, secure_filename
@@ -9,6 +10,11 @@ from app.decorators import admin_required
 from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm, PhotoForm
 from sqlalchemy.orm import sessionmaker
 from datetime import date, datetime
+import pandas as pd
+import plotly.express as px
+import plotly
+
+
 
 UPLOAD_FOLDER = 'app/static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -441,3 +447,39 @@ def upload():
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         
+@app.route('/equipment_chart')
+@login_required
+def equipment_chart():
+    # Run query to get count of equipment and load into DataFrame
+    query = (
+        "SELECT equipment.equip_id, COUNT(equip_id) as number_of_equipment "
+        "FROM equipment "
+        "GROUP BY equip_name"
+    )
+    df = pd.read_sql(query, db.session.bind)
+    print (df)  
+    # Draw the chart and dump it into JSON format
+    chart = px.bar(df, x ='equip_id', y='number_of_equipment')
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
+    # Returns the template, including the JSON data for the chart
+    return render_template('chart_page.html', title = 'Number of Each Equipment', chart_JSON = chart_JSON)
+
+@app.route('/loans_by_user')
+@login_required
+def loans_by_user():
+    # Run query to get count of equipment and load into DataFrame
+    query = (
+        "SELECT first_name, count(*) as number_of_loans "
+        "FROM user u "
+        "JOIN loan l on u.id = l.id "
+        "GROUP first_name"
+    )
+    df = pd.read_sql(query, db.session.bind)
+    
+    # Draw the chart and dump it into JSON format
+    chart = px.bar(df, x ='first_name', y='number_of_loans')
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
+    # Returns the template, including the JSON data for the chart
+    return render_template('chart_page.html', title = 'Number of loans per user', chart_JSON = chart_JSON)
