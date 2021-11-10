@@ -25,7 +25,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 @login_required
 def index():
      # Return back to the home page
-    return render_template('index.html')
+    return render_template('index.html', title = "Main Page")
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
@@ -457,7 +457,7 @@ def loans_by_user():
     
 
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans')
+    chart = px.bar(df, x ='first_name', y='number_of_loans', width = 800, height =400)
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
     # Returns the template, including the JSON data for the chart
