@@ -25,7 +25,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 @login_required
 def index():
      # Return back to the home page
-    return render_template('index.html')
+    return render_template('index.html', title = "Main Page")
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
