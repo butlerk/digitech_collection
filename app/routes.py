@@ -460,7 +460,7 @@ def loans_by_user():
     
 
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans')
+    chart = px.bar(df, x ='first_name', y='number_of_loans', width = 800, height =400)
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
     # Returns the template, including the JSON data for the chart
