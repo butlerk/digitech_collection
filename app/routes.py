@@ -219,8 +219,22 @@ def add_equip():
 def view_equip():
     equipment = Equipment.query.all()
     user = current_user
+        # Run query to get count of equipment and load into DataFrame
+    query = (
+        "SELECT equip_name, COUNT(*) as number_of_equipment_borrowed "
+        "FROM equipment e "
+        "JOIN loan l on e.equip_id = l.equip_id "
+        "GROUP BY equip_name"
+    )
+    df = pd.read_sql(query, db.session.bind)
+    print (df)  
+    # Draw the chart and dump it into JSON format
+    chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed')
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
     # Return back to the view that shows the list of equipment
-    return render_template('equip_view.html', equipment=equipment, user=user)
+    return render_template('equip_view.html', equipment=equipment, user=user, title = 'Number of Borrows for each Equipment Item', 
+        chart_JSON = chart_JSON)
 
 # A route for showing a form and processing form for editing a loan.
 @app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
@@ -425,24 +439,7 @@ def upload():
     return render_template('upload_photo.html', form=form)
 
         
-@app.route('/equipment_borrowed_chart')
-@login_required
-def equipment_borrowed_chart():
-    # Run query to get count of equipment and load into DataFrame
-    query = (
-        "SELECT equip_name, COUNT(*) as number_of_equipment_borrowed "
-        "FROM equipment e "
-        "JOIN loan l on e.equip_id = l.equip_id "
-        "GROUP BY equip_name"
-    )
-    df = pd.read_sql(query, db.session.bind)
-    print (df)  
-    # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed')
-    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
-    # Returns the template, including the JSON data for the chart
-    return render_template('chart_page.html', title = 'Number of Borrows for each Equipment Item', chart_JSON = chart_JSON)
 
 
 @app.route('/loans_by_user')

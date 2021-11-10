@@ -36,7 +36,7 @@
             <td>{{ item.purchase_price }}</td>
             <td>{{ item.equip_details }}</td>
 
-            <td><img src = "/static/images/{{ item.file }}" </td>
+            <td><img width='50px' src = "/static/images/{{ item.file }}"></td>
                 {% if user.is_admin == True %}
                 <!-- add "edit" button to next to each item -->
                     <td><a class="btn btn-primary" href="{{ url_for('edit_equipment', id = item.equip_id) }}">
@@ -61,6 +61,20 @@
         
     </tbody>
 </table>
+<h2>{{ title }}</h2>
+        <!-- The HTML element where the Plotly chart will be displayed -->
+        
+        <div class="chart" id="chart" ></div>
+        
+        <!-- Include the Plotly JavaScript, to create the chart -->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
+        <!-- Get the JSON data for the Plot from the route and render it with Plotly -->
+        <script type="text/javascript">
+            var graphs = {{ chart_JSON | safe }};
+            Plotly.plot('chart', graphs,{});        
+        </script>
+        <br><br>
 </body>
 
 

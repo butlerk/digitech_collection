@@ -20,6 +20,8 @@
     </thead>
     <tbody>
         {% for item in loan %}
+        <tr>
+
         <tr>    
             <td>{{ item.loan_id }}</td>
             <td>{{ item.user.first_name }}</td>
@@ -74,7 +76,7 @@
 <h2>{{ title }}</h2>
         <!-- The HTML element where the Plotly chart will be displayed -->
         
-        <div id="chart" class="chart"></div>
+        <div class="chart" id="chart" ></div>
         
         <!-- Include the Plotly JavaScript, to create the chart -->
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -82,7 +84,7 @@
         <!-- Get the JSON data for the Plot from the route and render it with Plotly -->
         <script type="text/javascript">
             var graphs = {{ chart_JSON | safe }};
-            Plotly.plot("chart",graphs,{});        
+            Plotly.plot('chart', graphs,{});        
         </script>
         <br><br>
         
