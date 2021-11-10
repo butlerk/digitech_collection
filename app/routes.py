@@ -106,7 +106,22 @@ def view_loan():
         loan = Loan.query.filter_by(active=1).all()
         archievedloan = Loan.query.filter_by(active=0).all()
         # Return back to the view that shows the list of loans
-    return render_template('loan_view.html', loan=loan, archievedloan=archievedloan)
+    
+    query = (
+        "SELECT first_name, count(*) as number_of_loans "
+        "FROM user u "
+        "JOIN loan l on u.id = l.id "
+        "GROUP BY first_name"
+    )
+
+    df = pd.read_sql(query,db.session.bind)
+    
+    # Draw the chart and dump it into JSON format
+    chart = px.bar(df, x ='first_name', y='number_of_loans')
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
+    return render_template('loan_view.html', loan=loan, archievedloan=archievedloan, title = 'Number of loans per user', 
+        chart_JSON = chart_JSON)
 
 # Sets the selected loan to inactive (archived)
 @app.route('/return_loan/<int:id>')
@@ -410,23 +425,25 @@ def upload():
     return render_template('upload_photo.html', form=form)
 
         
-@app.route('/equipment_chart')
+@app.route('/equipment_borrowed_chart')
 @login_required
-def equipment_chart():
+def equipment_borrowed_chart():
     # Run query to get count of equipment and load into DataFrame
     query = (
-        "SELECT equipment.equip_id, COUNT(equip_id) as number_of_equipment "
-        "FROM equipment "
+        "SELECT equip_name, COUNT(*) as number_of_equipment_borrowed "
+        "FROM equipment e "
+        "JOIN loan l on e.equip_id = l.equip_id "
         "GROUP BY equip_name"
     )
     df = pd.read_sql(query, db.session.bind)
     print (df)  
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='equip_id', y='number_of_equipment')
+    chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed')
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
     # Returns the template, including the JSON data for the chart
-    return render_template('chart_page.html', title = 'Number of Each Equipment', chart_JSON = chart_JSON)
+    return render_template('chart_page.html', title = 'Number of Borrows for each Equipment Item', chart_JSON = chart_JSON)
+
 
 @app.route('/loans_by_user')
 @login_required
@@ -439,13 +456,8 @@ def loans_by_user():
         "GROUP BY first_name"
     )
 
-    query2 = (
-        "SELECT first_name, count(*) as number_of_loans FROM user u"
-        "JOIN loan l on u.id = l.id"
-        "GROUP BY first_name"
-    )
     df = pd.read_sql(query,db.session.bind)
-    print(df)
+    
 
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='first_name', y='number_of_loans')
