@@ -409,43 +409,6 @@ def upload():
         return redirect(url_for('index'))
     return render_template('upload_photo.html', form=form)
 
-
-
-
-
-
-
-
- #   if form.validate_on_submit():
- #       if request.method == 'POST':
- #           if 'file' not in request.files:
- #               flash('No file part')
- #               return redirect(url_for('index'))
- ##           file = request.files['file']
- #           if file.filename == '':
- #               flash('No selected file')
- #               return redirect(url_for('index'))
- #           if file and allowed_file(file.filename):
- #               filename = secure_filename(file.filename)
- #               file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
- #               flash('File successfully uploaded')
- #               return redirect(url_for('index'))
- #   return
-
-
-            
-
-
-
-#    
-
-    
-        # check if the post request has the file part
-        
-            
-        
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         
 @app.route('/equipment_chart')
 @login_required
@@ -473,13 +436,21 @@ def loans_by_user():
         "SELECT first_name, count(*) as number_of_loans "
         "FROM user u "
         "JOIN loan l on u.id = l.id "
-        "GROUP first_name"
+        "GROUP BY first_name"
     )
-    df = pd.read_sql(query, db.session.bind)
-    
+
+    query2 = (
+        "SELECT first_name, count(*) as number_of_loans FROM user u"
+        "JOIN loan l on u.id = l.id"
+        "GROUP BY first_name"
+    )
+    df = pd.read_sql(query,db.session.bind)
+    print(df)
+
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='first_name', y='number_of_loans')
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
     # Returns the template, including the JSON data for the chart
-    return render_template('chart_page.html', title = 'Number of loans per user', chart_JSON = chart_JSON)
+    return render_template('chart_page.html', title = 'Number of loans per user', 
+        chart_JSON = chart_JSON)
