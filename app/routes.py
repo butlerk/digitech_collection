@@ -198,14 +198,14 @@ def add_equip():
         equipment = Equipment()
         if form.file.data != None:
             filename = secure_filename(form.file.data.filename)
-            form.file.data.save(os.path.join(app.static_folder, 'images', filename))      
-            equipment.file = filename
+            form.file.data.save(os.path.join(app.static_folder, 'images', filename))              
         else:
             filename = "no_image.jpg"
-            filename = (os.path.join(app.static_folder, 'images', filename))
+            #filename = (os.path.join(app.static_folder, 'images', filename))
             #form.file.data.save(os.path.join(app.static_folder, 'images', filename))      
-            equipment.file = filename
+            #equipment.file = filename
         form.populate_obj(obj=equipment)
+        equipment.file = filename
                 
         db.session.add(equipment)
         db.session.commit()

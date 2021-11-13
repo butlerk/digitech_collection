@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, TextAreaField, DecimalField
+from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, TextAreaField, DecimalField, DateField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import InputRequired, Length
 from datetime import datetime
@@ -23,7 +23,7 @@ class AddEquipmentForm(FlaskForm):
     equip_details = TextAreaField('Equipment Details', validators = [Length(max=200)])
     location_id = SelectField(u'Location', coerce = int)
     purchase_price =DecimalField('Purchase Price', validators=[InputRequired()])
-    date_entered = StringField('Purchase Date')
+    date_entered = DateField('Purchase Date', format = '%d/%m/%Y')
     file = FileField('file', validators=[
         FileAllowed(['jpg', 'png'], '-- .jpg and .png Images only - Please reselect image to upload!')
     ])
@@ -50,7 +50,7 @@ class AddUserForm(FlaskForm):
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):
     loan_id = IntegerField('Loan ID')
-    loan_date = DateField('Loan Date ie. 27-03-2021',format='%d-%m-%Y')
+    loan_date = DateField('Loan Date ie. 27-03-2021',format='%d/%m/%Y')
     id = SelectField(u'Loan by',coerce=int)
     equip_id = SelectField(u'Equipment borrowed',coerce=int)
     active = 1
