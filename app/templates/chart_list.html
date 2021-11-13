@@ -1,0 +1,11 @@
+{% extends 'menu.html' %}
+
+{% block content %}
+<h3>Available Charts</h3>
+<ul>
+    <li>
+        <a href="{{ url_for('borrows_per_year_chart') }}">Number of Borrows per year</a>
+    </li>
+    
+</ul>
+{% endblock %}

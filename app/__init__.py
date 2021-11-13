@@ -14,8 +14,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///collection.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-
-
 db = SQLAlchemy(app)
 
 # Set up login manager for the app
@@ -132,6 +130,7 @@ def init_db():
     for i in data:
         # Generate random loan data data between 2010 and 2021 - ha no 29-31st of months!
         year = randrange(2010,2021)
+
         month = randrange(1,12)
         day = randrange(1,28)
         loan = models.Loan(**{

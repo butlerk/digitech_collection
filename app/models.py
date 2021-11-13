@@ -2,7 +2,7 @@ from enum import unique
 from sqlalchemy.orm import backref
 from flask_login import UserMixin
 
-from datetime import datetime, date
+#from datetime import datetime, date
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
 
@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)
     email_username = db.Column(db.Text, unique=True)
-    password_hash = db.Column(db.Text)
+    password_hash = db.Column(db.String(128))
     loan = db.relationship('Loan', backref = 'user')
     is_admin = db.Column(db.Boolean)
 

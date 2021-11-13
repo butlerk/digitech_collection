@@ -120,7 +120,7 @@ def view_loan():
         {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
-    
+       
     # Return back to the view that shows the list of equipment
     return render_template('loan_view.html', loan=loan, archievedloan=archievedloan, title = 'Number of loans per user', 
         chart_JSON = chart_JSON)
@@ -312,7 +312,6 @@ def delete_equipment(id):
 def add_user():
     form = AddUserForm()
     if request.method == 'POST':
-        
         # When the form is submitted, the form is processed and save to the user database
         if form.validate_on_submit:
             user = User()
@@ -323,7 +322,6 @@ def add_user():
             
             # Return back to the view that shows the list of users
             return redirect(url_for('view_user'))
-    
     # Return back to the view of empty user fields
     return render_template('user_add.html', form=form)
 
@@ -459,4 +457,30 @@ def upload():
         flash(f"Successfully uploaded the photo.")
         return redirect(url_for('index'))
     return render_template('upload_photo.html', form=form)
+
+
+
+@app.route('/view_charts')
+@login_required
+def view_charts():
+    return render_template('chart_list.html', title = 'List of Charts')
+
+
+@app.route('/borrows_per_year')
+@login_required
+def borrows_per_year_chart():
+    query = (
+        "SELECT substr(loan_date,0,5) year,count(*) as num_borrows_per_year " 
+        "FROM loan l " 
+        "GROUP BY substr(loan_date,0,5)"
+    )
+    df = pd.read_sql(query, db.session.bind)
+    print (df)  
+    # Draw the chart and dump it into JSON format
+    chart = px.line(df, x ='year', y='num_borrows_per_year')
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
+      
+    return render_template('chart_page.html', title = 'Number of Borrows for each Equipment Item', 
+        chart_JSON = chart_JSON)
 
