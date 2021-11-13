@@ -188,30 +188,40 @@ def edit_loan(id):
 @app.route('/add_equip', methods = ['GET', 'POST'])
 @admin_required
 def add_equip():
-    form = AddEquipmentForm()
-    if request.method == 'POST':
-        equipment = Equipment()
-        filename = secure_filename(form.file.data.filename)
-        form.file.data.save(os.path.join(app.static_folder, 'images', filename))
-        
-        form.populate_obj(obj=equipment)
-        equipment.file = filename
-        db.session.add(equipment)
-        db.session.commit()
-        flash(f"Successfully added {equipment.equip_name} as an equipment item.")
-        
-        # Return back to the view that shows the list of equipment
-        return redirect(url_for('view_equip'))
-       
-    # Generate the form with the locations in the dropdown box
+    
     location = Location.query.all()
     form = AddEquipmentForm(obj=location)
     
     # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
     
+    if form.validate_on_submit():
+        equipment = Equipment()
+        if form.file.data != None:
+            filename = secure_filename(form.file.data.filename)
+            form.file.data.save(os.path.join(app.static_folder, 'images', filename))      
+            equipment.file = filename
+        else:
+            filename = "no_image.jpg"
+            filename = (os.path.join(app.static_folder, 'images', filename))
+            #form.file.data.save(os.path.join(app.static_folder, 'images', filename))      
+            equipment.file = filename
+        form.populate_obj(obj=equipment)
+        
+        
+        db.session.add(equipment)
+        db.session.commit()
+        flash(f"Successfully added {equipment.equip_name} as an equipment item.")
+        
+        # Return back to the view that shows the list of equipment
+        return redirect(url_for('view_equip'))
+
+    
+    
+    
     # Return back to the view that shows equipment form empty
     return render_template('equip_add.html', form=form, location=location)
+    
 
 # Display a list of equipment from the database
 @app.route('/view_equipment')
@@ -245,12 +255,13 @@ def edit_equipment(id):
     form = EditEquipmentForm(obj=item)
     # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
-    form.file = secure_filename(item.file)
-    #item.file = filename
-    #item.file.save(os.path.join(app.static_folder, 'images', filename))
+    form.file = item.file
      # When the form is submitted, the form is processed and save to the equipment database
     if form.validate_on_submit():
-        form.populate_obj(item)
+        form.populate_obj(obj=item)
+        form.file = item.file
+        #filename = secure_filename(form.file.data.filename)
+        #form.file.data.save(os.path.join(app.static_folder, 'images', filename))
         db.session.commit()
         flash(f"Successfully saved {item.equip_name} equipment item.")
         

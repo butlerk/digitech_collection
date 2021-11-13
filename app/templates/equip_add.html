@@ -1,38 +1,41 @@
 {% extends 'menu.html' %}
 {% block content %}
+<br>
 <h2>Add new Equipment Item</h2>
 
 <ul class="errors">
     {% for field, errors in form.errors.items() %}
-        <li>
-            {{ form[field].label }} {{ ', '.join(errors) }}
-        </li>
+        <p class="text-danger">
+            {{ form[field].label(class = 'form-label mt-4') }} {{ ', '.join(errors) }}
+        </p>    
     {% endfor %}
 </ul>
 <!-- displays form for adding equipment items to the collection -->
 <form method="POST" enctype="multipart/form-data">
-    {{ form.csrf_token }}
+    <div class="form-group row">
+        {{ form.csrf_token }}
 
-    {{ form.equip_name.label(class='form-label') }}
-    {{ form.equip_name(class = 'form-control') }}<br>
+        {{ form.equip_name.label(class='form-label mt-4') }}
+        {{ form.equip_name(class = "form-control", placeholder="Click to choose equipment item") }}<br>
+    </div>
 
-    {{ form.purchase_price.label(class='form-label') }}
-    {{ form.purchase_price(class = 'form-control') }}<br>
+    {{ form.purchase_price.label(class='form-label mt-4') }}
+    {{ form.purchase_price(class = 'form-control', placeholder="$") }}<br>
 
-    {{ form.equip_details.label(class='form-label') }}
-    {{ form.equip_details(class = 'form-control') }}<br>
+    {{ form.equip_details.label(class='form-label mt-4') }}
+    {{ form.equip_details(class = 'form-control', placeholder="(optional)") }}<br>
 
-    {{ form.location_id.label(class='form-label') }}
-    {{ form.location_id(class = 'form-control')}}<br>
+    {{ form.location_id.label(class='form-label mt-4') }}
+    {{ form.location_id(class = 'form-control',placeholder="Click to choose location")}}<br>
 
-    {{ form.date_entered.label(class='form-label') }}
-    {{ form.date_entered(class = 'form-control') }}<br>
+    {{ form.date_entered.label(class='form-label mt-4') }}
+    {{ form.date_entered(class = 'form-control',placeholder="dd/mm/yyyy") }}<br>
 
 
     {{ form.file }}
     
        
-    {{ form.submit(class_="btn btn-primary btn-sm") }}
+    {{ form.submit(class_="btn btn-outline-success") }}
     <br><br><br><br>
 
 

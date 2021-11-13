@@ -3,7 +3,7 @@ from wtforms import StringField, IntegerField, BooleanField, SubmitField, Passwo
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import InputRequired, Length
 from datetime import datetime
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
 from wtforms.widgets.core import CheckboxInput
 
@@ -24,7 +24,9 @@ class AddEquipmentForm(FlaskForm):
     location_id = SelectField(u'Location', coerce = int)
     purchase_price =StringField('Purchase Price', validators=[InputRequired()])
     date_entered = StringField('Purchase Date')
-    file = FileField('file')
+    file = FileField('file', validators=[
+        FileAllowed(['jpg', 'png'], '-- .jpg and .png Images only - Please reselect image to upload!')
+    ])
     submit = SubmitField('Add equipment')
     available = BooleanField('Available? Tick for YES')
 
@@ -55,9 +57,15 @@ class AddLoanForm(FlaskForm):
     submit = SubmitField('Add Loan')
 
 
+#class ImageForm(FlaskForm):
+#   image = FileField(validators=[FileRequired(),FileAllowed(['jpg', 'png'], 'Images only!')])
+
+
 class PhotoForm(FlaskForm):
-   
-    submit = SubmitField('Upload Photo')
+    upload = FileField('image', validators=[
+        FileRequired(),
+        FileAllowed(['jpg', 'png'], 'Images only!')
+    ])
 
 # Flask form to edit user inheriting from Add User form
 class EditUserForm(AddUserForm):

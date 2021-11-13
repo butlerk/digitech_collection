@@ -5,9 +5,9 @@
 
 <ul class="errors">
     {% for field, errors in form.errors.items() %}
-        <li>
-            {{ form[field].label }} {{ ', '.join(errors) }}
-        </li>
+        <p class="text-danger">
+            {{ form[field].label(class = 'form-label mt-4') }} {{ ', '.join(errors) }}
+        </p>    
     {% endfor %}
 </ul>
 <!-- create form for adding equipment items to the collection -->
@@ -28,13 +28,13 @@
 
     {{ form.date_entered.label(class='form-label') }}
     {{ form.date_entered(class = 'form-control') }} <br>
-
-
-    {{ form.hidden_tag() }}
-    {{ form.file }} 
   
-    <td><img src = "/static/images/{{ form.file }}" ></td>
-    {{ form.submit(class_="btn btn-primary btn-sm") }}
+    <td><img src = "/static/images/{{ form.file }}" ></td><br><br>
+    
+    
+
+    
+    {{ form.submit(class_="btn btn-outline-success") }}
     <br><br><br><br>
 
 
