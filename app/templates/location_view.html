@@ -1,25 +1,22 @@
 {% extends 'menu.html' %}
 {% block content %}
 <br>
-<div class="d-flex p-2 justify-content-center">
+<div class="d-flex p-2 justify-content-left">
     <h2>Current Locations List</h2> <br><br>
+</div>
+<div class="d-flex p-2 justify-content-left">
     <a class="btn btn-outline-primary" href="{{ url_for('add_location') }}"> 
         Add Location
     </a>
-    <br><br>
 </div>
 <!-- displays the table of locations on the Locations landing page -->
-<div class="d-flex p-2 justify-content-center">
-
-    <div class="row">
-        
+<div class="d-flex p-2 justify-content-left">
+    <div class="row">       
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Location</th>
                     <th></th>
-
-
                 </tr>
             </thead>
             <tbody>    

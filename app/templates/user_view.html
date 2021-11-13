@@ -2,12 +2,16 @@
 {% extends 'menu.html' %}
 {% block content %}
 <br>
-<h2>Digital Technologies Users</h2>
-<td>{% if current_user.is_admin == True %}
-    <a class="btn btn-outline-primary" href="{{ url_for('add_user') }}"> 
-        Add User
-    </a>
-    {%endif%}
+<div class="d-flex p-2 justify-content-left">
+    <h2>Digital Technology Collection Users</h2>
+</div>
+<div class="d-flex p-2 justify-content-left">
+    <td>{% if current_user.is_admin == True %}
+        <a class="btn btn-outline-primary" href="{{ url_for('add_user') }}"> 
+            Add User
+        </a>
+        {%endif%}
+</div>
     <br><br>
 
 <!-- displays the table of users on the Users landing page -->
