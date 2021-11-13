@@ -1,7 +1,7 @@
 
 {% extends 'menu.html' %}
 {% block content %}
-
+<br>
 <h2>Digital Technologies Users</h2>
 <td>{% if current_user.is_admin == True %}
     <a class="btn btn-outline-primary" href="{{ url_for('add_user') }}"> 

@@ -58,7 +58,8 @@
                         </li>
                     </ul>
         </nav>
-        <div class = "container">
+        <div class="container-fluid ">
+        <br>
         {% for message in get_flashed_messages() %}
             <p style="color:red"><i> {{ message }}</i></p>
             <br>
@@ -67,14 +68,12 @@
         {% block content %}
         <!-- This is where the child pages will go -->
         {% endblock %}
-        </div>
+       
         
 
     <!-- Footer -->
-    <footer class = "text-center text-lg-start bg-ligh text-muted">
-        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    <footer class = "p-4 text-lg-center bg-ligh fixed-bottom" style="background-color: rgba(0, 0, 0, 0.05);">
             Contact details: thedigitechcollection@dc.com        
-        </div>
     </footer> 
 
 

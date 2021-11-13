@@ -14,11 +14,9 @@ import pandas as pd
 import plotly.express as px
 import plotly
 
-
-
-UPLOAD_FOLDER = 'app/static/images'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+#UPLOAD_FOLDER = 'app/static/images'
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 @app.route('/')
@@ -50,8 +48,6 @@ def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('index'))
-
-
 
 
 
@@ -117,9 +113,12 @@ def view_loan():
     df = pd.read_sql(query,db.session.bind)
     
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans')
+    chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
+        {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
+    
+    # Return back to the view that shows the list of equipment
     return render_template('loan_view.html', loan=loan, archievedloan=archievedloan, title = 'Number of loans per user', 
         chart_JSON = chart_JSON)
 
@@ -207,8 +206,7 @@ def add_equip():
             #form.file.data.save(os.path.join(app.static_folder, 'images', filename))      
             equipment.file = filename
         form.populate_obj(obj=equipment)
-        
-        
+                
         db.session.add(equipment)
         db.session.commit()
         flash(f"Successfully added {equipment.equip_name} as an equipment item.")
@@ -239,12 +237,26 @@ def view_equip():
     df = pd.read_sql(query, db.session.bind)
     print (df)  
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed')
+    chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed',
+        labels = {"equip_name": "Name of Equipment","number_of_equipment_borrowed":"Number of Times borrowed"},
+        
+        )
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
+    chart2 = px.pie(df, 
+    values = 'number_of_equipment_borrowed', 
+    names = "equip_name",
+    width=400, 
+    height=400, 
+    hover_data=['equip_name'], labels={'equip_name':'Equipment:'}
+    )
+    chart2.update_traces(textposition='inside', textinfo='percent+label')
+    
+    chart_JSON2 = json.dumps(chart2, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
     # Return back to the view that shows the list of equipment
+    
     return render_template('equip_view.html', equipment=equipment, user=user, title = 'Number of Borrows for each Equipment Item', 
-        chart_JSON = chart_JSON)
+        chart_JSON = chart_JSON, chart_JSON2 = chart_JSON2)
 
 # A route for showing a form and processing form for editing a loan.
 @app.route('/edit_equipment/<int:id>', methods = ['GET', 'POST'])
@@ -432,10 +444,6 @@ def delete_location(id):
     # Return back to the view that shows the list of locations    
     return redirect(url_for('view_location'))
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     form = PhotoForm()
@@ -449,28 +457,3 @@ def upload():
         return redirect(url_for('index'))
     return render_template('upload_photo.html', form=form)
 
-        
-
-
-
-@app.route('/loans_by_user')
-@login_required
-def loans_by_user():
-    # Run query to get count of equipment and load into DataFrame
-    query = (
-        "SELECT first_name, count(*) as number_of_loans "
-        "FROM user u "
-        "JOIN loan l on u.id = l.id "
-        "GROUP BY first_name"
-    )
-
-    df = pd.read_sql(query,db.session.bind)
-    
-
-    # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans', width = 800, height =400)
-    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
-
-    # Returns the template, including the JSON data for the chart
-    return render_template('chart_page.html', title = 'Number of loans per user', 
-        chart_JSON = chart_JSON)

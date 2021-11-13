@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, TextAreaField
+from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, TextAreaField, DecimalField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import InputRequired, Length
 from datetime import datetime
@@ -22,7 +22,7 @@ class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_details = TextAreaField('Equipment Details', validators = [Length(max=200)])
     location_id = SelectField(u'Location', coerce = int)
-    purchase_price =StringField('Purchase Price', validators=[InputRequired()])
+    purchase_price =DecimalField('Purchase Price', validators=[InputRequired()])
     date_entered = StringField('Purchase Date')
     file = FileField('file', validators=[
         FileAllowed(['jpg', 'png'], '-- .jpg and .png Images only - Please reselect image to upload!')

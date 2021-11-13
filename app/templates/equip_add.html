@@ -18,9 +18,13 @@
         {{ form.equip_name.label(class='form-label mt-4') }}
         {{ form.equip_name(class = "form-control", placeholder="Click to choose equipment item") }}<br>
     </div>
-
-    {{ form.purchase_price.label(class='form-label mt-4') }}
-    {{ form.purchase_price(class = 'form-control', placeholder="$") }}<br>
+<br>
+        {{ form.purchase_price.label(class='form-label mt-4') }}
+        <div class="input-group mb-4">
+            <span class="input-group-text">$ 
+            {{ form.purchase_price(class = 'form-control') }}     
+            </span>      
+        </div>
 
     {{ form.equip_details.label(class='form-label mt-4') }}
     {{ form.equip_details(class = 'form-control', placeholder="(optional)") }}<br>
