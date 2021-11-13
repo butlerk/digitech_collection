@@ -60,6 +60,8 @@ def logout():
 @login_required
 def add_loan():
     form = AddLoanForm()
+    date_today = date.today()
+    #date_formatted = date_today.strftime("%d/%m/%Y")
     # Create a list of equipment id's on all active loans
     unavail_equip = []
     for loan in Loan.query.filter_by(active = 1).all():
@@ -82,13 +84,14 @@ def add_loan():
         loan = Loan()
         form.populate_obj(obj=loan)
         loan.active = 1
+        loan.loan_date = date.today()
         db.session.add(loan)
         db.session.commit()
         # Return to the view that shows the list of loans
         return redirect(url_for('view_loan'))
 
     # Generate the form with the users & equipment in the dropdown box
-    return render_template('loan_add.html', form=form)
+    return render_template('loan_add.html', form=form, date_today = date_today)
 
 # Queries loan table for loans and archieved loans. 
 # Displays all loans if admin, but only current user loans if general user

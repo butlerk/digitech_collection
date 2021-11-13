@@ -49,7 +49,7 @@ class Equipment(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.location_id'), nullable = False)
     purchase_price = db.Column(db.Numeric(5,2))
     equip_details= db.Column(db.Text)
-    date_entered = db.Column(db.Text)
+    purchase_date = db.Column(db.Date)
     file = db.Column(db.Text)
     loan = db.relationship('Loan', backref = 'equipment')
 

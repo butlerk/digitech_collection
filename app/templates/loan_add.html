@@ -17,8 +17,7 @@
 <form method = "POST" >    
     {{ form.csrf_token }}
     
-    {{ form.loan_date.label(class = 'form-label')}}
-    {{form.loan_date(class = 'form-control')}}<br>
+    <h6>Today's date is:  {{ date_today.strftime('%d-%m-%Y') }} </h6>
 
     {{form.id.label(class = 'form-label')}}
     {{form.id(class = 'form-control')}}<br>

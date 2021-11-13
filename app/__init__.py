@@ -2,8 +2,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from numpy import genfromtxt
+from random import randrange
 import os, csv
 
 
@@ -51,7 +52,7 @@ def init_db():
         location = library,
         purchase_price = 29.40,
         equip_details = "A set of 20 Micro:bit V2 with USB cables and battery packs",
-        date_entered = '2021-04-04',
+        purchase_date= date.today(),
         file = 'microbit.png',
    
         
@@ -63,7 +64,7 @@ def init_db():
         location = storeroom,
         purchase_price = 5.40,
         equip_details = "A set of 15 Beebots with chargers",
-        date_entered = '2021-05-01',
+        purchase_date = date(2021,1,3),
         file = 'beebot.jpeg',
     )
     db.session.add(beebot)
@@ -73,7 +74,7 @@ def init_db():
         location = storeroom,
         purchase_price = 10.40,
         equip_details = "A set of 10 Makey-Makeys",
-        date_entered = '2021-05-01',
+        purchase_date= date(2020,10,3),
         file = 'makeymakey.jfif',
     )
     db.session.add(makeymakey)
@@ -110,7 +111,7 @@ def init_db():
 
      # Create loan item records to populate db
     loan1 = models.Loan (
-        loan_date = date.today(),
+        loan_date = date(2020,2,10),
         id = 1,
         equip_id = 1,
         active = True
@@ -118,7 +119,7 @@ def init_db():
     db.session.add(loan1)
 
     loan2 = models.Loan (
-        loan_date = date.today(),
+        loan_date = date(2019,5,12),
         id = 2,
         equip_id = 2,
         active = False
@@ -129,9 +130,12 @@ def init_db():
     data = Load_Data(file_name)
 
     for i in data:
+        # Generate random loan data data between 2010 and 2021 - ha no 29-31st of months!
+        year = randrange(2010,2021)
+        month = randrange(1,12)
+        day = randrange(1,28)
         loan = models.Loan(**{
-            'loan_date':date.today(),
-            #'loan_date' : datetime.strptime(i[0], '%d-%b-%y').date(),
+            'loan_date':date(year,month,day),
             'id' : i[1],
             'equip_id' : i[2],
             'active' : i[3],
