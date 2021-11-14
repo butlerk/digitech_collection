@@ -520,10 +520,33 @@ def loans_by_month_chart():
     
     # Draw the chart and dump it into JSON format
     chart = px.line(df, x ='month', y='loans_per_month',labels=
-        {"month": "Month","loans_per_month":"Number of Loans"},width=400, height=400)
+        {"month": "Month","loans_per_month":"Number of Loans"},width=600, height=400)
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
     # Return back to the view that shows the list of equipment
-    return render_template('chart_page.html', title = 'Number of loans per user', 
+    return render_template('chart_page.html', title = 'Number of loans per month', 
+        chart_JSON = chart_JSON)
+
+@app.route('/loans_by_month_by_user')
+@login_required
+def loans_by_month_by_user_chart():
+    query = (
+        "SELECT first_name, count(*) loans_per_month, strftime('%m', loan_date) month "
+        "FROM loan l "
+        "JOIN user u on u.id = l.id "
+        "GROUP BY month "
+        "ORDER BY month ASC"
+    )
+
+    df = pd.read_sql(query,db.session.bind)
+    
+    # Draw the chart and dump it into JSON format
+    chart = px.scatter(df, x ='month', y='loans_per_month',color = 'first_name',  labels=
+        {"month": "Month","loans_per_month":"Number of Loans", "first_name":"User"},width=600, height=400)
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
+       
+    # Return back to the view that shows the list of equipment
+    return render_template('chart_page.html', title = 'Number of loans per month', 
         chart_JSON = chart_JSON)
