@@ -481,6 +481,27 @@ def borrows_per_year_chart():
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
       
-    return render_template('chart_page.html', title = 'Number of Borrows for each Equipment Item', 
+    return render_template('chart_page.html', title = 'Total Borrows per year', 
         chart_JSON = chart_JSON)
 
+@app.route('/loans_by_user')
+@login_required
+def loans_by_user_chart():
+    query = (
+        "SELECT first_name, count(*) as number_of_loans "
+        "FROM user u "
+        "JOIN loan l on u.id = l.id "
+        "GROUP BY first_name"
+    )
+
+    df = pd.read_sql(query,db.session.bind)
+    
+    # Draw the chart and dump it into JSON format
+    chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
+        {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
+       
+    # Return back to the view that shows the list of equipment
+    return render_template('chart_page.html', title = 'Number of loans per user', 
+        chart_JSON = chart_JSON)
