@@ -6,11 +6,11 @@
 </div>  
 <div class="d-flex p-2 justify-content-left"> 
     {% if user.is_admin == True %}
-        <a class="btn btn-outline-success" href="{{ url_for('add_equip') }}"> 
+        <a class="btn btn-outline-primary" href="{{ url_for('add_equip') }}"> 
         Add Equipment
         </a> 
     {% else %}
-        <a class="btn btn-outline-success" href="{{ url_for('add_loan') }}"> 
+        <a class="btn btn-outline-primary" href="{{ url_for('add_loan') }}"> 
         Add a loan
         </a> 
     {% endif %}
