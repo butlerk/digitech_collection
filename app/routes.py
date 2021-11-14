@@ -505,3 +505,25 @@ def loans_by_user_chart():
     # Return back to the view that shows the list of equipment
     return render_template('chart_page.html', title = 'Number of loans per user', 
         chart_JSON = chart_JSON)
+
+@app.route('/loans_by_month')
+@login_required
+def loans_by_month_chart():
+    query = (
+        "SELECT count(*) loans_per_month, strftime('%m', loan_date) month "
+        "FROM loan "
+        "GROUP BY month "
+        "ORDER BY month ASC"
+    )
+
+    df = pd.read_sql(query,db.session.bind)
+    
+    # Draw the chart and dump it into JSON format
+    chart = px.line(df, x ='month', y='loans_per_month',labels=
+        {"month": "Month","loans_per_month":"Number of Loans"},width=400, height=400)
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+
+       
+    # Return back to the view that shows the list of equipment
+    return render_template('chart_page.html', title = 'Number of loans per user', 
+        chart_JSON = chart_JSON)
