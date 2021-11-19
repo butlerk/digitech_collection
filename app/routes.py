@@ -557,8 +557,8 @@ def loans_by_month_by_user_chart():
     df = pd.read_sql(query,db.session.bind)
     df = df.sort_values(by="month")
     # Draw the chart and dump it into JSON format
-    chart = px.scatter(df, x ='month', y='loans_per_month', color = 'first_name', size = "loans_per_month",  labels=
-        {"month": "Month","loans_per_month":"Number of Loans", "first_name":"User"},width=600, height=400)
+    chart = px.line(df, x ="month", y='loans_per_month', color = 'first_name',   labels=
+        {"month":"Month", "loans_per_month":"Number of Loans", "first_name":"User - click on names to change view"}, width=900, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
