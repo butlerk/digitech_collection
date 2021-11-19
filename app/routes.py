@@ -108,17 +108,17 @@ def view_loan():
         # Return back to the view that shows the list of loans
     
     query = (
-        "SELECT first_name, count(*) as number_of_loans "
+        "SELECT first_name||' '||last_name as user, count(*) as number_of_loans "
         "FROM user u "
         "JOIN loan l on u.id = l.id "
-        "GROUP BY first_name"
+        "GROUP BY user"
     )
 
     df = pd.read_sql(query,db.session.bind)
     
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
-        {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
+    chart = px.bar(df, x ='user', y='number_of_loans',labels=
+        {"user": "User","number_of_loans":"Number of Loans"},width=400, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
@@ -459,17 +459,18 @@ def borrows_per_year_chart():
 @login_required
 def loans_by_user_chart():
     query = (
-        "SELECT first_name, count(*) as number_of_loans "
+        "SELECT first_name||' '||last_name as user, count(*) as number_of_loans "
         "FROM user u "
         "JOIN loan l on u.id = l.id "
-        "GROUP BY first_name"
+        "GROUP BY first_name||' '||last_name"
     )
 
     df = pd.read_sql(query,db.session.bind)
+    print(df)
     
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
-        {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
+    chart = px.bar(df, x ='user', y='number_of_loans',labels=
+        {"user": "User","number_of_loans":"Number of Loans"},width=400, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
