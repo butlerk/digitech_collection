@@ -15,6 +15,9 @@ import plotly.express as px
 import plotly
 
 
+#UPLOAD_FOLDER = 'app/static/images'
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 @app.route('/')
@@ -116,6 +119,9 @@ def view_loan():
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
         {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
+    chart.update_layout({
+        'plot_bgcolor':'rgba(0, 0, 0, 0)',
+        'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
@@ -239,8 +245,8 @@ def view_equip():
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed',
         labels = {"equip_name": "Name of Equipment","number_of_equipment_borrowed":"Number of Times borrowed"},
-        
         )
+    
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
     chart2 = px.pie(df, 
@@ -251,7 +257,9 @@ def view_equip():
     hover_data=['equip_name'], labels={'equip_name':'Equipment:'}
     )
     chart2.update_traces(textposition='inside', textinfo='percent+label')
-    
+    chart2.update_layout({
+        'plot_bgcolor':'rgba(0, 0, 0, 0)',
+        'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON2 = json.dumps(chart2, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
     # Return back to the view that shows the list of equipment
     
@@ -475,6 +483,9 @@ def borrows_per_year_chart():
     print (df)  
     # Draw the chart and dump it into JSON format
     chart = px.line(df, x ='year', y='num_borrows_per_year')
+    chart.update_layout({
+        'plot_bgcolor':'rgba(0, 0, 0, 0)',
+        'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
       
@@ -496,6 +507,9 @@ def loans_by_user_chart():
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
         {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
+    chart.update_layout({
+        'plot_bgcolor':'rgba(0, 0, 0, 0)',
+        'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
@@ -507,17 +521,21 @@ def loans_by_user_chart():
 @login_required
 def loans_by_month_chart():
     query = (
-        "SELECT count(*) loans_per_month, strftime('%m', loan_date) month "
+        "SELECT strftime('%Y', loan_date) year, count(*) loans_per_month, strftime('%m', loan_date) month "
         "FROM loan "
         "GROUP BY month "
-        "ORDER BY month ASC"
+        "ORDER BY year, month ASC"
     )
 
     df = pd.read_sql(query,db.session.bind)
-    
+    df = df.sort_values(by="month")
     # Draw the chart and dump it into JSON format
-    chart = px.line(df, x ='month', y='loans_per_month',labels=
-        {"month": "Month","loans_per_month":"Number of Loans"},width=600, height=400)
+    chart = px.bar(df, x ='month', y='loans_per_month', color='month', labels=
+        {"month": "Month","loans_per_month":"Number of Loans", "year":"Year"},width=600, height=400)
+    
+    chart.update_layout({
+        'plot_bgcolor':'rgba(0, 0, 0, 0)',
+        'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
@@ -537,10 +555,13 @@ def loans_by_month_by_user_chart():
     )
 
     df = pd.read_sql(query,db.session.bind)
-    
+    df = df.sort_values(by="month")
     # Draw the chart and dump it into JSON format
-    chart = px.scatter(df, x ='month', y='loans_per_month',color = 'first_name',  labels=
+    chart = px.scatter(df, x ='month', y='loans_per_month', color = 'first_name',  labels=
         {"month": "Month","loans_per_month":"Number of Loans", "first_name":"User"},width=600, height=400)
+    chart.update_layout({
+        'plot_bgcolor':'rgba(0, 0, 0, 0)',
+        'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
