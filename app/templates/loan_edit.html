@@ -1,7 +1,7 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<h2>Current Loans</h2>
+<h2>Edit Loans</h2>
 <ul class="errors">
     {% for field, errors in form.errors.items() %}
         <li>
@@ -13,17 +13,14 @@
 <form method = "POST" >    
     {{ form.csrf_token }}
     
-    {{ form.loan_id.label(class = 'form-label')}}
-    {{form.loan_id(class = 'form-control')}}<br>
-
-    {{ form.id.label(class = 'form-label')}}
+    {{form.id.label(class = 'form-label')}}
     {{form.id(class = 'form-control')}}<br>
 
-    {{ form.equip_id.label(class = 'form-label')}}
+    {{form.equip_id.label(class = 'form-label')}}
     {{form.equip_id(class = 'form-control')}}<br>
   
-    
-    {{ form.submit(class_="btn btn-primary btn-sm") }}
+    {{ form.submit(class_="btn btn-outline-success") }}
+  
 
 </form>
 

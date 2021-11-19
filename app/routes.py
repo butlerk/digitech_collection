@@ -157,6 +157,7 @@ def return_loan(id):
 @admin_required
 def edit_loan(id):
     item = Loan.query.get_or_404(id)
+    date_today = date.today()
     form = EditLoanForm(obj=item)
     #Create a list of equipment id's on all active loans
     unavail_equip = []
@@ -178,7 +179,8 @@ def edit_loan(id):
         
     # When the form is submitted, the form is processed and saved to the loans table.
     if form.validate_on_submit():
-        form.populate_obj(item)
+        form.populate_obj(loan)
+        form.loan_date = item.loan_date 
         db.session.commit()
         flash(f"Successfully saved loan number {item.loan_id}.")
         
@@ -186,7 +188,7 @@ def edit_loan(id):
         return redirect(url_for('view_loan'))
     
     # Return back to the view that shows the loan form empty
-    return render_template('loan_add.html', form=form)
+    return render_template('loan_edit.html', form=form, date_today = date_today)
 
 # == EQUIPMENT ==
 
@@ -208,9 +210,6 @@ def add_equip():
             form.file.data.save(os.path.join(app.static_folder, 'images', filename))              
         else:
             filename = "no_image.jpg"
-            #filename = (os.path.join(app.static_folder, 'images', filename))
-            #form.file.data.save(os.path.join(app.static_folder, 'images', filename))      
-            #equipment.file = filename
         form.populate_obj(obj=equipment)
         equipment.file = filename
                 

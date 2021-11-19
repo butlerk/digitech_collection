@@ -7,10 +7,6 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
 from wtforms.widgets.core import CheckboxInput
 
-
-
-#Flask form to add equipment to db
-
 class LoginForm(FlaskForm):
     email_username = StringField('Username:', validators=[InputRequired(), Length(1, 64)])
     password = PasswordField('Password:', validators=[InputRequired()])
@@ -56,15 +52,10 @@ class AddLoanForm(FlaskForm):
     active = 1
     submit = SubmitField('Add Loan')
 
-
-#class ImageForm(FlaskForm):
-#   image = FileField(validators=[FileRequired(),FileAllowed(['jpg', 'png'], 'Images only!')])
-
-
 class PhotoForm(FlaskForm):
     upload = FileField('image', validators=[
         FileRequired(),
-        FileAllowed(['jpg', 'png'], 'Images only!')
+        FileAllowed(['jpg', 'png', 'gif'], 'Images only!')
     ])
 
 # Flask form to edit user inheriting from Add User form
