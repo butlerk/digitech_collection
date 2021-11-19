@@ -152,43 +152,6 @@ def return_loan(id):
     # Return back to the view that shows the list of loans
 #    return redirect(url_for('view_loan'))
 
-# A route for showing and processing form for editing a loan.
-@app.route('/edit_loan/<int:id>', methods = ['GET', 'POST'])
-@admin_required
-def edit_loan(id):
-    item = Loan.query.get_or_404(id)
-    date_today = date.today()
-    form = EditLoanForm(obj=item)
-    #Create a list of equipment id's on all active loans
-    unavail_equip = []
-    for loan in Loan.query.filter_by(active = 1).all():
-        unavail_equip.append(loan.equip_id)
-    # Query the Equipment table to find items that are available (not currently loaned out)
-    avail_equip = Equipment.query.filter(Equipment.equip_id.not_in(unavail_equip)).all()
-    # Error message if no equipment available
-    if len(avail_equip)<1:
-        flash(f"No items currently available.")
-        return redirect(url_for('view_loan'))
-    # Populate equipment dropdown menu with only available items.
-    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in avail_equip]
-
-    if current_user.is_admin == True: 
-        form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
-    else:
-        form.id.choices = [(g.id, g.first_name) for g in User.query.filter_by(id = current_user.id).all()]
-        
-    # When the form is submitted, the form is processed and saved to the loans table.
-    if form.validate_on_submit():
-        form.populate_obj(loan)
-        form.loan_date = item.loan_date 
-        db.session.commit()
-        flash(f"Successfully saved loan number {item.loan_id}.")
-        
-        # Return back to the view that shows the list of loans
-        return redirect(url_for('view_loan'))
-    
-    # Return back to the view that shows the loan form empty
-    return render_template('loan_edit.html', form=form, date_today = date_today)
 
 # == EQUIPMENT ==
 
@@ -557,8 +520,8 @@ def loans_by_month_by_user_chart():
     df = pd.read_sql(query,db.session.bind)
     df = df.sort_values(by="month")
     # Draw the chart and dump it into JSON format
-    chart = px.line(df, x ="month", y='loans_per_month', color = 'first_name',   labels=
-        {"month":"Month", "loans_per_month":"Number of Loans", "first_name":"User - click on names to change view"}, width=900, height=400)
+    chart = px.line(df, x ='month', y='loans_per_month', color = 'first_name',  labels=
+        {"month": "Month","loans_per_month":"Number of Loans", "first_name":"User - click on names to change view"},width=900, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
