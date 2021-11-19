@@ -36,13 +36,7 @@
                         <td>{{ item.loan_date.strftime('%d/%m/%Y') }}</td>
                         <td>{{ item.equipment.equip_name }}</td>
                         <td>
-                            {% if current_user.is_admin == True %}
-                            <a class="btn btn-outline-warning" href="{{ url_for('edit_loan', id = item.loan_id) }}">
-                                Edit
-                            </a>
-                            {%else%}
-                            {%endif%}
-                            </a><a class="btn btn-outline-success" href="{{ url_for('return_loan', id = item.loan_id) }}">
+                           <a class="btn btn-outline-success" href="{{ url_for('return_loan', id = item.loan_id) }}">
                                 Return
                             </a>
                         </td>
