@@ -14,12 +14,6 @@ import pandas as pd
 import plotly.express as px
 import plotly
 
-
-#UPLOAD_FOLDER = 'app/static/images'
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-
 @app.route('/')
 @login_required
 def index():
@@ -243,8 +237,6 @@ def edit_equipment(id):
     if form.validate_on_submit():
         form.populate_obj(obj=item)
         form.file = item.file
-        #filename = secure_filename(form.file.data.filename)
-        #form.file.data.save(os.path.join(app.static_folder, 'images', filename))
         db.session.commit()
         flash(f"Successfully saved {item.equip_name} equipment item.")
         
