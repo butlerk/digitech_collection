@@ -38,7 +38,7 @@ class AddUserForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(), Length(min=1, max=40)])
     last_name = StringField('Last name', validators=[InputRequired(), Length(min=1, max=40)])
     email_username = StringField('Email address', validators=[InputRequired(), Length(min=1, max=40)])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=6, max=20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=5, max=20)])
     is_admin = BooleanField('Admin?')
     submit = SubmitField('Add User')
     
