@@ -2,6 +2,8 @@ from functools import wraps
 from flask import redirect, url_for, flash
 from flask_login import current_user
 
+# Check if user is authenticated
+
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

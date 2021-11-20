@@ -8,13 +8,14 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
 from wtforms.widgets.core import CheckboxInput
 
+# Form to login
 class LoginForm(FlaskForm):
     email_username = StringField('Username:', validators=[InputRequired(), Length(1, 64)])
     password = PasswordField('Password:', validators=[InputRequired()])
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
-
+# Form to add equipment to db
 class AddEquipmentForm(FlaskForm):
     equip_name = StringField('Equipment name', validators=[InputRequired()])
     equip_details = TextAreaField('Equipment Details', validators = [Length(max=200)])
@@ -28,7 +29,7 @@ class AddEquipmentForm(FlaskForm):
     available = BooleanField('Available? Tick for YES')
 
 
-# Flask form to add locations to db
+# Form to add locations to db
 class AddLocationForm(FlaskForm):
     location_name = StringField('Location name')
     submit = SubmitField('Add Location')
@@ -41,7 +42,6 @@ class AddUserForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=5, max=20)])
     is_admin = BooleanField('Admin?')
     submit = SubmitField('Add User')
-    
 
 # Flask form to add loan to db
 class AddLoanForm(FlaskForm):

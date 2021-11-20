@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     loan = db.relationship('Loan', backref = 'user')
     is_admin = db.Column(db.Boolean)
 
+# Additional security - hash password
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

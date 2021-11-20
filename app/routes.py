@@ -145,8 +145,6 @@ def view_loan():
     return render_template('loan_view.html', loan=loan, archievedloan=archievedloan, title = 'Number of loans per user', 
         chart_JSON = chart_JSON)
 
-
-
 # Sets the selected loan to inactive (archived)
 @app.route('/return_loan/<int:id>')
 @login_required
@@ -157,19 +155,6 @@ def return_loan(id):
     flash(f"Successfully returned item {item.loan_id} from the loan list.")
     # Return back to the view that shows the list of loans
     return redirect(url_for('view_loan'))
-
-# A route for processing the deleting of a loan.
-#@app.route('/delete_loan/<int:id>')
-#@admin_required
-#def delete_loan(id):
-#    item = Loan.query.get_or_404(id)
-#    db.session.delete(item)
-#    db.session.commit()
-#    flash(f"Successfully deleted loan number {item.loan_id} from the loan list.")
-    
-    # Return back to the view that shows the list of loans
-#    return redirect(url_for('view_loan'))
-
 
 # == EQUIPMENT ==
 
@@ -200,9 +185,6 @@ def add_equip():
         
         # Return back to the view that shows the list of equipment
         return redirect(url_for('view_equip'))
-
-    
-    
     
     # Return back to the view that shows equipment form empty
     return render_template('equip_add.html', form=form, location=location)
@@ -223,7 +205,7 @@ def view_equip():
     )
     df = pd.read_sql(query, db.session.bind)
 
-    # Draw the chart and dump it into JSON format
+    # Draw a bar chart and convert int JSON format
     chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed',
         labels = {"equip_name": "Name of Equipment","number_of_equipment_borrowed":"Number of Times borrowed"},
         )
