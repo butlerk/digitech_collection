@@ -14,7 +14,7 @@
                   <li>Users can 'loan' equipment. </li>
                   
             </ul>
-<div>
+
       <!--Add bubble chart of loans per user per month for admin only users -->
       {% if current_user.is_admin == True %}            
             
@@ -29,13 +29,13 @@
 
             <!-- Get the JSON data for the Plot from the route and render it with Plotly -->
             <script type="text/javascript">
-                  var graphs = {{ chart_JSON2 | safe }};
+                  var graphs = {{ chart_JSON | safe }};
                   Plotly.plot('chart', graphs,{});        
             </script>
             <br><br>
       {%else%}
       {%endif%}
-</div> 
+ <p>* Clicking on user names toggles individual user data.</p>
 
 {% endblock %}
 
