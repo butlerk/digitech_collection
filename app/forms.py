@@ -1,12 +1,8 @@
-from enum import unique
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, TextAreaField, DecimalField, DateField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import InputRequired, Length
-from datetime import datetime
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from werkzeug.utils import secure_filename
-from wtforms.widgets.core import CheckboxInput
 
 # Form to login
 class LoginForm(FlaskForm):

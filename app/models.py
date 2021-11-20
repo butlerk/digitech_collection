@@ -1,8 +1,5 @@
-from enum import unique
-from sqlalchemy.orm import backref
+#from sqlalchemy.orm import backref
 from flask_login import UserMixin
-
-#from datetime import datetime, date
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
 

@@ -2,12 +2,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 from numpy import genfromtxt
-from random import randrange
-import os, csv
-
-
+import os
 
 app = Flask(__name__)
 
@@ -23,11 +20,13 @@ login_manager.login_view = 'login'
 
 from app import routes, models
 
+# Load dummy data from csv file and convert to date
 def Load_Data(file_name):
     str2date = lambda x: datetime.strptime(x, '%Y-%m-%d')     
     data = genfromtxt(file_name, dtype=(datetime, int, int, int), delimiter=',', skip_header=1, converters = {0:str2date}, encoding = 'utf-8')
     return data.tolist()
 
+# Initialise the Database
 @app.cli.command('init-db')
 def init_db():
 
@@ -35,16 +34,13 @@ def init_db():
     db.drop_all()
     db.create_all()
 
-
     # Create location item records to populate db
-
     library = models.Location(location_name = 'Library')
     db.session.add(library)
     
     storeroom = models.Location(location_name  = 'Storeroom')
     db.session.add(storeroom)
     
-
     # Create equipment item records to populate db
     microbit = models.Equipment (
         equip_name  = 'Microbit',
@@ -52,9 +48,7 @@ def init_db():
         purchase_price = 29.40,
         equip_details = "A set of 20 Micro:bit V2 with USB cables and battery packs",
         purchase_date= date.today(),
-        file = 'microbit.png',
-   
-        
+        file = 'microbit.png',      
     )
     db.session.add(microbit)
 
@@ -78,12 +72,12 @@ def init_db():
     )
     db.session.add(makeymakey)
 
-    # Create user item records to populate db
+    # Create user items records to populate db
+
     person1 = models.User (
         first_name  = 'Kelly',
         last_name = 'Butler',
         email_username = 'kelly@email.com',
-        #password = 'hello',
         is_admin=True
     )
     person1.password = os.environ.get('KELLY_PASSWORD')
@@ -93,7 +87,6 @@ def init_db():
         first_name  = 'Kirsty',
         last_name = 'Watts',
         email_username = 'kirsty@email.com',
-        #password = 'goodbye',
         is_admin=False
     )
     person2.password = os.environ.get('KIRSTY_PASSWORD')
@@ -125,6 +118,7 @@ def init_db():
     )
     db.session.add(loan2)
     
+    # Import dummy data from csv file
     file_name = "archive.csv"
     data = Load_Data(file_name)
     for i in data:
