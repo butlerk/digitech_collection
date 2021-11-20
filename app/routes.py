@@ -168,6 +168,7 @@ def add_equip():
     # Retrieve the different locations from the database, for display in a dropdown
     form.location_id.choices = [(g.location_id, g.location_name) for g in location]
     
+    # If image uploaded, save to static folder, otherwise show no-image.jpg
     if form.validate_on_submit():
         equipment = Equipment()
         if form.file.data != None:
