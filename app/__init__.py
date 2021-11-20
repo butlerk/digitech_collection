@@ -85,7 +85,7 @@ def init_db():
         #password = 'hello',
         is_admin=True
     )
-    person1.password = 'hello'
+    person1.password = os.environ.get('KELLY_PASSWORD')
     db.session.add(person1)
     
     person2 = models.User (
@@ -95,7 +95,7 @@ def init_db():
         #password = 'goodbye',
         is_admin=False
     )
-    person2.password = 'goodbye'
+    person2.password = os.environ.get('KIRSTY_PASSWORD')
     db.session.add(person2)
 
     person3 = models.User (
@@ -104,7 +104,7 @@ def init_db():
         email_username = 'joe@email.com',
         is_admin=False
     )
-    person3.password = 'joeblogs'
+    person3.password = os.environ.get('JOE_PASSWORD')
     db.session.add(person3)
 
      # Create loan item records to populate db

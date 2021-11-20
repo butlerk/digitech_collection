@@ -1,1 +1,1 @@
-from app import app, routes, models
+from app import app

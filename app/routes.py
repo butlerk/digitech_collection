@@ -14,12 +14,6 @@ import pandas as pd
 import plotly.express as px
 import plotly
 
-
-#UPLOAD_FOLDER = 'app/static/images'
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-
 @app.route('/')
 @login_required
 def index():
@@ -127,17 +121,17 @@ def view_loan():
         # Return back to the view that shows the list of loans
     
     query = (
-        "SELECT first_name, count(*) as number_of_loans "
+        "SELECT first_name||' '||last_name as user, count(*) as number_of_loans "
         "FROM user u "
         "JOIN loan l on u.id = l.id "
-        "GROUP BY first_name"
+        "GROUP BY user"
     )
 
     df = pd.read_sql(query,db.session.bind)
     
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
-        {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
+    chart = px.bar(df, x ='user', y='number_of_loans',labels=
+        {"user": "User","number_of_loans":"Number of Loans"},width=400, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
@@ -171,43 +165,6 @@ def return_loan(id):
     # Return back to the view that shows the list of loans
 #    return redirect(url_for('view_loan'))
 
-# A route for showing and processing form for editing a loan.
-@app.route('/edit_loan/<int:id>', methods = ['GET', 'POST'])
-@admin_required
-def edit_loan(id):
-    item = Loan.query.get_or_404(id)
-    date_today = date.today()
-    form = EditLoanForm(obj=item)
-    #Create a list of equipment id's on all active loans
-    unavail_equip = []
-    for loan in Loan.query.filter_by(active = 1).all():
-        unavail_equip.append(loan.equip_id)
-    # Query the Equipment table to find items that are available (not currently loaned out)
-    avail_equip = Equipment.query.filter(Equipment.equip_id.not_in(unavail_equip)).all()
-    # Error message if no equipment available
-    if len(avail_equip)<1:
-        flash(f"No items currently available.")
-        return redirect(url_for('view_loan'))
-    # Populate equipment dropdown menu with only available items.
-    form.equip_id.choices = [(g.equip_id, g.equip_name) for g in avail_equip]
-
-    if current_user.is_admin == True: 
-        form.id.choices = [(g.id, g.first_name) for g in User.query.all()]
-    else:
-        form.id.choices = [(g.id, g.first_name) for g in User.query.filter_by(id = current_user.id).all()]
-        
-    # When the form is submitted, the form is processed and saved to the loans table.
-    if form.validate_on_submit():
-        form.populate_obj(loan)
-        form.loan_date = item.loan_date 
-        db.session.commit()
-        flash(f"Successfully saved loan number {item.loan_id}.")
-        
-        # Return back to the view that shows the list of loans
-        return redirect(url_for('view_loan'))
-    
-    # Return back to the view that shows the loan form empty
-    return render_template('loan_edit.html', form=form, date_today = date_today)
 
 # == EQUIPMENT ==
 
@@ -299,8 +256,6 @@ def edit_equipment(id):
     if form.validate_on_submit():
         form.populate_obj(obj=item)
         form.file = item.file
-        #filename = secure_filename(form.file.data.filename)
-        #form.file.data.save(os.path.join(app.static_folder, 'images', filename))
         db.session.commit()
         flash(f"Successfully saved {item.equip_name} equipment item.")
         
@@ -515,17 +470,18 @@ def borrows_per_year_chart():
 @login_required
 def loans_by_user_chart():
     query = (
-        "SELECT first_name, count(*) as number_of_loans "
+        "SELECT first_name||' '||last_name as user, count(*) as number_of_loans "
         "FROM user u "
         "JOIN loan l on u.id = l.id "
-        "GROUP BY first_name"
+        "GROUP BY first_name||' '||last_name"
     )
 
     df = pd.read_sql(query,db.session.bind)
+    print(df)
     
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x ='first_name', y='number_of_loans',labels=
-        {"first_name": "First Name","number_of_loans":"Number of Loans"},width=400, height=400)
+    chart = px.bar(df, x ='user', y='number_of_loans',labels=
+        {"user": "User","number_of_loans":"Number of Loans"},width=400, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
@@ -576,8 +532,8 @@ def loans_by_month_by_user_chart():
     df = pd.read_sql(query,db.session.bind)
     df = df.sort_values(by="month")
     # Draw the chart and dump it into JSON format
-    chart = px.line(df, x ="month", y='loans_per_month', color = 'first_name',   labels=
-        {"month":"Month", "loans_per_month":"Number of Loans", "first_name":"User - click on names to change view"}, width=900, height=400)
+    chart = px.line(df, x ='month', y='loans_per_month', color = 'first_name',  labels=
+        {"month": "Month","loans_per_month":"Number of Loans", "first_name":"User - click on names to change view"},width=900, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
