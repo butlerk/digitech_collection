@@ -14,7 +14,7 @@ import plotly.express as px
 import plotly
 
 
-# Display the Main page - with scatter-plot visualisation if Admin user. 
+# Display the Main page - with bubble visualisation if Admin user. 
 @app.route('/')
 @login_required
 def index():
@@ -424,13 +424,13 @@ def upload():
     return render_template('upload_photo.html', form=form)
 
 
-
+#renders the Chart list page
 @app.route('/view_charts')
 @login_required
 def view_charts():
     return render_template('chart_list.html', title = 'List of Charts')
 
-
+#create a chart of borrows/loans per year
 @app.route('/borrows_per_year')
 @login_required
 def borrows_per_year_chart():
@@ -448,10 +448,11 @@ def borrows_per_year_chart():
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
-      
+    # Return back to the view that displays on the charts page 
     return render_template('chart_page.html', title = 'Total Borrows per year', 
         chart_JSON = chart_JSON)
 
+#create chart of loans per user
 @app.route('/loans_by_user')
 @login_required
 def loans_by_user_chart():
@@ -474,10 +475,11 @@ def loans_by_user_chart():
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
-    # Return back to the view that shows the list of equipment
+    # Return back to the view that displays on the charts page
     return render_template('chart_page.html', title = 'Number of loans per user', 
         chart_JSON = chart_JSON)
 
+#create a chart which displays loans per month
 @app.route('/loans_by_month')
 @login_required
 def loans_by_month_chart():
@@ -500,10 +502,11 @@ def loans_by_month_chart():
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
-    # Return back to the view that shows the list of equipment
+    # Return back to the view that shows the chart page
     return render_template('chart_page.html', title = 'Number of loans per month', 
         chart_JSON = chart_JSON)
 
+#create a chart to show the number of loans per month by user
 @app.route('/loans_by_month_by_user')
 @login_required
 def loans_by_month_by_user_chart():
@@ -518,7 +521,7 @@ def loans_by_month_by_user_chart():
     df = pd.read_sql(query,db.session.bind)
     df = df.sort_values(by="month")
     # Draw the chart and dump it into JSON format
-    chart = px.line(df, x ='month', y='loans_per_month', color = 'first_name',  labels=
+    chart = px.line(df, x ='month', y='loans_per_month', color = 'first_name', symbol = "first_name",  labels=
         {"month": "Month","loans_per_month":"Number of Loans", "first_name":"User - click on names to change view"},width=900, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
@@ -526,7 +529,7 @@ def loans_by_month_by_user_chart():
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
        
-    # Return back to the view that shows the list of equipment
+    # Return back to the view that displays the charts
     return render_template('chart_page.html', title = 'Number of loans per month per user', 
         chart_JSON = chart_JSON)
 
