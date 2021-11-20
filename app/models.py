@@ -31,7 +31,7 @@ def load_user(id):
 
 class Location(db.Model):
     location_id = db.Column(db.Integer, primary_key = True)
-    location_name = db.Column(db.Text, nullable = False)
+    location_name = db.Column(db.Text, nullable = False, unique=True)
     equipment = db.relationship('Equipment', backref = 'location')
 
 class Loan(db.Model):

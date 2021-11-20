@@ -350,13 +350,20 @@ def delete_user(id):
 def add_location():
     form=AddLocationForm()
     location = Location.query.all()
+    current_locations = []
+    for location in Location.query.all():
+        current_locations.append(location.location_name)
+    print("Current Locations",current_locations)
     if form.validate_on_submit():
-        location = Location()
-        form.populate_obj(obj=location)
-        db.session.add(location)
-        db.session.commit()
-        flash(f"Successfully added {location.location_name} as a location.")
-        
+        if form.location_name.data not in current_locations:
+            location = Location()        
+            form.populate_obj(obj=location)
+            db.session.add(location)
+            db.session.commit()
+            flash(f"Successfully added {location.location_name} as a location.")
+        else:
+            flash(f"Location already in database - Please re-enter with unique name.")
+            
         # Return back to the view that shows the list of locations
         return redirect(url_for ("view_location"))
 
