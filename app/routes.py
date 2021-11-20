@@ -117,7 +117,7 @@ def view_loan():
         archievedloan = Loan.query.filter_by(id = current_user.id, active=0).all()
     else: 
         loan = Loan.query.filter_by(active=1).all()
-        archievedloan = Loan.query.filter_by(active=0).all()
+        archievedloan = Loan.query.filter_by(active=0).order_by(Loan.loan_date.desc()).all()
         # Return back to the view that shows the list of loans
     
     query = (
@@ -141,6 +141,8 @@ def view_loan():
     # Return back to the view that shows the list of equipment
     return render_template('loan_view.html', loan=loan, archievedloan=archievedloan, title = 'Number of loans per user', 
         chart_JSON = chart_JSON)
+
+
 
 # Sets the selected loan to inactive (archived)
 @app.route('/return_loan/<int:id>')
