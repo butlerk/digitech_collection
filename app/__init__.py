@@ -127,7 +127,7 @@ def init_db():
     
     file_name = "archive.csv"
     data = Load_Data(file_name)
-    print(data)
+
     for i in data:
         loan = models.Loan(**{
             'loan_date': i[0],
