@@ -26,7 +26,6 @@ from app import routes, models
 def Load_Data(file_name):
     str2date = lambda x: datetime.strptime(x, '%Y-%m-%d')     
     data = genfromtxt(file_name, dtype=(datetime, int, int, int), delimiter=',', skip_header=1, converters = {0:str2date}, encoding = 'utf-8')
-    print(data)
     return data.tolist()
 
 @app.cli.command('init-db')

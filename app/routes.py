@@ -292,17 +292,16 @@ def delete_equipment(id):
 @admin_required
 def add_user():
     form = AddUserForm()
-    if request.method == 'POST':
-        # When the form is submitted, the form is processed and save to the user database
-        if form.validate_on_submit:
-            user = User()
-            form.populate_obj(obj=user)
-            db.session.add(user)
-            db.session.commit()
-            flash(f"Successfully added {user.first_name} {user.last_name} as user.")
-            
-            # Return back to the view that shows the list of users
-            return redirect(url_for('view_user'))
+    if form.validate_on_submit():
+        # When the form is submitted, the form is processed and save to the user database        
+        user = User()
+        form.populate_obj(obj=user)
+        db.session.add(user)
+        db.session.commit()
+        flash(f"Successfully added {user.first_name} {user.last_name} as user.")
+        
+        # Return back to the view that shows the list of users
+        return redirect(url_for('view_user'))
     # Return back to the view of empty user fields
     return render_template('user_add.html', form=form)
 
@@ -366,7 +365,7 @@ def delete_user(id):
 def add_location():
     form=AddLocationForm()
     location = Location.query.all()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         location = Location()
         form.populate_obj(obj=location)
         db.session.add(location)

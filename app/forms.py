@@ -1,3 +1,4 @@
+from enum import unique
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, TextAreaField, DecimalField, DateField
 from wtforms.fields.core import DateField, SelectField
@@ -30,7 +31,6 @@ class AddEquipmentForm(FlaskForm):
 # Flask form to add locations to db
 class AddLocationForm(FlaskForm):
     location_name = StringField('Location name')
-    #location_id = IntegerField('Location ID')
     submit = SubmitField('Add Location')
 
 # Flask form to add user to db
