@@ -417,11 +417,7 @@ def delete_location(id):
     # Return back to the view that shows the list of locations    
     return redirect(url_for('view_location'))
 
-<<<<<<< Updated upstream
-#renders the Chart list page
-=======
-#Renders the Chart list page
->>>>>>> Stashed changes
+# Renders the Chart list page
 @app.route('/view_charts')
 @login_required
 def view_charts():
