@@ -30,7 +30,7 @@ def index():
     df = df.sort_values(by="month")
     # Draw the chart and dump it into JSON format
     chart = px.scatter(df, x ="month", y='loans_per_month', color = 'first_name', size="loans_per_month",  labels=
-        {"month":"Month", "loans_per_month":"Number of Loans", "first_name":"User"}, width=900, height=400)
+        {"month":"Month", "loans_per_month":"Number of Loans", "first_name":"User *"}, width=900, height=400)
     chart.update_layout({
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})

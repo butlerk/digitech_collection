@@ -14,7 +14,7 @@
                   <li>Users can 'loan' equipment. </li>
                   
             </ul>
-<div>
+
       <!--Add bubble chart of loans per user per month for admin only users -->
       {% if current_user.is_admin == True %}            
             
@@ -35,7 +35,7 @@
             <br><br>
       {%else%}
       {%endif%}
-</div> 
+ <p>* Clicking on user names toggles individual user data.</p>
 
 {% endblock %}
 
