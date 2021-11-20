@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)
-    email_username = db.Column(db.Text, )
+    email_username = db.Column(db.Text, unique=True)
     password_hash = db.Column(db.String(128))
     loan = db.relationship('Loan', backref = 'user')
     is_admin = db.Column(db.Boolean)

@@ -29,7 +29,7 @@
 
             <!-- Get the JSON data for the Plot from the route and render it with Plotly -->
             <script type="text/javascript">
-                  var graphs = {{ chart_JSON2 | safe }};
+                  var graphs = {{ chart_JSON | safe }};
                   Plotly.plot('chart', graphs,{});        
             </script>
             <br><br>

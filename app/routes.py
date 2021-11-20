@@ -3,7 +3,6 @@ import json
 from flask import Flask, render_template, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import redirect, secure_filename
-#from flask import render_template, redirect, url_for, request
 from app import app, db
 from app.models import Equipment, Location, User, Loan
 from app.decorators import admin_required
@@ -14,6 +13,8 @@ import pandas as pd
 import plotly.express as px
 import plotly
 
+
+# Display the Main page - with scatter-plot visualisation if Admin user. 
 @app.route('/')
 @login_required
 def index():
@@ -39,6 +40,7 @@ def index():
     return render_template('index.html', title = 'Loans per month per user', 
         chart_JSON = chart_JSON)
 
+# Display the Login page, check the password for the username entered. 
 @app.route('/login', methods = ['GET','POST'])
 def login():
     form = LoginForm()
@@ -56,6 +58,7 @@ def login():
     # If there is a GET request, or there are errors in the form, return the view with the form
     return render_template('login.html', title = 'Login', form = form)
 
+# Logout user and show index page
 @app.route('/logout')
 @login_required
 def logout():
@@ -219,7 +222,7 @@ def view_equip():
         "GROUP BY equip_name"
     )
     df = pd.read_sql(query, db.session.bind)
-    print (df)  
+
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='equip_name', y='number_of_equipment_borrowed',
         labels = {"equip_name": "Name of Equipment","number_of_equipment_borrowed":"Number of Times borrowed"},
@@ -455,7 +458,7 @@ def borrows_per_year_chart():
         "GROUP BY substr(loan_date,0,5)"
     )
     df = pd.read_sql(query, db.session.bind)
-    print (df)  
+  
     # Draw the chart and dump it into JSON format
     chart = px.line(df, x ='year', y='num_borrows_per_year')
     chart.update_layout({
@@ -478,7 +481,7 @@ def loans_by_user_chart():
     )
 
     df = pd.read_sql(query,db.session.bind)
-    print(df)
+ 
     
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='user', y='number_of_loans',labels=
