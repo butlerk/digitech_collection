@@ -24,7 +24,8 @@ login_manager.login_view = 'login'
 from app import routes, models
 
 def Load_Data(file_name):
-    data = genfromtxt(file_name, delimiter=',', skip_header=1)
+    str2date = lambda x: datetime.strptime(x, '%Y-%m-%d')     
+    data = genfromtxt(file_name, dtype=(datetime, int, int, int), delimiter=',', skip_header=1, converters = {0:str2date}, encoding = 'utf-8')
     return data.tolist()
 
 @app.cli.command('init-db')
@@ -126,15 +127,10 @@ def init_db():
     
     file_name = "archive.csv"
     data = Load_Data(file_name)
-
+    print(data)
     for i in data:
-        # Generate random loan data data between 2010 and 2021 - ha no 29-31st of months!
-        year = randrange(2010,2021)
-
-        month = randrange(1,12)
-        day = randrange(1,28)
         loan = models.Loan(**{
-            'loan_date':date(year,month,day),
+            'loan_date': i[0],
             'id' : i[1],
             'equip_id' : i[2],
             'active' : i[3],

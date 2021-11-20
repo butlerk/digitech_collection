@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)
-    email_username = db.Column(db.Text, unique=True)
+    email_username = db.Column(db.Text, )
     password_hash = db.Column(db.String(128))
     loan = db.relationship('Loan', backref = 'user')
     is_admin = db.Column(db.Boolean)
@@ -33,7 +33,7 @@ def load_user(id):
 
 class Location(db.Model):
     location_id = db.Column(db.Integer, primary_key = True)
-    location_name = db.Column(db.Text)
+    location_name = db.Column(db.Text, nullable = False)
     equipment = db.relationship('Equipment', backref = 'location')
 
 class Loan(db.Model):
