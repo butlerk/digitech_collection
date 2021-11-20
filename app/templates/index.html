@@ -6,18 +6,37 @@
 <h1 style=> Welcome to our App! </h1>
 
   
-      
+   
             <ul>
                   <li>This app was created to allow users (teachers/admin) to manage a collection of devices.</li>
                   <li>New items can be added, as well as locations.</li>
                   <li>Details of these devices can be recorded.</li>
-                  <li> In the future, teachers will be able to 'loan' equipment. </li>
+                  <li>Users can 'loan' equipment. </li>
                   
             </ul>
-      
-  
- 
-</p>
+<div>
+      <!--Add bubble chart of loans per user per month for admin only users -->
+      {% if current_user.is_admin == True %}            
+            
+            <h4>{{ title }}</h4>
+
+            <!-- The HTML element where the Plotly chart will be displayed -->
+
+            <div class="chart" id="chart" ></div>
+
+            <!-- Include the Plotly JavaScript, to create the chart -->
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+            <!-- Get the JSON data for the Plot from the route and render it with Plotly -->
+            <script type="text/javascript">
+                  var graphs = {{ chart_JSON2 | safe }};
+                  Plotly.plot('chart', graphs,{});        
+            </script>
+            <br><br>
+      {%else%}
+      {%endif%}
+</div> 
+
 {% endblock %}
 
 

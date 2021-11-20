@@ -17,8 +17,27 @@ import plotly
 @app.route('/')
 @login_required
 def index():
-     # Return back to the home page
-    return render_template('index.html', title = "Main Page")
+    query = (
+        "SELECT first_name, count(*) loans_per_month, strftime('%m', loan_date) month "
+        "FROM loan l "
+        "JOIN user u on u.id = l.id "
+        "GROUP BY month, u.id "
+        "ORDER BY month ASC"
+    )
+
+    df = pd.read_sql(query,db.session.bind)
+    df = df.sort_values(by="month")
+    # Draw the chart and dump it into JSON format
+    chart = px.scatter(df, x ="month", y='loans_per_month', color = 'first_name', size="loans_per_month",  labels=
+        {"month":"Month", "loans_per_month":"Number of Loans", "first_name":"User"}, width=900, height=400)
+    chart.update_layout({
+        'plot_bgcolor':'rgba(0, 0, 0, 0)',
+        'paper_bgcolor':'rgba(0, 0, 0, 0)'})
+    chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
+       
+    # Return back to the index page to show bubble chart of loans per user per month
+    return render_template('index.html', title = 'Loans per month per user', 
+        chart_JSON = chart_JSON)
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
@@ -88,7 +107,7 @@ def add_loan():
     # Generate the form with the users & equipment in the dropdown box
     return render_template('loan_add.html', form=form, date_today = date_today)
 
-# Queries loan table for loans and archieved loans. 
+# Queries loan table for loans and archived loans. 
 # Displays all loans if admin, but only current user loans if general user
 @app.route('/view_loan')
 @login_required
@@ -524,3 +543,5 @@ def loans_by_month_by_user_chart():
     # Return back to the view that shows the list of equipment
     return render_template('chart_page.html', title = 'Number of loans per month per user', 
         chart_JSON = chart_JSON)
+
+
