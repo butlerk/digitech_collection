@@ -224,8 +224,8 @@ def view_equip():
         'plot_bgcolor':'rgba(0, 0, 0, 0)',
         'paper_bgcolor':'rgba(0, 0, 0, 0)'})
     chart_JSON2 = json.dumps(chart2, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
-    # Return back to the view that shows the list of equipment
     
+    # Return back to the view that shows the list of equipment  
     return render_template('equip_view.html', equipment=equipment, user=user, title = 'Number of Borrows for each Equipment Item', 
         chart_JSON = chart_JSON, chart_JSON2 = chart_JSON2)
 
