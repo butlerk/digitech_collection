@@ -417,13 +417,17 @@ def delete_location(id):
     # Return back to the view that shows the list of locations    
     return redirect(url_for('view_location'))
 
+<<<<<<< Updated upstream
 #renders the Chart list page
+=======
+#Renders the Chart list page
+>>>>>>> Stashed changes
 @app.route('/view_charts')
 @login_required
 def view_charts():
     return render_template('chart_list.html', title = 'List of Charts')
 
-#create a chart of borrows/loans per year
+#Create a chart of borrows/loans per year
 @app.route('/borrows_per_year')
 @login_required
 def borrows_per_year_chart():
@@ -445,7 +449,7 @@ def borrows_per_year_chart():
     return render_template('chart_page.html', title = 'Total Borrows per year', 
         chart_JSON = chart_JSON)
 
-#create chart of loans per user
+#Create chart of loans per user
 @app.route('/loans_by_user')
 @login_required
 def loans_by_user_chart():
@@ -472,7 +476,7 @@ def loans_by_user_chart():
     return render_template('chart_page.html', title = 'Number of loans per user', 
         chart_JSON = chart_JSON)
 
-#create a chart which displays loans per month
+#Create a chart which displays loans per month
 @app.route('/loans_by_month')
 @login_required
 def loans_by_month_chart():
@@ -499,7 +503,7 @@ def loans_by_month_chart():
     return render_template('chart_page.html', title = 'Number of loans per month', 
         chart_JSON = chart_JSON)
 
-#create a chart to show the number of loans per month by user
+#Create a chart to show the number of loans per month by user
 @app.route('/loans_by_month_by_user')
 @login_required
 def loans_by_month_by_user_chart():
