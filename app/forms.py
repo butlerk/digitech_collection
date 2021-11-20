@@ -1,4 +1,3 @@
-from enum import unique
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, BooleanField, SubmitField, PasswordField, TextAreaField, DecimalField, DateField
 from wtforms.fields.core import DateField, SelectField

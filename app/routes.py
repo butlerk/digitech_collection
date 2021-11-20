@@ -1,14 +1,13 @@
 import os
 import json
-from flask import Flask, render_template, request, url_for, flash
+from flask import render_template, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import redirect, secure_filename
 from app import app, db
 from app.models import Equipment, Location, User, Loan
 from app.decorators import admin_required
 from app.forms import AddEquipmentForm, AddLocationForm, AddUserForm, EditUserForm, EditEquipmentForm, EditLocationForm, AddLoanForm, EditLoanForm, LoginForm, PhotoForm
-from sqlalchemy.orm import sessionmaker
-from datetime import date, datetime
+from datetime import date
 import pandas as pd
 import plotly.express as px
 import plotly
