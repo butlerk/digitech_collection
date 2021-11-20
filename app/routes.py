@@ -416,20 +416,6 @@ def delete_location(id):
     # Return back to the view that shows the list of locations    
     return redirect(url_for('view_location'))
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    form = PhotoForm()
-    if form.validate_on_submit():
-        f = form.photo.data
-        filename = secure_filename(f.filename)
-        f.save(os.path.join(
-            app.static_folder, 'images', filename
-        ))
-        flash(f"Successfully uploaded the photo.")
-        return redirect(url_for('index'))
-    return render_template('upload_photo.html', form=form)
-
-
 #renders the Chart list page
 @app.route('/view_charts')
 @login_required
